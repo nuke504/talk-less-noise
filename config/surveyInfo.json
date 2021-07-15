@@ -1,0 +1,33 @@
+{
+  "areas": [
+    "sembawang",
+    "woodlands",
+    "yishun",
+    "angMoKio",
+    "hougang",
+    "punggol",
+    "sengkang",
+    "serangoon",
+    "bedok",
+    "pasirRis",
+    "tampines",
+    "bukitBatok",
+    "bukitPanjang",
+    "choaChuKang",
+    "clementi",
+    "jurongEast",
+    "jurongWest",
+    "tengah",
+    "bishan",
+    "bukitMerah",
+    "bukitTimah",
+    "centralBusinessDistrict",
+    "geylang",
+    "whampoa",
+    "kallang",
+    "marineParade",
+    "queenstown",
+    "toaPayoh"
+  ],
+  "noiseCategories": ["pets", "furniture", "baby", "works", "music", "others"]
+}
