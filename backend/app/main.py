@@ -1,5 +1,4 @@
 # import logging
-import uvicorn
 import logging
 
 from fastapi import FastAPI
