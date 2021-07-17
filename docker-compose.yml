@@ -11,7 +11,7 @@ services:
     volumes:
       - backend_logs:/home/backend/app/logs
     env_file:
-      - ./.env.prod
+      - ./backend/.env.prod
 
 volumes:
   backend_logs:
