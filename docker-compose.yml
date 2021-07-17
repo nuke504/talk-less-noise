@@ -1,17 +1,30 @@
 version: "3.8"
 
 services:
-  backend:
+  fastapi:
     build:
       context: ./backend
       target: production
     command: "gunicorn -k uvicorn.workers.UvicornWorker -c ./gunicorn.conf.py app.main:app"
-    ports:
-      - 8000:80
     volumes:
       - backend_logs:/home/backend/app/logs
     env_file:
       - ./backend/.env.prod
+    networks:
+      - backend_network
+
+  nginx:
+    build: ./backend_nginx
+    ports:
+      - 8000:70
+    depends_on:
+      - fastapi
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
+    driver: bridge
 
 volumes:
   backend_logs:
