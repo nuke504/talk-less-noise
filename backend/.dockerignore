@@ -1,0 +1,4 @@
+# Ignore all python files
+/app/.pytest_cache
+/app/__pycache__
+/app/logs/*
