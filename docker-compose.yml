@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      target: production
+    command: "gunicorn -k uvicorn.workers.UvicornWorker -c ./gunicorn.conf.py app.main:app"
+    ports:
+      - 8000:80
+    volumes:
+      - backend_logs:/home/backend/app/logs
+    env_file:
+      - ./.env.prod
+
+volumes:
+  backend_logs:
