@@ -10,6 +10,8 @@
 # Icon must end with two \r
 Icon
 
+# Secrets
+.env.prod
 
 # Thumbnails
 ._*
