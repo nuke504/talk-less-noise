@@ -31,5 +31,5 @@ jobs:
             username: ${{ secrets.REGISTRY_USERNAME }}
             password: ${{ secrets.REGISTRY_PASSWORD }}
         - run: |
-            docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
-            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
+            docker build backend/. -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise-backend:${{ github.sha }} --target production
+            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise-backend:${{ github.sha }}
