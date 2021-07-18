@@ -40,7 +40,7 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/talk-less-noise-api:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/talk-less-noise:latest-api
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
