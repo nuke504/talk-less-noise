@@ -6,7 +6,6 @@ name: Docker Hub CI
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
     # Only if something in the tag changes
     tags:
       - "v*.*.*"
