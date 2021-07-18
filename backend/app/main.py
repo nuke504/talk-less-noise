@@ -1,5 +1,5 @@
 # import logging
-import os
+import logging
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -18,9 +18,11 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_methods=[["GET", "POST", "PUT"]],
+    allow_methods=["GET", "POST", "PUT"],
     allow_headers=["Content-Type"],
 )
 
+logging.info(f"Username:{settings.DB_USERNAME}")
+logging.info(f"Password:{settings.DB_PASSWORD}")
 
 app.include_router(api_router, prefix=settings.API_PREFIX)

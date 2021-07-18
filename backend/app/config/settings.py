@@ -1,16 +1,20 @@
+import os
+import multiprocessing
+
 from pydantic import BaseSettings
 from typing import List, Optional
 
 
 class Settings(BaseSettings):
     API_PREFIX: str = "/api"
-    PROJECT_NAME: str = "Let’s talk less noise"
+    PROJECT_NAME: str = os.getenv("PROJECT_NAME", "Let's talk less noise")
 
-    DB_USERNAME: str = "devapp"
-    DB_PASSWORD: str = "a8gJHqaiaGh7oC6g"
+    DB_USERNAME: str = os.getenv("MONGO_USER")
+    DB_PASSWORD: str = os.getenv("MONGO_PASSWORD")
 
     SERVER_NAME: str = "dev"
-    LOGGING_DIR: str = "/Users/starlight/Desktop/talk_less_noise/backend/app/logs"
+    LOGGING_DIR: str = os.path.join(os.getenv("APP_HOME"), "app", "logs")
+    # LOGGING_DIR: str = "/Users/starlight/Desktop/talk-less-noise/backend/app/logs"
 
     TEST_VALUE: int = 101011
 
