@@ -12,7 +12,8 @@ Icon
 
 # Secrets
 .env.prod
-
+secrets
+secrets/*
 # Thumbnails
 ._*
 
