@@ -8,8 +8,8 @@ on:
   push:
     branches: [ main ]
     # Only if something in the tag changes
-#     tags:
-#       - "v*.*.*"
+    tags:
+      - "v*.*.*"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
