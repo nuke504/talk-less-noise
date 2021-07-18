@@ -42,8 +42,4 @@ COPY entrypoint.sh .
 COPY gunicorn.conf.py .
 
 USER backend
-# run entrypoint.sh
-# gunicorn -k "$WORKER_CLASS" -c "$GUNICORN_CONF" "$APP_MODULE"
-# CMD ["gunicorn","-k",${WORKER_CLASS},"-c",${GUNICORN_CONF},${APP_MODULE}]
-# ENTRYPOINT ["/bin/sh","entrypoint.sh"]
 CMD ["uvicorn","app.main:app","--host","0.0.0.0","--port","80"]
