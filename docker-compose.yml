@@ -5,7 +5,6 @@ services:
     build:
       context: ./backend
       target: production
-    # command: "gunicorn -k uvicorn.workers.UvicornWorker -c ./gunicorn.conf.py app.main:app"
     volumes:
       - backendlogs:/home/backend/app/logs
     env_file:

@@ -22,7 +22,4 @@ app.add_middleware(
     allow_headers=["Content-Type"],
 )
 
-logging.info(f"Username:{settings.DB_USERNAME}")
-logging.info(f"Password:{settings.DB_PASSWORD}")
-
 app.include_router(api_router, prefix=settings.API_PREFIX)
