@@ -13,7 +13,9 @@ services:
       - backend_network
 
   nginx:
-    build: ./backend_nginx
+    build:
+      context: ./backend_nginx
+      target: dev
     ports:
       - 7000:7000
     depends_on:

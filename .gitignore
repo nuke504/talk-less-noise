@@ -11,8 +11,7 @@
 Icon
 
 # Template
-azure-deploy-template.json
-azure-deploy.json
+azure/
 
 # Secrets
 .env.prod
