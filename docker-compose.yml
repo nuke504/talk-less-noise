@@ -5,7 +5,7 @@ services:
     build:
       context: ./backend
       target: production
-    command: "gunicorn -k uvicorn.workers.UvicornWorker -c ./gunicorn.conf.py app.main:app"
+    # command: "gunicorn -k uvicorn.workers.UvicornWorker -c ./gunicorn.conf.py app.main:app"
     volumes:
       - backendlogs:/home/backend/app/logs
     env_file:
@@ -16,7 +16,7 @@ services:
   nginx:
     build: ./backend_nginx
     ports:
-      - 7000:70
+      - 7000:7000
     depends_on:
       - python
     networks:
