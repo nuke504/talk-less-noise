@@ -40,10 +40,10 @@ RUN poetry install --no-dev && \
     chown -R backend:backend $APP_HOME
 COPY entrypoint.sh .
 COPY gunicorn.conf.py .
-EXPOSE 80/tcp
+EXPOSE 8000/tcp
 
 HEALTHCHECK --interval=5m --timeout=3s \
     CMD curl -f http://localhost/ || exit 1
 
 USER backend
-CMD ["uvicorn","app.main:app","--host","0.0.0.0","--port","80"]
+CMD ["uvicorn","app.main:app","--host","0.0.0.0","--port","8000"]
