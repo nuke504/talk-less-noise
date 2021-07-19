@@ -40,6 +40,7 @@ RUN poetry install --no-dev && \
     chown -R backend:backend $APP_HOME
 COPY entrypoint.sh .
 COPY gunicorn.conf.py .
+EXPOSE 80/tcp
 
 HEALTHCHECK --interval=5m --timeout=3s \
     CMD curl -f http://localhost/ || exit 1
