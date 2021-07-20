@@ -1,7 +1,7 @@
 import multiprocessing
 import os
 
-bind: str = os.getenv("ADDRESS_PORT", "0.0.0.0:8000")
+bind: str = os.getenv("ADDRESS_PORT", "0.0.0.0:8080")
 loglevel: str = os.getenv("LOG_LEVEL", "info")
 workers: int = multiprocessing.cpu_count()
 errorlog: str = "-"
