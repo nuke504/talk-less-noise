@@ -17,7 +17,7 @@ services:
       context: ./backend_nginx
       target: dev
     ports:
-      - 7000:7000
+      - 8000:80
     depends_on:
       - python
     networks:
