@@ -10,8 +10,8 @@ WORKDIR ${APP_HOME}
 ENV PYTHONPATH=/
 
 # Update Packages
-RUN apt-get update && \
-    apt-get upgrade && \
+RUN apt-get update -y && \
+    apt-get upgrade -y && \
     apt-get install curl -y
 
 # Install Poetry
