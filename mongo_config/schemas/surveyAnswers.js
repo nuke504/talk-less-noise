@@ -172,94 +172,94 @@ db.noiseCollation.createIndex({ attemptId: 1 }, { unique: true });
 db.quietHours.createIndex({ attemptId: 1 }, { unique: true });
 db.threshold.createIndex({ attemptId: 1 }, { unique: true });
 
-// Create View
-let total = db.noiseCollation.count();
-db.noiseCollation.aggregate([
-  {
-    $group: {
-      _id: { noiseCategory: "$noiseCategory", area: "$area" },
-      count: { $sum: 1 },
-    },
-  },
-  {
-    $project: {
-      count: 1,
-      percentage: {
-        $multiply: [{ $divide: ["$count", { $literal: total }] }, 100],
-      },
-    },
-  },
-]);
+// Aggregate tests
+// let total = db.noiseCollation.count();
+// db.noiseCollation.aggregate([
+//   {
+//     $group: {
+//       _id: { noiseCategory: "$noiseCategory", area: "$area" },
+//       count: { $sum: 1 },
+//     },
+//   },
+//   {
+//     $project: {
+//       count: 1,
+//       percentage: {
+//         $multiply: [{ $divide: ["$count", { $literal: total }] }, 100],
+//       },
+//     },
+//   },
+// ]);
 
-db.noiseCollation.aggregate([{ $count: "count" }]);
+// db.noiseCollation.aggregate([{ $count: "count" }]);
 
-db.quietHours.aggregate([
-  { $unwind: "$hours" },
-  { $project: { attemptId: 1, hours: { $objectToArray: "$hours" } } },
-  { $project: { attemptId: 1, hours: { $concatArrays: ["$hours.v"] } } },
-  {
-    $group: {
-      _id: "$_id",
-      attemptId: { $first: "$attemptId" },
-      hours: { $push: "$hours" },
-    },
-  },
-  {
-    $project: {
-      attemptId: 1,
-      collatedHours: {
-        $let: {
-          vars: { hoursArr: { $range: [0, 24, 0] } },
-          in: {},
-        },
-      },
-    },
-  },
-]);
+// db.quietHours.aggregate([
+//   { $unwind: "$hours" },
+//   { $project: { attemptId: 1, hours: { $objectToArray: "$hours" } } },
+//   { $project: { attemptId: 1, hours: { $concatArrays: ["$hours.v"] } } },
+//   {
+//     $group: {
+//       _id: "$_id",
+//       attemptId: { $first: "$attemptId" },
+//       hours: { $push: "$hours" },
+//     },
+//   },
+//   {
+//     $project: {
+//       attemptId: 1,
+//       collatedHours: {
+//         $let: {
+//           vars: { hoursArr: { $range: [0, 24, 0] } },
+//           in: {},
+//         },
+//       },
+//     },
+//   },
+// ]);
 
-db.quietHours.aggregate([
-  { $unwind: "$hours" },
-  {
-    $project: {
-      area: 1,
-      hoursArray: {
-        $cond: {
-          if: { $gt: ["$hours.start", "$hours.end"] },
-          then: {
-            $concatArrays: [
-              { $range: ["$hours.start", 24, 1] },
-              { $range: [0, "$hours.end", 1] },
-            ],
-          },
-          else: { $range: ["$hours.start", "$hours.end", 1] },
-        },
-      },
-    },
-  },
-  { $unwind: "$hoursArray" },
-  { $project: { quietHour: "$hoursArray", area: 1 } },
-  {
-    $group: {
-      _id: { quietHour: "$quietHour", area: "$area" },
-      count: { $sum: 1 },
-    },
-  },
-  {
-    $project: {
-      quietHour: "$_id.quietHour",
-      count: 1,
-      _id: 0,
-      area: "$_id.area",
-    },
-  },
-  { $sort: { area: 1, quietHour: 1 } },
-]);
+// db.quietHours.aggregate([
+//   { $unwind: "$hours" },
+//   {
+//     $project: {
+//       area: 1,
+//       hoursArray: {
+//         $cond: {
+//           if: { $gt: ["$hours.start", "$hours.end"] },
+//           then: {
+//             $concatArrays: [
+//               { $range: ["$hours.start", 24, 1] },
+//               { $range: [0, "$hours.end", 1] },
+//             ],
+//           },
+//           else: { $range: ["$hours.start", "$hours.end", 1] },
+//         },
+//       },
+//     },
+//   },
+//   { $unwind: "$hoursArray" },
+//   { $project: { quietHour: "$hoursArray", area: 1 } },
+//   {
+//     $group: {
+//       _id: { quietHour: "$quietHour", area: "$area" },
+//       count: { $sum: 1 },
+//     },
+//   },
+//   {
+//     $project: {
+//       quietHour: "$_id.quietHour",
+//       count: 1,
+//       _id: 0,
+//       area: "$_id.area",
+//     },
+//   },
+//   { $sort: { area: 1, quietHour: 1 } },
+// ]);
 
-db.niceThreshold.aggregate([
-  { $group: { _id: null, averageThreshold: { $avg: "$threshold" } } },
-]);
+// db.niceThreshold.aggregate([
+//   { $group: { _id: null, averageThreshold: { $avg: "$threshold" } } },
+// ]);
 
-db.niceThreshold.find({}, { $avg: "$threshold" });
+// db.niceThreshold.find({}, { $avg: "$threshold" });
 
 // {
 //   $bucket: {

@@ -1,6 +1,6 @@
 // Use usageStats
 
-let schemas = {
+let schemasUs = {
   journeyMap: {
     bsonType: "object",
     required: ["attemptId", "startTime"],
@@ -65,7 +65,7 @@ let schemas = {
 // Create collections
 db.createCollection("journeyMap", {
   validator: {
-    $jsonSchema: schemas.journeyMap,
+    $jsonSchema: schemasUs.journeyMap,
   },
   validationLevel: "strict",
   validationAction: "error",
