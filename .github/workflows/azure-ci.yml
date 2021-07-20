@@ -33,5 +33,5 @@ jobs:
         - run: |
             docker build backend/. -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise:api-latest --target production
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise:api-latest
-            docker build backend_nginx/. -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise:backend-nginx-latest
+            docker build backend_nginx/. -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise:backend-nginx-latest --target production
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise:backend-nginx-latest
