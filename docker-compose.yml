@@ -15,7 +15,7 @@ services:
   nginx:
     build:
       context: ./backend_nginx
-      target: dev
+      target: bridge
     ports:
       - 8000:80
     depends_on:
