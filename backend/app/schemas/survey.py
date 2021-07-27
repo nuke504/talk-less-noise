@@ -19,8 +19,11 @@ class NoiseCollation(BaseResponse):
         schema_extra = {
             "example": {
                 "attemptId": "<machine>-<uuid>",
-                "area": "angMoKio",
+                "area": "northeast",
                 "documentTime": "2021-07-10T21:28:51.860777",
+                "numFamilyMembers": 5,
+                "ageGroup": "<20",
+                "neighbourNoiseIsProblem": True,
                 "noiseCategory": "baby",
             }
         }
@@ -33,8 +36,11 @@ class QuietHours(BaseResponse):
         schema_extra = {
             "example": {
                 "attemptId": "<machine>-<uuid>",
-                "area": "angMoKio",
+                "area": "northeast",
                 "documentTime": "2021-07-10T21:28:51.860777",
+                "numFamilyMembers": 5,
+                "ageGroup": "<20",
+                "neighbourNoiseIsProblem": True,
                 "hours": [{"start": 23, "end": 6}, {"start": 15, "end": 18}],
             }
         }
@@ -48,8 +54,11 @@ class Threshold(NoiseCollation):
         schema_extra = {
             "example": {
                 "attemptId": "<machine>-<uuid>",
-                "area": "angMoKio",
+                "area": "northeast",
                 "documentTime": "2021-07-10T21:28:51.860777",
+                "numFamilyMembers": 5,
+                "ageGroup": "<20",
+                "neighbourNoiseIsProblem": True,
                 "noiseCategory": "baby",
                 "noisyThreshold": 3,
                 "niceThreshold": 8,

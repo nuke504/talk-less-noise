@@ -5,36 +5,8 @@
 // Create collection for noiseCollation
 
 // These fields are meant to be included in all surveyResults collections but not in usageStatistics
-const AREAS = [
-  "sembawang",
-  "woodlands",
-  "yishun",
-  "angMoKio",
-  "hougang",
-  "punggol",
-  "sengkang",
-  "serangoon",
-  "bedok",
-  "pasirRis",
-  "tampines",
-  "bukitBatok",
-  "bukitPanjang",
-  "choaChuKang",
-  "clementi",
-  "jurongEast",
-  "jurongWest",
-  "tengah",
-  "bishan",
-  "bukitMerah",
-  "bukitTimah",
-  "centralBusinessDistrict",
-  "geylang",
-  "whampoa",
-  "kallang",
-  "marineParade",
-  "queenstown",
-  "toaPayoh",
-];
+const AGE_GROUP = ["<20", "20-29", "30-39", "40-49", "50-59", ">60"];
+const AREAS = ["northeast", "north", "central", "west", "east"];
 const NOISE_CATEGORIES = [
   "pets",
   "furniture",
@@ -43,7 +15,14 @@ const NOISE_CATEGORIES = [
   "music",
   "others",
 ];
-const GENERIC_FIELDS = ["attemptId", "area", "documentTime"];
+const GENERIC_FIELDS = [
+  "attemptId",
+  "area",
+  "documentTime",
+  "numFamilyMembers",
+  "ageGroup",
+  "neighbourNoiseIsProblem",
+];
 const GENERIC_PROPERTIES = {
   attemptId: {
     title: "AttemptID of Attempt",
@@ -61,6 +40,23 @@ const GENERIC_PROPERTIES = {
     title: "Document Datetime",
     bsonType: "date",
     description: "Datetime when document was added",
+  },
+  numFamilyMembers: {
+    title: "Number of family members",
+    bsonType: "int",
+    minimum: 1,
+    maximum: 6,
+    description: "Number of family members",
+  },
+  ageGroup: {
+    title: "Age group of user (attempt)",
+    enum: AGE_GROUP,
+    description: "Age group of user",
+  },
+  neighbourNoiseIsProblem: {
+    title: "Is neighbour noise a problem?",
+    bsonType: "bool",
+    description: "Whether neighbour noise is a problem",
   },
 };
 const schemas = {
