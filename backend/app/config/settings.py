@@ -20,36 +20,8 @@ class Settings(BaseSettings):
 
 
 class SurveySettings(BaseSettings):
-    AREAS: List[str] = [
-        "sembawang",
-        "woodlands",
-        "yishun",
-        "angMoKio",
-        "hougang",
-        "punggol",
-        "sengkang",
-        "serangoon",
-        "bedok",
-        "pasirRis",
-        "tampines",
-        "bukitBatok",
-        "bukitPanjang",
-        "choaChuKang",
-        "clementi",
-        "jurongEast",
-        "jurongWest",
-        "tengah",
-        "bishan",
-        "bukitMerah",
-        "bukitTimah",
-        "centralBusinessDistrict",
-        "geylang",
-        "whampoa",
-        "kallang",
-        "marineParade",
-        "queenstown",
-        "toaPayoh",
-    ]
+    AREAS: List[str] = ["northeast", "north", "central", "west", "east"]
+    AGE_GROUP: List[str] = ["<20", "20-29", "30-39", "40-49", "50-59", ">60"]
 
     NOISE_CATEGORIES: List[str] = [
         "pets",

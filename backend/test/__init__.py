@@ -17,6 +17,18 @@ def location():
     return np.random.choice(survey_settings.AREAS)
 
 
+def num_family_members():
+    return np.random.randint(1, 7)
+
+
+def age_group():
+    return np.random.choice(survey_settings.AGE_GROUP)
+
+
+def neighbour_noise_problem():
+    return np.random.uniform() <= 0.5
+
+
 def assert_http_response(status_code: int = 200, **assertion_args):
     def decorator_wrapper(func):
         @wraps(func)

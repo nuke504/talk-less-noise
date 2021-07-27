@@ -18,6 +18,9 @@ from test import (
     delete_post,
     attempt_id,
     location,
+    num_family_members,
+    age_group,
+    neighbour_noise_problem,
 )
 
 
@@ -31,7 +34,7 @@ def quiet_hours():
         [{"start": 23, "end": 6}, {"start": 16, "end": 18}],
         [{"start": 10, "end": 17}],
     ]
-    random_hour = np.random.choice(possible_categories)
+    random_hour = np.random.choice(np.array(possible_categories, dtype="object"))
     new_hour_ranges = []
     for hour_range in random_hour:
         new_hour_range = {}
@@ -115,6 +118,9 @@ class TestNoiseCollation(NotTested.TestSurveyMethod):
             "attemptId": attempt_id(),
             "area": location(),
             "documentTime": datetime.now(),
+            "numFamilyMembers": num_family_members(),
+            "ageGroup": age_group(),
+            "neighbourNoiseIsProblem": neighbour_noise_problem(),
             "noiseCategory": noise_category(),
         }
 
@@ -124,6 +130,9 @@ class TestNoiseCollation(NotTested.TestSurveyMethod):
             "attemptId": attempt_id(),
             "area": location(),
             "documentTime": datetime.now().isoformat(),
+            "numFamilyMembers": num_family_members(),
+            "ageGroup": age_group(),
+            "neighbourNoiseIsProblem": neighbour_noise_problem(),
             "noiseCategory": noise_category(),
         }
 
@@ -164,6 +173,9 @@ class TestQuietHours(NotTested.TestSurveyMethod):
             "attemptId": attempt_id(),
             "area": location(),
             "documentTime": datetime.now(),
+            "numFamilyMembers": num_family_members(),
+            "ageGroup": age_group(),
+            "neighbourNoiseIsProblem": neighbour_noise_problem(),
             "hours": quiet_hours(),
         }
 
@@ -173,6 +185,9 @@ class TestQuietHours(NotTested.TestSurveyMethod):
             "attemptId": attempt_id(),
             "area": location(),
             "documentTime": datetime.now().isoformat(),
+            "numFamilyMembers": num_family_members(),
+            "ageGroup": age_group(),
+            "neighbourNoiseIsProblem": neighbour_noise_problem(),
             "hours": quiet_hours(),
         }
 
@@ -207,6 +222,9 @@ class TestThreshold(NotTested.TestSurveyMethod):
             "attemptId": attempt_id(),
             "area": location(),
             "documentTime": datetime.now(),
+            "numFamilyMembers": num_family_members(),
+            "ageGroup": age_group(),
+            "neighbourNoiseIsProblem": neighbour_noise_problem(),
             "noiseCategory": noise_category(),
             "noisyThreshold": threshold(),
             "niceThreshold": threshold(),
@@ -218,6 +236,9 @@ class TestThreshold(NotTested.TestSurveyMethod):
             "attemptId": attempt_id(),
             "area": location(),
             "documentTime": datetime.now().isoformat(),
+            "numFamilyMembers": num_family_members(),
+            "ageGroup": age_group(),
+            "neighbourNoiseIsProblem": neighbour_noise_problem(),
             "noiseCategory": noise_category(),
             "noisyThreshold": threshold(),
             "niceThreshold": threshold(),

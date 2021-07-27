@@ -26,7 +26,6 @@ class TestJourneyMap:
         # Post a fake new attempt to the database
         data = {
             "attemptId": self.attemptId,
-            "area": np.random.choice(survey_settings.AREAS),
             "startTime": datetime.now().isoformat(),
         }
         return client.post(f"{settings.API_PREFIX}/usage/attempt/start", json=data)
@@ -80,7 +79,9 @@ class TestJourneyMap:
         return await find_one(self.db, self.collection, query)
 
     @pytest.fixture
-    def journey_map(self,):
+    def journey_map(
+        self,
+    ):
         # Create unique attempt ID
         self.attemptId = f"test-{uuid.uuid1()}"
         # Create new attempt and post to DB

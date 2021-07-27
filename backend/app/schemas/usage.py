@@ -6,14 +6,12 @@ from app.schemas import Attempt
 
 class AttemptStart(Attempt):
     startTime: datetime
-    area: str
 
     class Config:
         schema_extra = {
             "example": {
                 "attemptId": "<machine>-<uuid>",
                 "startTime": "2021-07-10T21:28:51.860777",
-                "area": "angMoKio",
             }
         }
 
