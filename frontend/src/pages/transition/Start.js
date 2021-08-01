@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { gsap } from "gsap";
 import { KEY_MAPPING } from "../../config";
-import ButtonGallery from "../../components/ButtonGallery/ButtonGallery";
+import ButtonContainer from "../../components/ButtonContainer";
 import convoImage from "../../img/misc/people_talking.png";
+import { transitionOut } from "../../animationUtils";
 
-import "./StartScreen.css";
+import "./Start.css";
 
-class StartScreen extends Component {
+export default class StartScreen extends Component {
   constructor(props) {
     super(props);
 
@@ -15,19 +15,12 @@ class StartScreen extends Component {
     this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
-  transitionOut() {
-    gsap.to(this.slide.current, {
-      duration: 0.5,
-      opacity: 0,
-      y: -100,
-      ease: "back.in",
-    });
-    setTimeout(this.props.callNextSlide, 500, this.props.nextSlide);
-  }
-
   exitSlide() {
-    // this.props.newAttempt();
-    this.transitionOut();
+    transitionOut(
+      this.slide.current,
+      this.props.callNextSlide,
+      this.props.nextSlide
+    );
   }
 
   handleKeyDown(e) {
@@ -37,6 +30,7 @@ class StartScreen extends Component {
   }
 
   componentDidMount() {
+    this.props.startCheckpoint(this.props.checkpointDescription);
     document.addEventListener("keydown", this.handleKeyDown);
   }
 
@@ -53,7 +47,7 @@ class StartScreen extends Component {
           </div>
           <h1 className="start-primary-top">Let Us</h1>
           <h1 className="start-primary-bottom">
-            Talk About <div className="start-accent">Noise</div>
+            Talk About <strong>Noise</strong>
           </h1>
           <p className="start-secondary">
             Discuss with your fellow residents about your noise preferences!
@@ -62,17 +56,12 @@ class StartScreen extends Component {
             <img src={convoImage} alt="Icon of two people talking" />
           </div>
         </div>
-        <div className="start-button-container">
-          <p className="start-button-text">PRESS TO START!</p>
-          <ButtonGallery
-            activeIdx={2}
-            animation={true}
-            onClick={this.exitSlide}
-          />
-        </div>
+        <ButtonContainer
+          instructions="PRESS TO START!"
+          animate={[2]}
+          functionMap={new Map([[2, this.exitSlide]])}
+        />
       </main>
     );
   }
 }
-
-export default StartScreen;

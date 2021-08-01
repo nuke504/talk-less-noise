@@ -1,0 +1,38 @@
+.neighbour-noise-container-top {
+  width: 100vw;
+  min-height: 70vh;
+
+  background-color: var(--color-primary-tint-1);
+  color: var(--color-primary-shade-1);
+  font-family: var(--font-primary), sans-serif;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.neighbour-noise-primary-top {
+  font-size: 12.8rem;
+  line-height: 15.6rem;
+  text-align: center;
+  grid-column: 1/-1;
+}
+
+.neighbour-noise-image-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.neighbour-noise-image-container img {
+  height: 13.6rem;
+}
+
+.neighbour-noise-image-container p {
+  font-family: var(--font-secondary), sans-serif;
+  font-weight: 700;
+  font-size: 5.2rem;
+  text-align: center;
+}

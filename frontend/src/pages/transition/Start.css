@@ -40,27 +40,3 @@
   font-size: 9.8rem;
   text-align: center;
 }
-
-.start-accent {
-  display: inline;
-  color: var(--color-secondary);
-}
-
-.start-button-container {
-  min-height: 30vh;
-  display: flex;
-  flex-direction: column;
-
-  align-items: center;
-  justify-content: center;
-  gap: 1.2rem;
-
-  background-color: var(--color-primary-tint-1);
-}
-
-.start-button-text {
-  font-family: var(--font-secondary), sans-serif;
-  font-weight: 700;
-  font-size: 4.4rem;
-  text-align: center;
-}

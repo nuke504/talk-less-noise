@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { gsap } from "gsap";
-import "./TitleScreen.css";
+import { transitionOut } from "../../animationUtils";
+import "./Title.css";
 
 import pets from "../../img/noise-icons/pets.png";
 import baby from "../../img/noise-icons/baby.png";
@@ -19,11 +19,11 @@ const NOISE_DESCRIPTION = [
 
 function LogoGallery() {
   return NOISE_LOGOS.map((logo, idx) => (
-    <img src={logo} alt={NOISE_DESCRIPTION[idx]} />
+    <img key={NOISE_DESCRIPTION[idx]} src={logo} alt={NOISE_DESCRIPTION[idx]} />
   ));
 }
 
-class TitleScreen extends Component {
+export default class TitleScreen extends Component {
   constructor(props) {
     super(props);
 
@@ -32,20 +32,14 @@ class TitleScreen extends Component {
     this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
-  transitionOut() {
-    gsap.to(this.slide.current, {
-      duration: 0.5,
-      opacity: 0,
-      y: -100,
-      ease: "back.in",
-    });
-    setTimeout(this.props.callNextSlide, 500, this.props.nextSlide);
-  }
-
   exitSlide() {
     // Log the Starting time for the attempt
     this.props.newAttempt();
-    this.transitionOut();
+    transitionOut(
+      this.slide.current,
+      this.props.callNextSlide,
+      this.props.nextSlide
+    );
   }
 
   handleKeyDown(e) {
@@ -76,7 +70,7 @@ class TitleScreen extends Component {
               stroke="#fff"
             ></path>
           </svg>
-          <div class="title-speech-container">
+          <div className="title-speech-container">
             <h1 className="title-primary-top">Let's Talk</h1>
             <h1 className="title-primary-bottom">LESS NOISE!</h1>
             <p className="title-secondary">
@@ -94,5 +88,3 @@ class TitleScreen extends Component {
     );
   }
 }
-
-export default TitleScreen;

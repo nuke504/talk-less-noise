@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 
-import TitleScreen from "./transition/TitleScreen";
-import StartScreen from "./transition/StartScreen";
+import TitleScreen from "./transition/Title";
+import StartScreen from "./transition/Start";
 import UserProfileIntroScreen from "./userprofile/UserProfileIntro";
+import FamilyMembersScreen from "./userprofile/FamilyMembers";
+import NeighbourNoiseScreen from "./userprofile/NeighbourNoise";
+import AreaScreen from "./userprofile/Area";
 
 class SlideController extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeSlide: "userProfileIntro",
+      activeSlide: "title",
     };
 
     // Bind all state uplift methods
@@ -35,14 +38,45 @@ class SlideController extends Component {
           <StartScreen
             nextSlide="userProfileIntro"
             callNextSlide={this.updateActiveSlide}
+            checkpointDescription="userProfile"
+            startCheckpoint={this.props.startCheckpoint}
           />
         );
 
       case "userProfileIntro":
         return (
           <UserProfileIntroScreen
+            nextSlide="userProfileFamily"
+            callNextSlide={this.updateActiveSlide}
+          />
+        );
+
+      case "userProfileFamily":
+        return (
+          <FamilyMembersScreen
+            nextSlide="area"
+            callNextSlide={this.updateActiveSlide}
+            updateParam={this.props.updateParam}
+          />
+        );
+
+      case "area":
+        return (
+          <AreaScreen
+            nextSlide="userProfileNeighbourNoise"
+            callNextSlide={this.updateActiveSlide}
+            updateParam={this.props.updateParam}
+          />
+        );
+
+      case "userProfileNeighbourNoise":
+        return (
+          <NeighbourNoiseScreen
             nextSlide="title"
             callNextSlide={this.updateActiveSlide}
+            updateParam={this.props.updateParam}
+            checkpointDescription="userProfile"
+            endCheckpoint={this.props.endCheckpoint}
           />
         );
 

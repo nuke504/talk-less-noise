@@ -26,46 +26,66 @@ class App extends Component {
       noiseCollation: {},
       quietHours: {},
       threshold: {},
-
-      // Active Slide
-      activeSlide: null,
     };
 
     // Bind all state uplift methods
     this.newAttempt = this.newAttempt.bind(this);
+    this.updateParam = this.updateParam.bind(this);
+    this.startCheckpoint = this.startCheckpoint.bind(this);
+    this.endCheckpoint = this.endCheckpoint.bind(this);
+    this.endAttempt = this.endAttempt.bind(this);
+  }
+
+  currentTime() {
+    return new Date().toISOString();
   }
 
   // State Methods
-
   newAttempt() {
     // Create a new attemptID and start time
+    this.updateParam("startTime", this.currentTime());
+    this.updateParam("attemptId", "reactFrontend-testApp-01");
+    this.updateParam("complete", false);
+  }
+
+  updateParam(param, value) {
     this.setState((state) => {
-      state.startTime = new Date().toISOString();
-      state.attemptId = "reactFrontend-testApp-01";
+      state[param] = value;
     });
+    // alert(`Updated ${param} ${value}`);
+    console.log(this.state);
+  }
+
+  startCheckpoint(description) {
+    this.setState((state) => {
+      state.checkpoints.push({ description, start: this.currentTime() });
+    });
+  }
+
+  endCheckpoint(description) {
+    const checkpointIndex = this.state.checkpoints.findIndex(
+      (checkpoint) => checkpoint.description === description
+    );
+    this.setState((state) => {
+      state.checkpoints[checkpointIndex].end = this.currentTime();
+    });
+  }
+
+  endAttempt() {
+    this.updateParam("complete", true);
+    this.updateParam("endTime", this.currentTime());
   }
 
   render() {
     return (
       <div className="App">
-        <SlideController newAttempt={this.newAttempt} />
-        {/* <Switch>
-          <Route exact path="/">
-            <TitleScreen onTransit={this.newAttempt} transitTo="/start" />
-          </Route>
-          <Route exact path="/start">
-            <StartScreen />
-          </Route>
-          <Route exact path="/test">
-            <PlaceHolder />
-          </Route>
-          <Route path="/about">
-                <About />
-              </Route>
-              <Route path="/dashboard">
-                <Dashboard />
-              </Route>
-        </Switch> */}
+        <SlideController
+          newAttempt={this.newAttempt}
+          updateParam={this.updateParam}
+          startCheckpoint={this.startCheckpoint}
+          endCheckpoint={this.endCheckpoint}
+          endAttempt={this.endAttempt}
+        />
       </div>
     );
   }
