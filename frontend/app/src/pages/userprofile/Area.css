@@ -1,0 +1,72 @@
+.area-container-top {
+  width: 100vw;
+  min-height: 70vh;
+
+  background-color: var(--color-primary-tint-1);
+  color: var(--color-primary-shade-1);
+  font-family: var(--font-primary), sans-serif;
+  display: grid;
+
+  grid-template-columns: 0.67fr 0.33fr;
+  grid-template-rows: repeat(1fr, 2);
+  justify-content: center;
+}
+
+.area-primary-top {
+  font-size: 11.6rem;
+  text-align: center;
+  grid-column: 1/-1;
+}
+
+.area-container-top img {
+  width: 52vw;
+  justify-self: end;
+}
+
+.legend {
+  justify-self: start;
+
+  display: grid;
+  grid-template-columns: 6.2rem 1fr;
+  grid-template-rows: repeat(1fr, 5);
+  row-gap: 1.2rem;
+  column-gap: 1.2rem;
+
+  align-items: center;
+}
+
+.legend-box {
+  height: 6.2rem;
+  width: 6.2rem;
+  border-radius: 1.2rem;
+  opacity: 90%;
+}
+
+.legend-box--orange,
+.btn-area:nth-child(1) {
+  background-color: rgb(244, 149, 31);
+}
+
+.legend-box--red,
+.btn-area:nth-child(2) {
+  background-color: rgb(227, 30, 37);
+}
+
+.legend-box--green,
+.btn-area:nth-child(3) {
+  background-color: rgb(67, 168, 72);
+}
+
+.legend-box--blue,
+.btn-area:nth-child(4) {
+  background-color: rgb(8, 115, 183);
+}
+
+.legend-box--purple,
+.btn-area:nth-child(6) {
+  background-color: rgb(130, 55, 140);
+}
+
+.legend p {
+  font-size: 6.2rem;
+}

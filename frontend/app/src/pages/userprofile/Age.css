@@ -1,0 +1,45 @@
+.age-container-top {
+  min-width: 168rem;
+  min-height: 70vh;
+
+  background-color: var(--color-primary-tint-1);
+  color: var(--color-primary-shade-1);
+  font-family: var(--font-primary), sans-serif;
+
+  position: relative;
+}
+
+.age-primary-top {
+  font-size: 11.6rem;
+  text-align: center;
+}
+
+.age-container-top img {
+  position: absolute;
+  width: 168rem;
+  top: 43%;
+}
+
+.age-card {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.age-card-circle {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background-color: var(--color-secondary-tint-1);
+  margin-bottom: 8vh;
+}
+
+.age-card-age-group {
+  font-size: 6.2rem;
+}
+
+.age-card-caption {
+  font-size: 4.4rem;
+}
