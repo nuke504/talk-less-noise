@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { KEY_MAPPING } from "../../config";
+import { KEY_MAPPING, TIMEOUT_SECONDS } from "../../config";
 import ButtonContainer from "../../components/ButtonContainer";
 import convoImage from "../../img/misc/people_talking.png";
 import { transitionOut, transitionIn } from "../../utils/animationUtils";
@@ -16,6 +16,7 @@ export default class StartScreen extends Component {
   }
 
   exitSlide() {
+    clearInterval(this.timeoutTimer);
     transitionOut(
       this.slide.current,
       this.props.callNextSlide,
@@ -33,6 +34,10 @@ export default class StartScreen extends Component {
     transitionIn(this.slide.current);
     this.props.startCheckpoint(this.props.checkpointDescription);
     document.addEventListener("keydown", this.handleKeyDown);
+    this.timeoutTimer = setTimeout(
+      this.props.slideTimeout,
+      TIMEOUT_SECONDS * 1000
+    );
   }
 
   componentWillUnmount() {

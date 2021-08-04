@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { KEY_MAPPING, AREAS } from "../../config";
+import { KEY_MAPPING, AREAS, TIMEOUT_SECONDS } from "../../config";
 import ButtonContainer from "../../components/ButtonContainer";
 import { transitionOut, transitionIn } from "../../utils/animationUtils";
 
@@ -46,6 +46,7 @@ export default class AreaScreen extends Component {
   }
 
   exitSlide() {
+    clearInterval(this.timeoutTimer);
     transitionOut(
       this.slide.current,
       this.props.callNextSlide,
@@ -66,6 +67,10 @@ export default class AreaScreen extends Component {
   componentDidMount() {
     transitionIn(this.slide.current);
     document.addEventListener("keydown", this.handleKeyDown);
+    this.timeoutTimer = setTimeout(
+      this.props.slideTimeout,
+      TIMEOUT_SECONDS * 1000
+    );
   }
 
   componentWillUnmount() {

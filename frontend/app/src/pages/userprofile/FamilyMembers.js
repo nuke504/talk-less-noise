@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { gsap } from "gsap";
-import { KEY_MAPPING } from "../../config";
+import { KEY_MAPPING, TIMEOUT_SECONDS } from "../../config";
 import ButtonContainer from "../../components/ButtonContainer";
 import { transitionOut, transitionIn } from "../../utils/animationUtils";
 
@@ -81,6 +81,7 @@ class FamilyMembersScreen extends Component {
   }
 
   exitSlide() {
+    clearInterval(this.timeoutTimer);
     transitionOut(
       this.slide.current,
       this.props.callNextSlide,
@@ -101,6 +102,10 @@ class FamilyMembersScreen extends Component {
     transitionIn(this.slide.current);
     document.addEventListener("keydown", this.handleKeyDown);
     this.buttonBlink();
+    this.timeoutTimer = setTimeout(
+      this.props.slideTimeout,
+      TIMEOUT_SECONDS * 1000
+    );
   }
 
   componentWillUnmount() {

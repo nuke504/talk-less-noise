@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { gsap, Power3 } from "gsap";
 
-import { KEY_MAPPING } from "../../config";
+import { KEY_MAPPING, TIMEOUT_SECONDS } from "../../config";
 import {
   transitionOut,
   transitionIn,
@@ -64,6 +64,7 @@ export default class NoiseCollationScreen extends Component {
           Which <strong>noise</strong> affects you most?
         </h1>
       ),
+      timeline: new Map(),
     };
   }
 
@@ -172,6 +173,7 @@ export default class NoiseCollationScreen extends Component {
   }
 
   exitSlide() {
+    clearInterval(this.timeoutTimer);
     transitionOut(
       this.slide.current,
       this.props.callNextSlide,
@@ -193,6 +195,10 @@ export default class NoiseCollationScreen extends Component {
     this.props.startCheckpoint(this.props.checkpointDescription);
     this.addStaticBrownianListener(ICON_NAMES);
     document.addEventListener("keydown", this.handleKeyDown);
+    this.timeoutTimer = setTimeout(
+      this.props.slideTimeout,
+      TIMEOUT_SECONDS * 1000
+    );
   }
 
   componentWillUnmount() {

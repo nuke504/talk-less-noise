@@ -16,8 +16,8 @@ export const request = async function (
   params = null
 ) {
   try {
-    console.log("Posting", data);
-    return {};
+    // console.log("Posting", data);
+    // return {};
     const apiUrl = `${API_ADDRESS}${relativeUrl}`;
     let response;
     switch (method) {
@@ -72,11 +72,40 @@ export const request = async function (
   }
 };
 
+// Get methods
+export const getNoiseCollation = function (...columns) {
+  const params =
+    columns.length > 0
+      ? "?" + columns.map((n) => `group_by_columns=${n}`).join("&")
+      : "";
+  return request("GET", `/survey/noiseCollation${params}`);
+};
+
 // Post methods
 export const postStartAttempt = function (attemptId, startTime) {
   request("POST", "/usage/attempt/start", {
     attemptId,
     startTime,
+  }).then((response) => console.log("Received response: ", response));
+};
+
+export const postNoiseCollation = function ({
+  attemptId,
+  area,
+  documentTime,
+  numFamilyMembers,
+  ageGroup,
+  neighbourNoiseIsProblem,
+  noiseCategory,
+}) {
+  request("POST", `/survey/noiseCollation`, {
+    attemptId,
+    area,
+    documentTime,
+    numFamilyMembers,
+    ageGroup,
+    neighbourNoiseIsProblem,
+    noiseCategory,
   }).then((response) => console.log("Received response: ", response));
 };
 
@@ -100,30 +129,21 @@ export const putCheckpoint = function (
   );
 };
 
-export const putEndAttempt = function (attemptId, endTime, complete) {
-  request("PUT", `/usage/attempt/end`, {
+export const putEndAttempt = function (
+  attemptId,
+  endTime,
+  complete,
+  failReason = null
+) {
+  const data = {
     attemptId,
     endTime,
     complete,
-  }).then((response) => console.log("Received response: ", response));
-};
+  };
 
-export const postNoiseCollation = function ({
-  attemptId,
-  area,
-  documentTime,
-  numFamilyMembers,
-  ageGroup,
-  neighbourNoiseIsProblem,
-  noiseCategory,
-}) {
-  request("POST", `/survey/noiseCollation`, {
-    attemptId,
-    area,
-    documentTime,
-    numFamilyMembers,
-    ageGroup,
-    neighbourNoiseIsProblem,
-    noiseCategory,
-  }).then((response) => console.log("Received response: ", response));
+  if (failReason) data.failReason = failReason;
+
+  request("PUT", `/usage/attempt/end`, data).then((response) =>
+    console.log("Received response: ", response)
+  );
 };

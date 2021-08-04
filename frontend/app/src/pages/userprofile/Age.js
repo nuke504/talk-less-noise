@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { gsap } from "gsap";
 
-import { KEY_MAPPING, AGE_GROUP } from "../../config";
+import { KEY_MAPPING, AGE_GROUP, TIMEOUT_SECONDS } from "../../config";
 import ButtonContainer from "../../components/ButtonContainer";
 import { transitionOut, transitionIn } from "../../utils/animationUtils";
 import ageTimeline from "../../img/misc/age-timeline.png";
@@ -117,6 +117,7 @@ export default class AgeScreen extends Component {
   }
 
   exitSlide() {
+    clearInterval(this.timeoutTimer);
     transitionOut(
       this.slide.current,
       this.props.callNextSlide,
@@ -138,6 +139,10 @@ export default class AgeScreen extends Component {
     transitionIn(this.slide.current);
     document.addEventListener("keydown", this.handleKeyDown);
     this.buttonBlink();
+    this.timeoutTimer = setTimeout(
+      this.props.slideTimeout,
+      TIMEOUT_SECONDS * 1000
+    );
   }
 
   componentWillUnmount() {

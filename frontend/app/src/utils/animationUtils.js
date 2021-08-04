@@ -68,12 +68,12 @@ export const transitionOut = function (
   setTimeout(callNextSlide, duration * 1000, nextSlide);
 };
 
-export const staticBrownian = function (className) {
+export const staticBrownian = function (className, duration = 1) {
   const timeline = gsap.timeline({ paused: true });
   timeline.to(className, {
     x: "random(-20, 20, 5)",
     y: "random(-20, 10, 3)",
-    duration: 0.5,
+    duration,
     ease: "none",
     repeat: -1,
     repeatRefresh: true,

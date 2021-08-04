@@ -1,14 +1,11 @@
 import React, { Component } from "react";
-import { gsap, Power3 } from "gsap";
 
-import { KEY_MAPPING } from "../../config";
+import { KEY_MAPPING, NOISE_CATEGORIES, NOISE_DESCRIPTION } from "../../config";
 import {
   transitionOut,
   transitionIn,
   staticBrownian,
-  sideBrownian,
 } from "../../utils/animationUtils";
-import { getOffset } from "../../utils/ui";
 
 import pets from "../../img/noise-icons/pets.png";
 import baby from "../../img/noise-icons/baby.png";
@@ -17,7 +14,7 @@ import music from "../../img/noise-icons/music.png";
 import works from "../../img/noise-icons/works.png";
 import others from "../../img/noise-icons/others.png";
 
-import "./NoiseCollation.css";
+import "./NoiseCollationResults.css";
 
 const NOISE_LOGOS = new Map([
   ["pets", [pets, "Pet Logo"]],
@@ -28,41 +25,68 @@ const NOISE_LOGOS = new Map([
   ["others", [others, "Others Logo"]],
 ]);
 
-const ICON_NAMES = ["pets", "furniture", "baby", "music", "works", "others"];
-
 function NoiseResult(props) {
-  const ncRankClass = `nc-results-rank${props.rank}`;
+  const ncRankClass = `nc-result nc-results--${props.rank}`;
   const ncRankClassImg = `nc-results-rank${props.rank}-img`;
-  const ncRankClassStrong = `nc-results-rank${props.rank}-strong`;
+  const ncRankClassStrong = `noise-collation-color--${props.noiseCategory}`;
 
   if (props.rank === 1 || props.rank === 2) {
     return (
       <div className={ncRankClass}>
-        <img
-          className={ncRankClassImg}
-          src={NOISE_LOGOS.get(props.noiseCategory)[0]}
-          alt={NOISE_LOGOS.get(props.noiseCategory)[1]}
-        />
+        <img className={ncRankClassImg} src={props.src} alt={props.alt} />
         <h1>
           <strong className={ncRankClassStrong}>
-            {props.percentage.toFixed(2)}
+            {props.percentage.toFixed(0)}%
           </strong>{" "}
-          of your neighbours are most affected by{" "}
-          <strong className={ncRankClassStrong}>{props.noiseCategory}</strong>
+          of your neighbours are most affected by
+          <strong className={ncRankClassStrong}> {props.description}</strong>
         </h1>
       </div>
     );
   } else {
     return (
       <div className={ncRankClass}>
-        <img
-          className={ncRankClassImg}
-          src={NOISE_LOGOS.get(props.noiseCategory)[0]}
-          alt={NOISE_LOGOS.get(props.noiseCategory)[1]}
+        <img className={ncRankClassImg} src={props.src} alt={props.alt} />
+        <h1>
+          <strong className={ncRankClassStrong}>
+            {props.percentage.toFixed(0)}%
+          </strong>
+        </h1>
+      </div>
+    );
+  }
+}
+
+class NoiseResultContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.container = React.createRef();
+  }
+
+  componentDidMount() {
+    transitionIn(this.container.current);
+    const resultNodes = this.container.current.querySelectorAll(".nc-result");
+    staticBrownian(resultNodes).play();
+  }
+
+  render() {
+    const noiseResults = this.props.noiseCategories.map((noiseCategory) => {
+      return (
+        <NoiseResult
+          key={noiseCategory}
+          noiseCategory={noiseCategory}
+          rank={this.props.ranks.indexOf(noiseCategory) + 1}
+          percentage={this.props.percentages[noiseCategory]}
+          description={this.props.descriptions.get(noiseCategory)}
+          src={this.props.logos.get(noiseCategory)[0]}
+          alt={this.props.logos.get(noiseCategory)[1]}
         />
-        <strong className={ncRankClassStrong}>
-          {props.percentage.toFixed(2)}
-        </strong>
+      );
+    });
+
+    return (
+      <div ref={this.container} className="noise-collation-results-container">
+        {noiseResults}
       </div>
     );
   }
@@ -72,142 +96,41 @@ export default class NoiseCollationResultsScreen extends Component {
   constructor(props) {
     super(props);
 
+    this.noiseCategories = NOISE_CATEGORIES;
+    this.noiseLogos = NOISE_LOGOS;
+    this.noiseDescriptions = NOISE_DESCRIPTION;
+
     this.slide = React.createRef();
     this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.timelines = new Map();
+    this.exitSlide = this.exitSlide.bind(this);
 
     this.state = {
-      loaded: true,
-      // Preset for now
-      works: 42.857142857142854,
-      baby: 28.57142857142857,
-      furniture: 14.285714285714285,
-      pets: 14.285714285714285,
-      music: 0,
-      others: 0,
+      loaded: false,
     };
   }
 
-  addStaticBrownianListener(iconNames) {
-    iconNames.forEach((iconName) => {
-      this.timelines.set(
-        iconName,
-        staticBrownian(`.noise-collation-btn--${iconName}`)
-      );
-      const node = this.slide.current.querySelector(
-        `.noise-collation-btn--${iconName}`
-      );
-      node.addEventListener("mouseenter", () => {
-        gsap.to(node, { scale: 1.2, duration: 0.5, ease: Power3.easeIn });
-        this.timelines.get(iconName).play();
-      });
-      node.addEventListener("mouseleave", () => {
-        this.timelines.get(iconName).pause();
-        gsap.to(node, { scale: 1, duration: 0.5, ease: Power3.easeIn });
-      });
-    });
-  }
-
-  transformArray(dbResult, iconNames = ICON_NAMES) {
-    const percentages = iconNames.map((noiseCategory) => {
+  loadArray(dbResult) {
+    const percentages = this.noiseCategories.map((noiseCategory) => {
       const row = dbResult.find((row) => row.noiseCategory === noiseCategory);
       if (!row) return 0;
 
       return row.percentage;
     });
 
-    iconNames.forEach((noiseCategory, idx) =>
-      this.setState({ noiseCategory: percentages[idx] })
+    this.noiseCategories.forEach((noiseCategory, idx) =>
+      this.setState(() => {
+        const transientState = {};
+        transientState[noiseCategory] = percentages[idx];
+        return transientState;
+      })
     );
 
     this.setState({ loaded: true });
   }
 
-  //   createShadowImg(nodeBtn, numShadowImg) {
-  //     // Add back gsap timeline for current button and play the timeline
-  //     // Get details of current node
-
-  //     for (let i = 0; i < numShadowImg; ++i) {
-  //       const nodeImg = nodeBtn.querySelector("img").cloneNode();
-  //       const position = getOffset(nodeBtn.querySelector("img"));
-
-  //       nodeImg.style.position = "absolute";
-  //       nodeImg.style.opacity = "0%";
-  //       nodeImg.classList.add("noise-collation-img--add");
-  //       nodeImg.style.top = `${position.top}px`;
-  //       nodeImg.style.left = `${position.left}px`;
-  //       nodeBtn.after(nodeImg);
-  //     }
-
-  //     const nodesShadowImg = this.slide.current.querySelectorAll(
-  //       ".noise-collation-img--add"
-  //     );
-
-  //     sideBrownian(nodesShadowImg[0], 80, 100, -50, -60).play();
-  //     sideBrownian(nodesShadowImg[1], -80, -100, -25, -30).play();
-  //     sideBrownian(nodesShadowImg[2], 80, 100, 50, 60).play();
-  //   }
-
-  //   updateCollation(
-  //     noiseCategory,
-  //     fadeDuration = 1,
-  //     numShadowImg = 3,
-  //     pauseDuration = 2,
-  //     iconNames = ICON_NAMES
-  //   ) {
-  //     return () => {
-  //       const strongClass = `noise-collation-color--${noiseCategory} noise-collation-strong`;
-  //       this.setState({
-  //         message: (
-  //           <h1 className="noise-collation-title--triggered">
-  //             You are most affected by:{" "}
-  //             <strong className={strongClass}>{noiseCategory}</strong>
-  //           </h1>
-  //         ),
-  //       });
-
-  //       gsap.to(
-  //         this.slide.current.querySelectorAll(
-  //           `.noise-collation-img--${noiseCategory}`
-  //         )[1],
-  //         { duration: 1, scale: 2 }
-  //       );
-
-  //       // Remove all current event listeners for other buttons
-  //       this.slide.current
-  //         .querySelectorAll(`.noise-collation-btn`)
-  //         .forEach((btn) => btn.replaceWith(btn.cloneNode(true)));
-
-  //       const nodeBtn = this.slide.current.querySelector(
-  //         `.noise-collation-btn--${noiseCategory}`
-  //       );
-
-  //       const timeline = staticBrownian(nodeBtn);
-  //       timeline.play();
-
-  //       // Create shadow images
-  //       this.createShadowImg(nodeBtn, numShadowImg);
-
-  //       // Change opacity of all other element
-  //       iconNames.forEach((iconName) => {
-  //         if (iconName === noiseCategory) {
-  //           return;
-  //         }
-
-  //         const node = this.slide.current.querySelector(
-  //           `.noise-collation-btn--${iconName}`
-  //         );
-
-  //         gsap.to(node, { opacity: 0.3, duration: fadeDuration });
-  //       });
-
-  //       this.props.postNoiseCollation(noiseCategory);
-
-  //       setTimeout(this.exitSlide.bind(this), pauseDuration * 1000);
-  //     };
-  //   }
-
   exitSlide() {
+    this.props.endCheckpoint(this.props.checkpointDescription);
+    this.props.endAttempt(true);
     transitionOut(
       this.slide.current,
       this.props.callNextSlide,
@@ -220,26 +143,61 @@ export default class NoiseCollationResultsScreen extends Component {
     // Return if invalid key
     if (keyIndex === -1) return;
 
-    // IIFE
-    this.updateCollation(ICON_NAMES[keyIndex])();
+    this.exitSlide();
   }
 
   componentDidMount() {
-    transitionIn(this.slide.current);
-    this.addStaticBrownianListener(ICON_NAMES);
+    //  Once mounted, call API
+    this.props.getNoiseCollation("noiseCategory").then((results) => {
+      this.loadArray(results);
+    });
+
     document.addEventListener("keydown", this.handleKeyDown);
+    document.addEventListener("click", this.exitSlide);
   }
 
   componentWillUnmount() {
     document.removeEventListener("keydown", this.handleKeyDown);
+    document.removeEventListener("click", this.exitSlide);
   }
 
-  prepareComponents() {}
+  getLoadingScreen() {
+    return <h1 className="loading">Loading survey results!</h1>;
+  }
+
+  getNoiseCategoryRank() {
+    return this.noiseCategories
+      .map((noiseCategory) => {
+        return [noiseCategory, this.state[noiseCategory]];
+      })
+      .sort((a, b) => {
+        if (a[1] > b[1]) return -1;
+        else return 1;
+      })
+      .map((elem) => elem[0]);
+  }
+
+  prepareNoiseResults() {
+    if (!this.state.loaded) return this.getLoadingScreen();
+
+    const ranks = this.getNoiseCategoryRank();
+    const percentages = { ...this.state };
+
+    return (
+      <NoiseResultContainer
+        ranks={ranks}
+        logos={this.noiseLogos}
+        percentages={percentages}
+        noiseCategories={this.noiseCategories}
+        descriptions={this.noiseDescriptions}
+      />
+    );
+  }
 
   render() {
     return (
-      <main ref={this.slide}>
-        <div className="noise-collation-result-top"></div>
+      <main ref={this.slide} className="noise-collation-results-bg">
+        {this.prepareNoiseResults()}
       </main>
     );
   }

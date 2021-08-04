@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { APP_NAME } from "./config";
+import { APP_NAME, INITIAL_STATE } from "./config";
 import {
+  getNoiseCollation,
   postNoiseCollation,
   postStartAttempt,
   putCheckpoint,
@@ -15,30 +16,13 @@ export default class App extends Component {
   // Set initial state
   constructor(props) {
     super(props);
-    this.state = {
-      attemptId: null,
-      area: null,
-      numFamilyMembers: null,
-      ageGroup: null,
-      neighbourNoiseIsProblem: null,
-
-      // For usageStats
-      startTime: null,
-      endTime: null,
-      checkpoints: [],
-      complete: null,
-      incompleteReason: null,
-
-      // All survey answers
-      noiseCategory: null,
-      quietHours: [],
-      noisyThreshold: null,
-      niceThreshold: null,
-    };
+    this.state = INITIAL_STATE;
 
     // Bind all state uplift methods
     this.updateParam = this.updateParam.bind(this);
+    this.timeoutAttempt = this.timeoutAttempt.bind(this);
 
+    this.getNoiseCollation = this.getNoiseCollation.bind(this);
     this.postNoiseCollation = this.postNoiseCollation.bind(this);
 
     this.newAttempt = this.newAttempt.bind(this);
@@ -53,11 +37,18 @@ export default class App extends Component {
 
   // State Methods
   updateParam(param, value) {
-    this.setState((state) => {
-      state[param] = value;
+    this.setState(() => {
+      const transientState = {};
+      transientState[param] = value;
+      return transientState;
     });
     // alert(`Updated ${param} ${value}`);
     // console.log(this.state);
+  }
+
+  timeoutAttempt() {
+    this.endAttempt(false, "Timeout");
+    this.setState(INITIAL_STATE);
   }
 
   // Survey Methods
@@ -65,6 +56,10 @@ export default class App extends Component {
     const documentTime = this.currentTime();
     this.updateParam(noiseCategory, noiseCategory);
     postNoiseCollation({ ...this.state, documentTime, noiseCategory });
+  }
+
+  getNoiseCollation(...columns) {
+    return getNoiseCollation(...columns);
   }
 
   // Usage update methods
@@ -80,12 +75,14 @@ export default class App extends Component {
     postStartAttempt(attemptId, startTime);
   }
 
-  endAttempt(complete = true) {
+  endAttempt(complete = true, failReason = null) {
     const endTime = this.currentTime();
     this.updateParam("complete", complete);
     this.updateParam("endTime", endTime);
 
-    putEndAttempt(this.state.attemptId, endTime, complete);
+    console.log("Ended", this.state);
+
+    putEndAttempt(this.state.attemptId, endTime, complete, failReason);
   }
 
   // Checkpoint Methods
@@ -129,10 +126,12 @@ export default class App extends Component {
         <SlideController
           newAttempt={this.newAttempt}
           updateParam={this.updateParam}
+          getNoiseCollation={this.getNoiseCollation}
           postNoiseCollation={this.postNoiseCollation}
           startCheckpoint={this.startCheckpoint}
           endCheckpoint={this.endCheckpoint}
           endAttempt={this.endAttempt}
+          timeoutAttempt={this.timeoutAttempt}
         />
       </div>
     );

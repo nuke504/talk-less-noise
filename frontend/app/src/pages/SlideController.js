@@ -15,11 +15,17 @@ export default class SlideController extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeSlide: "noiseCollationResults",
+      activeSlide: "title",
     };
 
     // Bind all state uplift methods
     this.updateActiveSlide = this.updateActiveSlide.bind(this);
+    this.slideTimeout = this.slideTimeout.bind(this);
+  }
+
+  slideTimeout() {
+    this.props.timeoutAttempt();
+    this.setState({ activeSlide: "title" });
   }
 
   updateActiveSlide(activeSlide) {
@@ -44,6 +50,7 @@ export default class SlideController extends Component {
             callNextSlide={this.updateActiveSlide}
             checkpointDescription="userProfile"
             startCheckpoint={this.props.startCheckpoint}
+            slideTimeout={this.slideTimeout}
           />
         );
 
@@ -52,6 +59,7 @@ export default class SlideController extends Component {
           <UserProfileIntroScreen
             nextSlide="userProfileFamily"
             callNextSlide={this.updateActiveSlide}
+            slideTimeout={this.slideTimeout}
           />
         );
 
@@ -61,6 +69,7 @@ export default class SlideController extends Component {
             nextSlide="age"
             callNextSlide={this.updateActiveSlide}
             updateParam={this.props.updateParam}
+            slideTimeout={this.slideTimeout}
           />
         );
 
@@ -70,6 +79,7 @@ export default class SlideController extends Component {
             nextSlide="area"
             callNextSlide={this.updateActiveSlide}
             updateParam={this.props.updateParam}
+            slideTimeout={this.slideTimeout}
           />
         );
 
@@ -79,6 +89,7 @@ export default class SlideController extends Component {
             nextSlide="userProfileNeighbourNoise"
             callNextSlide={this.updateActiveSlide}
             updateParam={this.props.updateParam}
+            slideTimeout={this.slideTimeout}
           />
         );
 
@@ -90,7 +101,7 @@ export default class SlideController extends Component {
             updateParam={this.props.updateParam}
             checkpointDescription="userProfile"
             endCheckpoint={this.props.endCheckpoint}
-            // endAttempt={this.props.endAttempt}
+            slideTimeout={this.slideTimeout}
           />
         );
 
@@ -103,6 +114,7 @@ export default class SlideController extends Component {
             postNoiseCollation={this.props.postNoiseCollation}
             checkpointDescription="noiseCollation"
             startCheckpoint={this.props.startCheckpoint}
+            slideTimeout={this.slideTimeout}
           />
         );
 
@@ -114,6 +126,7 @@ export default class SlideController extends Component {
             getNoiseCollation={this.props.getNoiseCollation}
             checkpointDescription="noiseCollation"
             endCheckpoint={this.props.endCheckpoint}
+            endAttempt={this.props.endAttempt}
           />
         );
 
