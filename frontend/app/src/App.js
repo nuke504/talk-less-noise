@@ -80,8 +80,6 @@ export default class App extends Component {
     this.updateParam("complete", complete);
     this.updateParam("endTime", endTime);
 
-    console.log("Ended", this.state);
-
     putEndAttempt(this.state.attemptId, endTime, complete, failReason);
   }
 

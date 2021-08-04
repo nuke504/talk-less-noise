@@ -23,6 +23,12 @@ services:
     networks:
       - backend_network
 
+  react:
+    build:
+      context: ./frontend
+    ports:
+      - 3000:80
+
 networks:
   backend_network:
     driver: bridge
