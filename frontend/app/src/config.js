@@ -19,9 +19,23 @@ export const NOISE_DESCRIPTION = new Map([
 ]);
 
 export const KEY_MAPPING = ["1", "2", "3", "4", "5", "6"];
-export const APP_NAME = "talk-less-noise-testing";
-export const API_ADDRESS = "http://localhost:8000/api";
-// export const API_ADDRESS = "https://talk-less-noise.azurewebsites.net/api";
+
+let APP_NAME;
+if (process.env.REACT_APP_NAME) {
+  APP_NAME = process.env.REACT_APP_NAME;
+} else {
+  APP_NAME = "talk-less-noise-dev";
+}
+export { APP_NAME };
+
+let API_ADDRESS;
+if (process.env.REACT_APP_API_ADDRESS) {
+  API_ADDRESS = process.env.REACT_APP_API_ADDRESS;
+} else {
+  API_ADDRESS = "http://localhost:8000/api";
+}
+export { API_ADDRESS };
+
 export const TIMEOUT_SECONDS = 30;
 export const INITIAL_STATE = {
   attemptId: null,
