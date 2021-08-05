@@ -1,0 +1,190 @@
+.noise-collation-results-bg {
+  width: 100vw;
+  height: 100vh;
+  background-image: linear-gradient(
+    var(--color-primary-tint-1),
+    var(--color-primary-tint-1-alpha)
+  );
+  color: var(--color-primary-shade-1);
+  font-family: var(--font-primary), sans-serif;
+}
+
+.noise-collation-results-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-size: 9.8rem;
+}
+
+.nc-result {
+  position: absolute;
+}
+
+/* Rank 1 */
+.nc-results--1 {
+  width: 56vw;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3.2rem;
+
+  top: 32%;
+  left: 56%;
+  transform: translate(-50%, -50%);
+}
+
+.nc-results--1 h1 {
+  font-size: 8.6rem;
+  text-align: center;
+}
+
+.nc-results--1 img {
+  width: 12vw;
+  height: 12vw;
+}
+
+/* Rank 2 */
+.nc-results--2 {
+  width: 56vw;
+
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+
+  top: 76%;
+  left: 38%;
+  transform: translate(-50%, -50%);
+}
+
+.nc-results--2 h1 {
+  font-size: 6.2rem;
+  text-align: center;
+}
+
+.nc-results--2 img {
+  width: 8vw;
+  height: 8vw;
+}
+
+/* Rank 3 */
+.nc-results--3 {
+  width: 12vw;
+
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+
+  top: 18%;
+  left: 85%;
+  transform: translate(-50%, -50%);
+}
+
+.nc-results--3 h1 {
+  font-size: 7.4rem;
+  text-align: center;
+}
+
+.nc-results--3 img {
+  width: 8vw;
+  height: 8vw;
+}
+
+/* Rank 4 */
+.nc-results--4 {
+  width: 10vw;
+
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+
+  top: 20%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+}
+
+.nc-results--4 h1 {
+  font-size: 6.2rem;
+  text-align: center;
+}
+
+.nc-results--4 img {
+  width: 3vw;
+  height: 3vw;
+}
+
+/* Rank 5 */
+.nc-results--5 {
+  width: 10vw;
+
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+
+  top: 45%;
+  left: 18%;
+  transform: translate(-50%, -50%);
+}
+
+.nc-results--5 h1 {
+  font-size: 6.2rem;
+  text-align: center;
+}
+
+.nc-results--5 img {
+  width: 3vw;
+}
+
+/* Rank 5 */
+.nc-results--6 {
+  width: 10vw;
+
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+
+  top: 80%;
+  left: 84%;
+  transform: translate(-50%, -50%);
+}
+
+.nc-results--6 h1 {
+  font-size: 6.2rem;
+  text-align: center;
+}
+
+.nc-results--6 img {
+  width: 3vw;
+}
+
+/* .noise-collation-color--pets {
+  color: var(--color-pets);
+}
+
+.noise-collation-color--furniture {
+  color: var(--color-furniture);
+}
+
+.noise-collation-color--baby {
+  color: var(--color-baby);
+}
+
+.noise-collation-color--works {
+  color: var(--color-works);
+}
+
+.noise-collation-color--music {
+  color: var(--color-music);
+}
+
+.noise-collation-color--others {
+  color: var(--color-others);
+} */

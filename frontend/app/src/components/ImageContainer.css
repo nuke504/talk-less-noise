@@ -1,0 +1,10 @@
+.generic-image-container {
+  display: flex;
+}
+
+.generic-image-container p {
+  font-family: var(--font-secondary), sans-serif;
+  font-weight: 700;
+  font-size: 5.2rem;
+  text-align: center;
+}

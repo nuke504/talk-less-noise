@@ -54,6 +54,7 @@ class AttemptEnd(Attempt):
             "example": {
                 "attemptId": "<machine>-<uuid>",
                 "endTime": "2021-07-10T21:28:51.860777",
-                "complete": True,
+                "complete": False,
+                "failReason": "Timeout",
             }
         }

@@ -1,0 +1,63 @@
+/*
+Spacing system (px)
+2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
+
+FONT SIZE SYSTEM (px)
+10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 / 52 / 62 / 74 / 86 / 98
+
+- Font weights
+Default: 400
+Medium: 500
+Semi-bold: 600
+Bold: 700
+
+*/
+
+:root {
+  --color-primary: #fab005;
+  --color-primary-light: #ffd43b;
+  --color-primary-tint-1: #fff9db;
+  --color-primary-tint-1-alpha: rgba(255, 249, 219, 0.3);
+  --color-primary-tint-2: #ffec99;
+
+  --color-primary-shade-1: #e67700;
+  --color-primary-shade-2: #f59e0b;
+
+  --color-secondary: #d9480f;
+  --color-secondary-tint-1: #ffc078;
+
+  --color-tertiary: #f87171;
+  --color-tertiary-tint-1: #fecaca;
+
+  --color-grey-1: #343a40;
+  --color-grey-2: #495057;
+
+  --color-pets: rgb(210, 79, 62);
+  --color-furniture: rgb(238, 180, 56);
+  --color-baby: rgb(213, 159, 107);
+  --color-works: rgb(58, 80, 133);
+  --color-music: rgb(96, 178, 139);
+  --color-others: rgb(103, 115, 147);
+
+  --font-primary: "Nanum Pen Script";
+  --font-secondary: "Comic Neue";
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  color: var(--color-grey-1);
+}
+
+strong {
+  color: var(--color-secondary);
+}
