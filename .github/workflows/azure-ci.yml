@@ -37,3 +37,5 @@ jobs:
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise:backend-nginx-bridge-latest
             docker build backend_nginx/. -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise:backend-nginx-localhost-latest --target localhost
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise:backend-nginx-localhost-latest
+            docker build frontend/. -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise:react-latest --target prodremote
+            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise:react-latest
