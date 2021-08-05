@@ -15,6 +15,13 @@ RUN npm install react-scripts@4.0.3 -g
 
 # add app
 COPY /app ./
+
+FROM base AS buildremote
 ENV REACT_APP_API_ADDRESS="https://talk-less-noise-api.azurewebsites.net/api"
-ENV REACT_APP_NAME="talk-less-noise-dev"
-CMD ["npm", "start"]
+ENV REACT_APP_NAME="talk-less-noise-azure"
+RUN npm run build
+
+FROM nginx:1.21.1-alpine
+COPY --from=buildremote /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
