@@ -36,7 +36,7 @@ if (process.env.REACT_APP_API_ADDRESS) {
 }
 export { API_ADDRESS };
 
-export const TIMEOUT_SECONDS = 30;
+export const TIMEOUT_SECONDS = 90;
 export const INITIAL_STATE = {
   attemptId: null,
   area: null,
@@ -53,7 +53,7 @@ export const INITIAL_STATE = {
 
   // All survey answers
   noiseCategory: null,
-  quietHours: [],
+  hours: [],
   noisyThreshold: null,
   niceThreshold: null,
 };

@@ -24,6 +24,7 @@ Bold: 700
   --color-primary-shade-2: #f59e0b;
 
   --color-secondary: #d9480f;
+  --color-secondary-alpha: rgba(217, 72, 15, 0.4);
   --color-secondary-tint-1: #ffc078;
 
   --color-tertiary: #f87171;

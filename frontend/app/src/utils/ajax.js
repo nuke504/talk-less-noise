@@ -81,6 +81,14 @@ export const getNoiseCollation = function (...columns) {
   return request("GET", `/survey/noiseCollation${params}`);
 };
 
+export const getQuietHours = function (...columns) {
+  const params =
+    columns.length > 0
+      ? "?" + columns.map((n) => `group_by_columns=${n}`).join("&")
+      : "";
+  return request("GET", `/survey/quietHours${params}`);
+};
+
 // Post methods
 export const postStartAttempt = function (attemptId, startTime) {
   request("POST", "/usage/attempt/start", {
@@ -106,6 +114,26 @@ export const postNoiseCollation = function ({
     ageGroup,
     neighbourNoiseIsProblem,
     noiseCategory,
+  }).then((response) => console.log("Received response: ", response));
+};
+
+export const postQuietHours = function ({
+  attemptId,
+  area,
+  documentTime,
+  numFamilyMembers,
+  ageGroup,
+  neighbourNoiseIsProblem,
+  hours,
+}) {
+  request("POST", `/survey/quietHours`, {
+    attemptId,
+    area,
+    documentTime,
+    numFamilyMembers,
+    ageGroup,
+    neighbourNoiseIsProblem,
+    hours,
   }).then((response) => console.log("Received response: ", response));
 };
 

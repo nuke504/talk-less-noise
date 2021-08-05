@@ -1,0 +1,26 @@
+.quiet-hours-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2.4rem;
+}
+
+.quiet-hours-title {
+  margin-top: 1.2rem;
+  font-size: 9.6rem;
+  grid-column: 1/-1;
+  text-align: center;
+}
+
+.quiet-hours-chart-container {
+  height: 70vh;
+  width: 80vw;
+  flex-grow: 1;
+}
+
+.quiet-hours-caption {
+  justify-self: end;
+  align-items: end;
+  font-size: 10rem;
+}

@@ -4,7 +4,9 @@ import { v4 as uuidv4 } from "uuid";
 import { APP_NAME, INITIAL_STATE } from "./config";
 import {
   getNoiseCollation,
+  getQuietHours,
   postNoiseCollation,
+  postQuietHours,
   postStartAttempt,
   putCheckpoint,
   putEndAttempt,
@@ -24,6 +26,8 @@ export default class App extends Component {
 
     this.getNoiseCollation = this.getNoiseCollation.bind(this);
     this.postNoiseCollation = this.postNoiseCollation.bind(this);
+
+    this.postQuietHours = this.postQuietHours.bind(this);
 
     this.newAttempt = this.newAttempt.bind(this);
     this.startCheckpoint = this.startCheckpoint.bind(this);
@@ -54,12 +58,22 @@ export default class App extends Component {
   // Survey Methods
   postNoiseCollation(noiseCategory) {
     const documentTime = this.currentTime();
-    this.updateParam(noiseCategory, noiseCategory);
+    this.updateParam("noiseCategory", noiseCategory);
     postNoiseCollation({ ...this.state, documentTime, noiseCategory });
   }
 
   getNoiseCollation(...columns) {
     return getNoiseCollation(...columns);
+  }
+
+  postQuietHours(hours) {
+    const documentTime = this.currentTime();
+    this.updateParam("hours", hours);
+    postQuietHours({ ...this.state, documentTime, hours });
+  }
+
+  getQuietHours(...columns) {
+    return getQuietHours(...columns);
   }
 
   // Usage update methods
@@ -125,11 +139,15 @@ export default class App extends Component {
           newAttempt={this.newAttempt}
           updateParam={this.updateParam}
           getNoiseCollation={this.getNoiseCollation}
+          getQuietHours={this.getQuietHours}
           postNoiseCollation={this.postNoiseCollation}
+          postQuietHours={this.postQuietHours}
           startCheckpoint={this.startCheckpoint}
           endCheckpoint={this.endCheckpoint}
           endAttempt={this.endAttempt}
           timeoutAttempt={this.timeoutAttempt}
+          startQuiet={this.state.hours[0]?.start}
+          endQuiet={this.state.hours[0]?.end}
         />
       </div>
     );

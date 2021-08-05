@@ -1,0 +1,100 @@
+.quiet-hours-bg {
+  width: 100vw;
+  height: 100vh;
+  background-image: linear-gradient(
+    var(--color-primary-tint-1),
+    var(--color-primary-tint-1-alpha)
+  );
+  color: var(--color-primary-shade-1);
+  font-family: var(--font-primary), sans-serif;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.quiet-hours-title {
+  font-size: 9.6rem;
+  grid-column: 1/-1;
+  text-align: center;
+}
+
+.quiet-hours-dial-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.quiet-hours-dial {
+  width: 50vw;
+}
+
+.quiet-hours-control {
+  flex-grow: 1;
+}
+
+.quiet-hours-control h1 {
+  text-align: center;
+  font-size: 8.6rem;
+}
+
+.quiet-hours-dial svg {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  background-image: url("../../img/misc/dial.png");
+  background-size: 80% 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.arc-shape {
+  background-image: url("../../img/mascot/noise-horn.png");
+  background-size: cover;
+}
+
+.arc-path {
+  fill: rgba(255, 255, 255, 0.3);
+  /* stroke: var(--color-secondary);
+  stroke-width: 10;
+  stroke-miterlimit: 10;
+  stroke-linejoin: miter; */
+}
+
+.btn-control {
+  background: none;
+}
+
+.btn-dial:nth-child(1) {
+  background: url("../../img/misc/arrow-clockwise.png"),
+    linear-gradient(var(--color-primary-shade-2), var(--color-primary-shade-2));
+  /* background-size: 50% 50%;
+  background-repeat: no-repeat;
+  background-position: center; */
+
+  background-size: cover;
+}
+
+.btn-dial:nth-child(4) {
+  background: url("../../img/misc/arrow-counter-clockwise.png"),
+    linear-gradient(var(--color-primary-shade-2), var(--color-primary-shade-2));
+  background-size: cover;
+}
+
+.btn-dial:nth-child(2) {
+  background: url("../../img/misc/arrow-arc-right.png"),
+    linear-gradient(var(--color-primary-shade-2), var(--color-primary-shade-2));
+  background-size: cover;
+}
+
+.btn-dial:nth-child(5) {
+  background: url("../../img/misc/arrow-arc-left.png"),
+    linear-gradient(var(--color-primary-shade-2), var(--color-primary-shade-2));
+  background-size: cover;
+}
+
+.btn-dial:nth-child(6) {
+  background: url("../../img/misc/paper-plane-tilt.png"),
+    linear-gradient(var(--color-primary-shade-2), var(--color-primary-shade-2));
+  background-size: cover;
+}

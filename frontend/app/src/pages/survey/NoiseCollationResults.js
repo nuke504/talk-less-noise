@@ -130,7 +130,6 @@ export default class NoiseCollationResultsScreen extends Component {
 
   exitSlide() {
     this.props.endCheckpoint(this.props.checkpointDescription);
-    this.props.endAttempt(true);
     transitionOut(
       this.slide.current,
       this.props.callNextSlide,
@@ -196,7 +195,7 @@ export default class NoiseCollationResultsScreen extends Component {
 
   render() {
     return (
-      <main ref={this.slide} className="noise-collation-results-bg">
+      <main ref={this.slide} className="results-bg">
         {this.prepareNoiseResults()}
       </main>
     );

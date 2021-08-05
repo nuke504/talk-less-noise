@@ -11,6 +11,9 @@ import AgeScreen from "./userprofile/Age";
 import NoiseCollationScreen from "./survey/NoiseCollation";
 import NoiseCollationResultsScreen from "./survey/NoiseCollationResults";
 
+import QuietHoursScreen from "./survey/QuietHours";
+import QuietHoursResultsScreen from "./survey/QuietHoursResults";
+
 export default class SlideController extends Component {
   constructor(props) {
     super(props);
@@ -121,12 +124,39 @@ export default class SlideController extends Component {
       case "noiseCollationResults":
         return (
           <NoiseCollationResultsScreen
-            nextSlide="title"
+            nextSlide="quietHours"
             callNextSlide={this.updateActiveSlide}
             getNoiseCollation={this.props.getNoiseCollation}
             checkpointDescription="noiseCollation"
             endCheckpoint={this.props.endCheckpoint}
+          />
+        );
+
+      case "quietHours":
+        return (
+          <QuietHoursScreen
+            nextSlide="quietHoursResults"
+            callNextSlide={this.updateActiveSlide}
+            updateParam={this.props.updateParam}
+            postQuietHours={this.props.postQuietHours}
+            checkpointDescription="quietHours"
+            startCheckpoint={this.props.startCheckpoint}
+            slideTimeout={this.slideTimeout}
+          />
+        );
+
+      case "quietHoursResults":
+        return (
+          <QuietHoursResultsScreen
+            nextSlide="title"
+            callNextSlide={this.updateActiveSlide}
+            updateParam={this.props.updateParam}
+            getQuietHours={this.props.getQuietHours}
+            checkpointDescription="quietHours"
+            endCheckpoint={this.props.endCheckpoint}
             endAttempt={this.props.endAttempt}
+            startQuiet={this.props.startQuiet}
+            endQuiet={this.props.endQuiet}
           />
         );
 
