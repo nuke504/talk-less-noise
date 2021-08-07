@@ -18,7 +18,7 @@ export default class SlideController extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeSlide: "title",
+      activeSlide: "quietHours",
     };
 
     // Bind all state uplift methods

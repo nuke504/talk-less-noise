@@ -26,6 +26,8 @@
 
 .quiet-hours-dial {
   width: 50vw;
+  height: 50vw;
+  background-color: blueviolet;
 }
 
 .quiet-hours-control {
@@ -38,13 +40,12 @@
 }
 
 .quiet-hours-dial svg {
-  position: relative;
   width: 100%;
   height: 100%;
 
-  background-image: url("../../img/misc/dial.png");
+  background-image: url("../../img/misc/dial-no-numbers.png");
   background-size: 80% 80%;
-  background-position: center;
+  background-position: 50% 55%;
   background-repeat: no-repeat;
 }
 
@@ -55,10 +56,10 @@
 
 .arc-path {
   fill: rgba(255, 255, 255, 0.3);
-  /* stroke: var(--color-secondary);
-  stroke-width: 10;
+  stroke: var(--color-secondary);
+  stroke-width: 1;
   stroke-miterlimit: 10;
-  stroke-linejoin: miter; */
+  stroke-linejoin: miter;
 }
 
 .btn-control {

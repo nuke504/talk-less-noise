@@ -62,8 +62,9 @@ class UserProfileIntroScreen extends Component {
         </div>
 
         <ButtonContainer
-          instructions="PRESS TO START!"
+          instructions="Press to Start!"
           animate={[2]}
+          animateHover={[2]}
           functionMap={new Map([[2, this.exitSlide]])}
         />
       </main>

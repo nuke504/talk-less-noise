@@ -36,7 +36,7 @@ if (process.env.REACT_APP_API_ADDRESS) {
 }
 export { API_ADDRESS };
 
-export const TIMEOUT_SECONDS = 90;
+export const TIMEOUT_SECONDS = 9000;
 export const INITIAL_STATE = {
   attemptId: null,
   area: null,

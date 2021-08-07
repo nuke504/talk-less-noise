@@ -3,32 +3,33 @@
   /* background-color: var(--color-primary); */
   background-image: linear-gradient(#fab005, rgb(250, 176, 5, 0.9));
   color: var(--color-primary-tint-1);
+  /* min-width: 160rem; */
 }
 
 .title-container {
-  width: 160rem;
+  width: 90vw;
   /* 100vw; */
   min-height: 100vh;
   /* max-height: 100vh; */
 
   position: relative;
-  background-image: url(../../img/mascot/noisemascot-horn.png);
-  background-position: -30rem 15rem;
+  background-image: url("../../img/mascot/noisemascot-horn.png");
+  background-position: -19vw 8vw;
   background-size: contain;
   background-repeat: no-repeat;
 }
 
 .title-speech-bubble {
   display: block;
-  width: 120rem;
-  height: 80rem;
+  width: 70vw;
+  height: 47vw;
 
   stroke-width: 0.4rem;
   fill: var(--color-primary-shade-2);
 
   position: absolute;
-  top: -12.5%;
-  left: 30%;
+  top: -8vw;
+  left: 27vw;
 }
 
 .title-speech-container {

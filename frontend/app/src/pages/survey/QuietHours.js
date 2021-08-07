@@ -202,11 +202,7 @@ class Dial extends Component {
     return (
       <div className="quiet-hours-dial-container" ref={this.dial}>
         <div className="quiet-hours-dial">
-          <svg
-            className="quiet-hours-dial-svg"
-            viewBox="0 0 1000 1000"
-            preserveAspectRatio="xMidYMid meet"
-          >
+          <svg viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">
             <path className="arc-path" d={path} />
           </svg>
         </div>

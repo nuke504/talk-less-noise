@@ -3,7 +3,7 @@ import Chart from "chart.js/auto";
 
 import { KEY_MAPPING } from "../../config";
 import { transitionOut, transitionIn } from "../../utils/animationUtils";
-import { convertPAM } from "../../utils/ui";
+import { convertPAM, hexToRGB, range } from "../../utils/ui";
 
 import "./QuietHoursResults.css";
 
@@ -26,16 +26,14 @@ export default class QuietHoursResultsScreen extends Component {
       return elem.count > acc ? elem.count : acc;
     }, 0);
 
-    const percentages = hours.map((hour) => {
+    const chartData = hours.map((hour) => {
       const row = dbResult.find((row) => row.quietHour === hour);
       if (!row) return 0;
 
-      return row.count / maxCount;
+      return row.count;
     });
 
-    this.setState({ percentages });
-
-    this.setState({ loaded: true });
+    this.setState({ chartData, maxCount, loaded: true });
     this.renderChart();
     transitionIn(this.slide.current);
   }
@@ -75,6 +73,59 @@ export default class QuietHoursResultsScreen extends Component {
     return <h1 className="loading">Loading survey results!</h1>;
   }
 
+  convertUserData(start, end, fillNum = 1) {
+    const userData = new Array(24).fill(0);
+    if (start > end) {
+      range(start, 24).forEach((idx) => (userData[idx] = fillNum));
+      range(0, end).forEach((idx) => (userData[idx] = fillNum));
+    } else {
+      range(start, end).forEach((idx) => (userData[idx] = fillNum));
+    }
+    return userData;
+  }
+
+  rotateData(data, startHour = 12) {
+    return data.slice(startHour, 24).concat(data.slice(0, startHour));
+  }
+
+  getDataPlaceholder() {
+    return this.state.chartData.map((count) => {
+      if (count > 0) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  }
+
+  getColourGradient(maxOpacity = 0.6) {
+    let backgroundColoursRaw = [
+      "#001D62",
+      "#2A3A58",
+      "#55574E",
+      "#807544",
+      "#AA923A",
+      "#D5AF30",
+      "#FFCC26",
+      "#FFD64A",
+      "#FFE06E",
+      "#FEEB92",
+      "#FEF5B6",
+      "#FEFFDA",
+    ];
+
+    backgroundColoursRaw = backgroundColoursRaw.concat(
+      backgroundColoursRaw.slice().reverse()
+    );
+
+    return backgroundColoursRaw.map((color, idx) =>
+      hexToRGB(
+        "#001D62",
+        maxOpacity * (this.state.chartData[idx] / this.state.maxCount)
+      )
+    );
+  }
+
   renderChart() {
     const labels = Array.from(Array(24).keys()).map((hour) => {
       if (hour === 0) return "12 am";
@@ -86,69 +137,97 @@ export default class QuietHoursResultsScreen extends Component {
       return `${hour} am`;
     });
 
-    const backgroundColours = [
-      "001D62",
-      "2A3A58",
-      "55574E",
-      "807544",
-      "AA923A",
-      "D5AF30",
-      "FFCC26",
-      "FFD64A",
-      "FFE06E",
-      "FEEB92",
-      "FEF5B6",
-      "FEFFDA",
-    ].map((elem) => `#${elem}`);
+    // const backgroundColours = backgroundColoursRaw.map((color) =>
+    //   hexToRGB(color, 0.6)
+    // );
+    // const backgroundColoursHover = backgroundColoursRaw.map((color) =>
+    //   hexToRGB(color, 1)
+    // );
 
     const data = {
-      labels: labels,
+      labels: this.rotateData(labels),
       datasets: [
+        // {
+        //   data: this.rotateData(this.convertUserData(0, 12, 1)),
+        //   //   pointRadius: 0,
+        //   backgroundColor: hexToRGB("#d9480f", 0.8),
+        //   fill: true,
+        //   borderWidth: 0,
+        //   //   backgroundColor: "rgba(255, 99, 132, 0.2)",
+        //   borderColor: "rgb(255, 99, 132)",
+        //   //   pointBackgroundColor: "rgb(255, 99, 132)",
+        //   //   pointBorderColor: "#fff",
+        //   //   pointHoverBackgroundColor: "#fff",
+        //   //   pointHoverBorderColor: "rgb(255, 99, 132)",
+        // },
         {
-          label: "Percentage of Neighbours Sleeping",
-          data: this.state.percentages.map((num) => (num * 100).toFixed(2)),
-          backgroundColor: backgroundColours.concat(
-            backgroundColours.slice().reverse()
-          ),
-          // borderColor: [
-          //   'rgb(255, 99, 132)',
-          //   'rgb(255, 159, 64)',
-          //   'rgb(255, 205, 86)',
-          //   'rgb(75, 192, 192)',
-          //   'rgb(54, 162, 235)',
-          //   'rgb(153, 102, 255)',
-          //   'rgb(201, 203, 207)'
-          // ],
-          borderWidth: 1,
+          data: this.rotateData(this.getDataPlaceholder()),
+          borderWidth: 0,
+          backgroundColor: this.rotateData(this.getColourGradient()),
+          fill: true,
         },
       ],
     };
 
     const config = {
-      type: "bar",
+      type: "polarArea",
       data: data,
+
       options: {
-        // responsive: true,
-        // maintainAspectRatio: false,
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: "Hour of Day",
-            },
+        elements: {
+          point: { radius: 5, backgroundColor: "#001D62" },
+          line: {
+            // backgroundColor: hexToRGB("#FFE06E", 0.1),
+            tension: 0.1,
           },
-          y: {
-            ticks: {
-              precision: 2,
+        },
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+        scales: {
+          r: {
+            angleLines: {
+              display: false,
             },
-            beginAtZero: true,
-            title: {
+            suggestedMin: 0,
+            suggestedMax: 1,
+            ticks: {
+              display: false,
+              // z: 1,
+              // font: {
+              //   family: "Comic Neue",
+              //   size: 20,
+              //   weight: 700,
+              // },
+            },
+            grid: {
+              display: false,
+              color: "#cfcfcf",
+              circular: true,
+              // lineWidth: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            },
+            pointLabels: {
               display: true,
-              text: "Percentage of Community (%)",
+              font: {
+                family: "Comic Neue",
+                size: 20,
+                weight: 700,
+              },
             },
           },
         },
-        ticks: { min: 0 },
+        // cutoutPercentage: 20,
+        // legend: {
+        //   display: false,
+        // },
+        // layout: {
+        //   padding: 0,
+        // },
+
+        // },
       },
     };
 
