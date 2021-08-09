@@ -25,9 +25,15 @@
 }
 
 .quiet-hours-dial {
-  width: 50vw;
-  height: 50vw;
-  background-color: blueviolet;
+  position: relative;
+  width: 45vw;
+  height: 45vw;
+  margin-left: 10vw;
+
+  background-image: url("../../img/misc/dial.png");
+  background-position: 25% 50%;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .quiet-hours-control {
@@ -40,26 +46,27 @@
 }
 
 .quiet-hours-dial svg {
-  width: 100%;
-  height: 100%;
+  width: 120%;
+  height: 120%;
+  z-index: 3;
 
-  background-image: url("../../img/misc/dial-no-numbers.png");
-  background-size: 80% 80%;
-  background-position: 50% 55%;
-  background-repeat: no-repeat;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.arc-shape {
-  background-image: url("../../img/mascot/noise-horn.png");
-  background-size: cover;
+.quiet-hours-dial-size {
+  width: 85%;
+  height: 85%;
 }
 
 .arc-path {
   fill: rgba(255, 255, 255, 0.3);
-  stroke: var(--color-secondary);
+  /* stroke: var(--color-secondary);
   stroke-width: 1;
   stroke-miterlimit: 10;
-  stroke-linejoin: miter;
+  stroke-linejoin: miter; */
 }
 
 .btn-control {
@@ -98,4 +105,13 @@
   background: url("../../img/misc/paper-plane-tilt.png"),
     linear-gradient(var(--color-primary-shade-2), var(--color-primary-shade-2));
   background-size: cover;
+}
+
+/* Chart CSS */
+#quiet-hours-chart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
 }

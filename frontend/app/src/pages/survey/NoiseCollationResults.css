@@ -1,3 +1,14 @@
+.results-bg {
+  width: 100vw;
+  height: 100vh;
+  background-image: linear-gradient(
+    var(--color-primary-tint-1),
+    var(--color-primary-tint-1-alpha)
+  );
+  color: var(--color-primary-shade-1);
+  font-family: var(--font-primary), sans-serif;
+}
+
 .noise-collation-results-container {
   width: 100vw;
   height: 100vh;

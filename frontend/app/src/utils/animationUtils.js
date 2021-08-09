@@ -29,8 +29,8 @@ export const transitionIn = function (slideRef, duration = 0.5, mode = "fade") {
 
 export const transitionOut = function (
   slideRef,
-  callNextSlide,
-  nextSlide,
+  callNextSlide = null,
+  nextSlide = null,
   mode = "fade",
   duration = 0.5
 ) {
@@ -65,7 +65,8 @@ export const transitionOut = function (
       throw new Error(`${mode} does not exist`);
   }
 
-  setTimeout(callNextSlide, duration * 1000, nextSlide);
+  if (callNextSlide && nextSlide)
+    setTimeout(callNextSlide, duration * 1000, nextSlide);
 };
 
 export const staticBrownian = function (className, duration = 1) {

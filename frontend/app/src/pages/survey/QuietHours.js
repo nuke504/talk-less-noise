@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import Chart from "chart.js/auto";
 
 import { KEY_MAPPING, TIMEOUT_SECONDS } from "../../config";
 import { transitionOut, transitionIn } from "../../utils/animationUtils";
-import { convertPAM } from "../../utils/ui";
+import { convertPAM, hexToRGB, range, arrayMax } from "../../utils/ui";
 
 import ButtonContainer from "../../components/ButtonContainer";
 
@@ -21,23 +22,40 @@ class Dial extends Component {
       ry: 350,
       startAngle: 150,
       sweepAngle: 135,
+      submitted: false,
     };
+
+    this.MAX_OPACITY = 0.6;
+    this.DIFFERENTIAL_GRADIENT = [
+      "#FF0D0D",
+      "#FF270F",
+      "#FF4110",
+      "#FF5A12",
+      "#FF7413",
+      "#FF8E15",
+      "#FAB733",
+      "#DDB638",
+      "#C0B53D",
+      "#A3B542",
+      "#86B447",
+      "#69B34C",
+    ].map((color) => hexToRGB(color, this.MAX_OPACITY));
 
     this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   // All arc callbacks
-  adjustStartAngle(add = true) {
+  adjustStartAngle(add = true, multiplier = 1) {
     const increment = add ? 1 : -1;
     this.setState((state) => ({
-      startAngle: state.startAngle + increment,
+      startAngle: state.startAngle + increment * multiplier,
     }));
   }
 
-  adjustSweepAngle(add = true) {
+  adjustSweepAngle(add = true, multiplier = 1) {
     const increment = add ? 1 : -1;
     this.setState((state) => ({
-      sweepAngle: state.sweepAngle + increment,
+      sweepAngle: state.sweepAngle + increment * multiplier,
     }));
   }
 
@@ -63,7 +81,7 @@ class Dial extends Component {
     );
 
     buttons[5].addEventListener("mousedown", () => {
-      this.props.postQuietHours([this.getStartEnd()]);
+      this.submitData();
     });
   }
 
@@ -90,33 +108,6 @@ class Dial extends Component {
       },
       false
     );
-  }
-
-  // Event Listeners for
-  handleKeyDown(e) {
-    const keyIndex = KEY_MAPPING.indexOf(e.key);
-    // Return if invalid key
-    if (keyIndex === -1 || keyIndex === 2) return;
-
-    switch (keyIndex) {
-      case 0:
-        this.adjustStartAngle(true);
-        break;
-      case 1:
-        this.adjustSweepAngle(true);
-        break;
-      case 3:
-        this.adjustStartAngle(false);
-        break;
-      case 4:
-        this.adjustSweepAngle(false);
-        break;
-      case 5:
-        this.props.postQuietHours([this.getStartEnd()]);
-        break;
-      default:
-        return;
-    }
   }
 
   getArcPath({ cx, cy, rx, ry, startAngle, sweepAngle }) {
@@ -186,39 +177,311 @@ class Dial extends Component {
     return { start, end };
   }
 
+  // Chart functions
+  loadArray(dbResult) {
+    const hours = Array.from(Array(24).keys());
+
+    const chartData = hours.map((hour) => {
+      const row = dbResult.find((row) => row.quietHour === hour);
+      if (!row) return 0;
+
+      return row.count;
+    });
+
+    return chartData;
+  }
+
+  getLoadingScreen() {
+    return <h1 className="loading">Loading survey results!</h1>;
+  }
+
+  convertUserData(start, end, fillNum = 1) {
+    const userData = new Array(24).fill(0);
+    if (start > end) {
+      range(start, 24).forEach((idx) => (userData[idx] = fillNum));
+      range(0, end).forEach((idx) => (userData[idx] = fillNum));
+    } else {
+      range(start, end).forEach((idx) => (userData[idx] = fillNum));
+    }
+    return userData;
+  }
+
+  rotateData(data, startHour = 12) {
+    return data.slice(startHour, 24).concat(data.slice(0, startHour));
+  }
+
+  getDataPlaceholder(chartData) {
+    // return chartData.map((count) => {
+    //   if (count > 0) {
+    //     return 1;
+    //   } else {
+    //     return 0;
+    //   }
+    // });
+    return new Array(24).fill(1);
+  }
+
+  getColourGradient({
+    chartData,
+    color,
+    comparisonData = null,
+    maxOpacity = this.MAX_OPACITY,
+    differentialGradient = this.DIFFERENTIAL_GRADIENT,
+  }) {
+    // let backgroundColoursRaw = [
+    //   "#001D62",
+    //   "#2A3A58",
+    //   "#55574E",
+    //   "#807544",
+    //   "#AA923A",
+    //   "#D5AF30",
+    //   "#FFCC26",
+    //   "#FFD64A",
+    //   "#FFE06E",
+    //   "#FEEB92",
+    //   "#FEF5B6",
+    //   "#FEFFDA",
+    // ];
+
+    // backgroundColoursRaw = backgroundColoursRaw.concat(
+    //   backgroundColoursRaw.slice().reverse()
+    // );
+
+    // const result = backgroundColoursRaw.map((color, idx) =>
+
+    const maxCount = arrayMax(chartData);
+
+    if (!comparisonData)
+      return chartData.map((elem) =>
+        hexToRGB(color, maxOpacity * (elem / maxCount))
+      );
+
+    const maxCountComparison = arrayMax(comparisonData);
+
+    return chartData.map((elem, idx) => {
+      if (elem > 0) {
+        // Case of intersection
+        const gradientIdx = Math.trunc(
+          (comparisonData[idx] / maxCountComparison) *
+            (differentialGradient.length - 1)
+        );
+        return differentialGradient[gradientIdx];
+      } else {
+        return hexToRGB(color, 0);
+      }
+    });
+  }
+
+  prepareData(chartData, color, comparisonData = null) {
+    const labels = Array.from(Array(24).keys()).map((hour) => {
+      if (hour === 0) return "12 am";
+
+      if (hour === 12) return "12 pm";
+
+      if (hour > 12) return `${hour - 12} pm`;
+
+      return `${hour} am`;
+    });
+
+    const data = {
+      labels: this.rotateData(labels),
+      datasets: [
+        {
+          data: this.rotateData(this.getDataPlaceholder(chartData)),
+          borderWidth: 0,
+          backgroundColor: this.rotateData(
+            this.getColourGradient({ chartData, color, comparisonData })
+          ),
+          fill: true,
+        },
+      ],
+    };
+
+    return data;
+  }
+
+  addData() {
+    this.props.getQuietHours().then((results) => {
+      const chartData = this.loadArray(results);
+      this.renderChart(chartData, "#001D62");
+
+      // Add back user data as another dataset
+      const { start, end } = this.getStartEnd();
+      const userData = this.convertUserData(start, end);
+      const { datasets } = this.prepareData(userData, "#0b9906", chartData);
+
+      this.chart.data.datasets.push(datasets[0]);
+      this.chart.update();
+    });
+  }
+
+  renderChart(chartData, color, maxOpacity = this.MAX_OPACITY) {
+    const config = {
+      type: "doughnut",
+      data: this.prepareData(chartData, color),
+
+      options: {
+        animation: {
+          animateScale: false,
+        },
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              label: ({ datasetIndex, dataIndex, dataset }) => {
+                if (datasetIndex === 0) {
+                  const bgColour = dataset.backgroundColor[dataIndex];
+                  const opacity =
+                    Number.parseFloat(bgColour.match(/(\d\.?\d*)\)$/)[1]) /
+                    maxOpacity;
+
+                  if (opacity === 1) {
+                    return "Everybody is sleeping";
+                  } else if (opacity > 0.5) {
+                    return "Most are sleeping";
+                  } else if (opacity > 0) {
+                    return "Some are sleeping";
+                  } else {
+                    return "Everybody is awake!";
+                  }
+                } else {
+                  const bgColour = dataset.backgroundColor[dataIndex];
+                  const gradientIndex =
+                    this.DIFFERENTIAL_GRADIENT.indexOf(bgColour);
+
+                  if (gradientIndex === -1) return "You are awake!";
+
+                  const overlap =
+                    (gradientIndex + 1) / this.DIFFERENTIAL_GRADIENT.length;
+
+                  if (overlap === 1) {
+                    return "Coincides with community!";
+                  } else if (overlap > 0.5) {
+                    return "Conincides with some of the community!";
+                  } else {
+                    return "You may be disturbed by the community";
+                  }
+                }
+              },
+            },
+          },
+        },
+        scales: {
+          r: {
+            angleLines: {
+              display: false,
+            },
+            suggestedMin: 0,
+            suggestedMax: 1,
+            ticks: {
+              display: false,
+            },
+            grid: {
+              display: false,
+            },
+            pointLabels: {
+              display: true,
+              font: {
+                family: "Comic Neue",
+                size: 20,
+                weight: 700,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    this.chart = new Chart(
+      this.dial.current.querySelector("#quiet-hours-chart"),
+      config
+    );
+  }
+
+  submitData() {
+    this.props.postQuietHours([this.getStartEnd()]);
+    this.addData();
+    this.setState({ submitted: true });
+    transitionOut(this.dial.current.querySelector("svg"));
+    document.removeEventListener("keydown", this.handleKeyDown);
+  }
+
+  // Event Listeners for
+  handleKeyDown(e) {
+    const keyIndex = KEY_MAPPING.indexOf(e.key);
+    // Return if invalid key
+    if (keyIndex === -1 || keyIndex === 2) return;
+
+    switch (keyIndex) {
+      case 0:
+        this.adjustStartAngle(true, 5);
+        break;
+      case 1:
+        this.adjustSweepAngle(true, 5);
+        break;
+      case 3:
+        this.adjustStartAngle(false, 5);
+        break;
+      case 4:
+        this.adjustSweepAngle(false, 5);
+        break;
+      case 5:
+        this.submitData();
+        break;
+      default:
+        return;
+    }
+  }
+
   componentDidMount() {
     this.assignAllEventListeners();
+    // this.renderChart(new Array(24).fill(0), 1);
+
     document.addEventListener("keydown", this.handleKeyDown);
   }
 
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleKeyDown);
-  }
+  componentWillUnmount() {}
 
   render() {
     const path = this.getArcPath({ ...this.state });
     const { start, end } = this.getStartEnd();
 
     return (
-      <div className="quiet-hours-dial-container" ref={this.dial}>
-        <div className="quiet-hours-dial">
-          <svg viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">
-            <path className="arc-path" d={path} />
-          </svg>
+      <main ref={this.slide} className="quiet-hours-bg">
+        <h1 className="quiet-hours-title">
+          {this.state.submitted
+            ? "Your Community's Quiet Hours are:"
+            : "What are your quiet hours?"}
+        </h1>
+        <div className="quiet-hours-dial-container" ref={this.dial}>
+          <div className="quiet-hours-dial">
+            <svg viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">
+              <path className="arc-path" d={path} />
+            </svg>
+            <div className="quiet-hours-dial-size">
+              <canvas id="quiet-hours-chart"></canvas>
+            </div>
+          </div>
+          <div className="quiet-hours-control">
+            <h1>
+              Selected Hours: <br />
+              Start: {convertPAM(start)} <br />
+              End: {convertPAM(end)}
+            </h1>
+            {this.state.submitted ? null : (
+              <ButtonContainer
+                buttonClass="btn-dial"
+                className="btn-control"
+                animateHover={[1, 2, 4, 5, 6]}
+              />
+            )}
+          </div>
         </div>
-        <div className="quiet-hours-control">
-          <h1>
-            Selected Hours: <br />
-            Start: {convertPAM(start)} <br />
-            End: {convertPAM(end)}
-          </h1>
-          <ButtonContainer
-            buttonClass="btn-dial"
-            className="btn-control"
-            animateHover={[1, 2, 4, 5, 6]}
-          />
-        </div>
-      </div>
+      </main>
     );
   }
 }
@@ -241,8 +504,8 @@ export default class QuietHoursScreen extends Component {
   }
 
   postQuietHours(hours) {
-    this.exitSlide();
-    this.props.postQuietHours(hours);
+    // this.exitSlide();
+    // this.props.postQuietHours(hours);
   }
 
   componentDidMount() {
@@ -256,10 +519,10 @@ export default class QuietHoursScreen extends Component {
 
   render() {
     return (
-      <main ref={this.slide} className="quiet-hours-bg">
-        <h1 className="quiet-hours-title">What are your quiet hours?</h1>
-        <Dial postQuietHours={this.postQuietHours} />
-      </main>
+      <Dial
+        postQuietHours={this.postQuietHours}
+        getQuietHours={this.props.getQuietHours}
+      />
     );
   }
 }

@@ -22,18 +22,20 @@ export function convertPAM(timeHour) {
   return `${timeHour} am`;
 }
 
-export function hexToRGB(hex, alpha) {
+export function hexToRGB(hex, alpha = 1) {
   var r = parseInt(hex.slice(1, 3), 16),
     g = parseInt(hex.slice(3, 5), 16),
     b = parseInt(hex.slice(5, 7), 16);
 
-  if (alpha) {
-    return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
-  } else {
-    return "rgb(" + r + ", " + g + ", " + b + ")";
-  }
+  return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
 }
 
 export function range(start, end) {
   return Array.from(new Array(end - start), (x, i) => i + start);
+}
+
+export function arrayMax(arr, initialVal = 0) {
+  return arr.reduce((acc, count) => {
+    return count > acc ? count : acc;
+  }, initialVal);
 }

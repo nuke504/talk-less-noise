@@ -138,6 +138,7 @@ export default class SlideController extends Component {
             nextSlide="quietHoursResults"
             callNextSlide={this.updateActiveSlide}
             updateParam={this.props.updateParam}
+            getQuietHours={this.props.getQuietHours}
             postQuietHours={this.props.postQuietHours}
             checkpointDescription="quietHours"
             startCheckpoint={this.props.startCheckpoint}
