@@ -39,3 +39,7 @@ export function arrayMax(arr, initialVal = 0) {
     return count > acc ? count : acc;
   }, initialVal);
 }
+
+export function arrayLast(arr) {
+  return arr[arr.length - 1];
+}

@@ -24,6 +24,12 @@
   align-items: center;
 }
 
+.quiet-hours-dial-legend {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .quiet-hours-dial {
   position: relative;
   width: 45vw;
@@ -36,41 +42,47 @@
   background-repeat: no-repeat;
 }
 
-.quiet-hours-control {
-  flex-grow: 1;
-}
-
-.quiet-hours-control h1 {
-  text-align: center;
-  font-size: 8.6rem;
-}
-
-.quiet-hours-dial svg {
-  width: 120%;
-  height: 120%;
-  z-index: 3;
-
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 .quiet-hours-dial-size {
   width: 85%;
   height: 85%;
 }
 
-.arc-path {
-  fill: rgba(255, 255, 255, 0.3);
-  /* stroke: var(--color-secondary);
-  stroke-width: 1;
-  stroke-miterlimit: 10;
-  stroke-linejoin: miter; */
+.quiet-hours-control {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  /* background-color: cadetblue; */
+}
+
+.quiet-hours-control h1 {
+  text-align: center;
+  font-size: 8.6rem;
+  /* background-color: brown; */
+}
+
+.quiet-hours-control strong {
+  color: var(--color-music);
+}
+
+.quiet-hours-control h2 {
+  text-align: center;
+  font-size: 5.2rem;
+}
+
+.quiet-hours-control table {
+  width: 64rem;
+  text-align: center;
+  font-size: 4.4rem;
+  background-color: 1px solid var(--color-grey-3);
+  border-collapse: collapse;
 }
 
 .btn-control {
-  background: none;
+  /* background-color: rgba(0, 0, 0, 0); */
+  /* background-color: brown; */
 }
 
 .btn-dial:nth-child(1) {
@@ -95,6 +107,12 @@
   background-size: cover;
 }
 
+.btn-dial:nth-child(3) {
+  background: url("../../img/misc/plus.png"),
+    linear-gradient(var(--color-primary-shade-2), var(--color-primary-shade-2));
+  background-size: cover;
+}
+
 .btn-dial:nth-child(5) {
   background: url("../../img/misc/arrow-arc-left.png"),
     linear-gradient(var(--color-primary-shade-2), var(--color-primary-shade-2));
@@ -103,6 +121,12 @@
 
 .btn-dial:nth-child(6) {
   background: url("../../img/misc/paper-plane-tilt.png"),
+    linear-gradient(var(--color-primary-shade-2), var(--color-primary-shade-2));
+  background-size: cover;
+}
+
+.btn-dial--minus:nth-child(3) {
+  background: url("../../img/misc/minus.png"),
     linear-gradient(var(--color-primary-shade-2), var(--color-primary-shade-2));
   background-size: cover;
 }

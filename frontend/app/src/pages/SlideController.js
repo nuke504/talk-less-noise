@@ -12,13 +12,12 @@ import NoiseCollationScreen from "./survey/NoiseCollation";
 import NoiseCollationResultsScreen from "./survey/NoiseCollationResults";
 
 import QuietHoursScreen from "./survey/QuietHours";
-import QuietHoursResultsScreen from "./survey/QuietHoursResults";
 
 export default class SlideController extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeSlide: "quietHours",
+      activeSlide: "title",
     };
 
     // Bind all state uplift methods
@@ -135,29 +134,17 @@ export default class SlideController extends Component {
       case "quietHours":
         return (
           <QuietHoursScreen
-            nextSlide="quietHoursResults"
+            nextSlide="title"
             callNextSlide={this.updateActiveSlide}
             updateParam={this.props.updateParam}
             getQuietHours={this.props.getQuietHours}
             postQuietHours={this.props.postQuietHours}
             checkpointDescription="quietHours"
             startCheckpoint={this.props.startCheckpoint}
-            slideTimeout={this.slideTimeout}
-          />
-        );
-
-      case "quietHoursResults":
-        return (
-          <QuietHoursResultsScreen
-            nextSlide="title"
-            callNextSlide={this.updateActiveSlide}
-            updateParam={this.props.updateParam}
-            getQuietHours={this.props.getQuietHours}
-            checkpointDescription="quietHours"
             endCheckpoint={this.props.endCheckpoint}
             endAttempt={this.props.endAttempt}
-            startQuiet={this.props.startQuiet}
-            endQuiet={this.props.endQuiet}
+            errorHandler={this.props.errorHandler}
+            slideTimeout={this.slideTimeout}
           />
         );
 

@@ -38,6 +38,9 @@ export { API_ADDRESS };
 
 export const TIMEOUT_SECONDS = 9000;
 export const INITIAL_STATE = {
+  errorTitle: null,
+  errorMessage: null,
+
   attemptId: null,
   area: null,
   numFamilyMembers: null,
