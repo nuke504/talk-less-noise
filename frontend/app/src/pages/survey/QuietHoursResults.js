@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import Chart from "chart.js/auto";
 
-import { KEY_MAPPING } from "../../config";
-import { transitionOut, transitionIn } from "../../utils/animationUtils";
-import { convertPAM, hexToRGB, range } from "../../utils/ui";
+import { QUIET_HOURS_CHART_COLOUR } from "../../config";
+import { transitionIn } from "../../utils/animationUtils";
+import { hexToRGB, range } from "../../utils/ui";
 
 import "./QuietHoursResults.css";
 
@@ -12,8 +12,6 @@ export default class QuietHoursResultsScreen extends Component {
     super(props);
 
     this.slide = React.createRef();
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.exitSlide = this.exitSlide.bind(this);
 
     this.state = {
       loaded: false,
@@ -36,37 +34,6 @@ export default class QuietHoursResultsScreen extends Component {
     this.setState({ chartData, maxCount, loaded: true });
     this.renderChart();
     transitionIn(this.slide.current);
-  }
-
-  exitSlide() {
-    this.props.endCheckpoint(this.props.checkpointDescription);
-    this.props.endAttempt();
-    transitionOut(
-      this.slide.current,
-      this.props.callNextSlide,
-      this.props.nextSlide
-    );
-  }
-
-  handleKeyDown(e) {
-    const keyIndex = KEY_MAPPING.indexOf(e.key);
-    // Return if invalid key
-    if (keyIndex === -1) return;
-
-    this.exitSlide();
-  }
-
-  componentDidMount() {
-    //  Once mounted, call API
-    this.props.getQuietHours().then((results) => {
-      this.loadArray(results);
-    });
-
-    document.addEventListener("keydown", this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleKeyDown);
   }
 
   getLoadingScreen() {
@@ -99,31 +66,21 @@ export default class QuietHoursResultsScreen extends Component {
   }
 
   getColourGradient(maxOpacity = 0.6) {
-    let backgroundColoursRaw = [
-      "#001D62",
-      "#2A3A58",
-      "#55574E",
-      "#807544",
-      "#AA923A",
-      "#D5AF30",
-      "#FFCC26",
-      "#FFD64A",
-      "#FFE06E",
-      "#FEEB92",
-      "#FEF5B6",
-      "#FEFFDA",
-    ];
+    return new Array(24)
+      .fill(0)
+      .map((color, idx) =>
+        hexToRGB(
+          QUIET_HOURS_CHART_COLOUR,
+          maxOpacity * (this.state.chartData[idx] / this.state.maxCount)
+        )
+      );
+  }
 
-    backgroundColoursRaw = backgroundColoursRaw.concat(
-      backgroundColoursRaw.slice().reverse()
-    );
-
-    return backgroundColoursRaw.map((color, idx) =>
-      hexToRGB(
-        "#001D62",
-        maxOpacity * (this.state.chartData[idx] / this.state.maxCount)
-      )
-    );
+  componentDidMount() {
+    //  Once mounted, call API
+    this.props.getQuietHours().then((results) => {
+      this.loadArray(results);
+    });
   }
 
   renderChart() {
@@ -137,29 +94,9 @@ export default class QuietHoursResultsScreen extends Component {
       return `${hour} am`;
     });
 
-    // const backgroundColours = backgroundColoursRaw.map((color) =>
-    //   hexToRGB(color, 0.6)
-    // );
-    // const backgroundColoursHover = backgroundColoursRaw.map((color) =>
-    //   hexToRGB(color, 1)
-    // );
-
     const data = {
       labels: this.rotateData(labels),
       datasets: [
-        // {
-        //   data: this.rotateData(this.convertUserData(0, 12, 1)),
-        //   //   pointRadius: 0,
-        //   backgroundColor: hexToRGB("#d9480f", 0.8),
-        //   fill: true,
-        //   borderWidth: 0,
-        //   //   backgroundColor: "rgba(255, 99, 132, 0.2)",
-        //   borderColor: "rgb(255, 99, 132)",
-        //   //   pointBackgroundColor: "rgb(255, 99, 132)",
-        //   //   pointBorderColor: "#fff",
-        //   //   pointHoverBackgroundColor: "#fff",
-        //   //   pointHoverBorderColor: "rgb(255, 99, 132)",
-        // },
         {
           data: this.rotateData(this.getDataPlaceholder()),
           borderWidth: 0,
@@ -174,17 +111,13 @@ export default class QuietHoursResultsScreen extends Component {
       data: data,
 
       options: {
-        elements: {
-          point: { radius: 5, backgroundColor: "#001D62" },
-          line: {
-            // backgroundColor: hexToRGB("#FFE06E", 0.1),
-            tension: 0.1,
-          },
-        },
         responsive: true,
         plugins: {
           legend: {
             display: false,
+          },
+          tooltip: {
+            enabled: false,
           },
         },
         scales: {
@@ -196,18 +129,9 @@ export default class QuietHoursResultsScreen extends Component {
             suggestedMax: 1,
             ticks: {
               display: false,
-              // z: 1,
-              // font: {
-              //   family: "Comic Neue",
-              //   size: 20,
-              //   weight: 700,
-              // },
             },
             grid: {
               display: false,
-              color: "#cfcfcf",
-              circular: true,
-              // lineWidth: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
             },
             pointLabels: {
               display: true,
@@ -219,20 +143,11 @@ export default class QuietHoursResultsScreen extends Component {
             },
           },
         },
-        // cutoutPercentage: 20,
-        // legend: {
-        //   display: false,
-        // },
-        // layout: {
-        //   padding: 0,
-        // },
-
-        // },
       },
     };
 
     this.chart = new Chart(
-      this.slide.current.querySelector("#quiet-hours-chart"),
+      this.slide.current.querySelector("#quiet-hours-results-chart"),
       config
     );
   }
@@ -240,27 +155,25 @@ export default class QuietHoursResultsScreen extends Component {
   prepareResults() {
     if (!this.state.loaded) return this.getLoadingScreen();
 
-    return <canvas id="quiet-hours-chart"></canvas>;
+    return <canvas id="quiet-hours-results-chart"></canvas>;
   }
 
   render() {
     return (
       <main ref={this.slide} className="results-bg">
-        <section className="quiet-hours-section">
-          <h1 className="quiet-hours-title">
+        <section className="quiet-hours-results-section">
+          <h1 className="quiet-hours-results-title">
             Your Community's Quiet Hours are:
           </h1>
           <div className="quiet-hours-chart-container">
             {this.prepareResults()}
           </div>
-          {this.props.startQuiet ? (
-            <h2 className="quiet-hours-caption">
-              Your Quiet Hours are from {convertPAM(this.props.startQuiet)} to{" "}
-              {convertPAM(this.props.endQuiet)}
+          <aside>
+            <h2>
+              The more opaque the section, the more people are asleep at that
+              hour.
             </h2>
-          ) : (
-            ""
-          )}
+          </aside>
         </section>
       </main>
     );

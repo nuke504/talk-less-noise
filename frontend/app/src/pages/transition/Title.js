@@ -51,6 +51,7 @@ export default class TitleScreen extends Component {
   }
 
   componentDidMount() {
+    this.props.startSlideShow();
     document.addEventListener("keydown", this.handleKeyDown);
   }
 

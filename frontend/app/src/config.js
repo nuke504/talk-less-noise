@@ -61,5 +61,6 @@ export const INITIAL_STATE = {
   niceThreshold: null,
 };
 
-export const SLIDESHOW_ORDER = ["noiseCollationResults", "title"];
-export const SLIDESHOW_INTERVAL = 5;
+export const SLIDESHOW_ORDER = ["noiseCollationResults", "quietHoursResults"];
+export const SLIDESHOW_INTERVAL = 30;
+export const QUIET_HOURS_CHART_COLOUR = "#001D62";

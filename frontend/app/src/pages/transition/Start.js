@@ -31,6 +31,7 @@ export default class StartScreen extends Component {
   }
 
   componentDidMount() {
+    this.props.stopSlideShow();
     transitionIn(this.slide.current);
     this.props.startCheckpoint(this.props.checkpointDescription);
     document.addEventListener("keydown", this.handleKeyDown);
