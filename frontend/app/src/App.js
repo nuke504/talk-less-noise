@@ -54,8 +54,6 @@ export default class App extends Component {
       transientState[param] = value;
       return transientState;
     });
-    // alert(`Updated ${param} ${value}`);
-    // console.log(this.state);
   }
 
   timeoutAttempt() {
