@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import { KEY_MAPPING } from "../config";
+
 import TitleScreen from "./transition/Title";
 import StartScreen from "./transition/Start";
 import UserProfileIntroScreen from "./userprofile/UserProfileIntro";
@@ -12,17 +14,22 @@ import NoiseCollationScreen from "./survey/NoiseCollation";
 import NoiseCollationResultsScreen from "./survey/NoiseCollationResults";
 
 import QuietHoursScreen from "./survey/QuietHours";
+import QuietHoursResultsScreen from "./survey/QuietHoursResults";
 
 export default class SlideController extends Component {
   constructor(props) {
     super(props);
     this.state = {
       activeSlide: "title",
+      slideShowSlideIdx: 0,
     };
 
     // Bind all state uplift methods
     this.updateActiveSlide = this.updateActiveSlide.bind(this);
+    this.initSlideshowTimer = this.initSlideshowTimer.bind(this);
     this.slideTimeout = this.slideTimeout.bind(this);
+    this.playSlideshow = this.playSlideshow.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   slideTimeout() {
@@ -32,6 +39,47 @@ export default class SlideController extends Component {
 
   updateActiveSlide(activeSlide) {
     this.setState({ activeSlide });
+  }
+
+  // Slideshow functions
+  playSlideshow() {
+    this.setState((state, props) => ({
+      activeSlide: props.slideshowOrder[state.slideShowSlideIdx],
+      slideShowSlideIdx:
+        (state.slideShowSlideIdx + 1) % props.slideshowOrder.length,
+    }));
+  }
+
+  reset() {
+    clearInterval(this.slideshowClock);
+    this.updateActiveSlide("title");
+  }
+
+  initSlideshowTimer() {
+    this.reset();
+    this.slideshowClock = setInterval(
+      this.playSlideshow,
+      this.props.slideshowInterval * 1000
+    );
+  }
+
+  handleKeyDown(e) {
+    const keyIndex = KEY_MAPPING.indexOf(e.key);
+    // Return if invalid key
+    if (keyIndex === -1) return;
+
+    this.reset();
+  }
+
+  componentDidMount() {
+    this.initSlideshowTimer();
+    document.addEventListener("mousemove", this.initSlideshowTimer);
+    document.addEventListener("keydown", this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousemove", this.initSlideshowTimer);
+    document.removeEventListener("keydown", this.handleKeyDown);
   }
 
   // Helper Method for render
@@ -147,6 +195,17 @@ export default class SlideController extends Component {
             slideTimeout={this.slideTimeout}
           />
         );
+
+      // case "quietHoursResults":
+      //   return (
+      //     <QuietHoursResultsScreen
+      //       nextSlide="quietHours"
+      //       callNextSlide={this.updateActiveSlide}
+      //       getNoiseCollation={this.props.getNoiseCollation}
+      //       checkpointDescription="noiseCollation"
+      //       endCheckpoint={this.props.endCheckpoint}
+      //     />
+      //   );
 
       default:
         throw new Error(`${this.state.activeSlide} is not a valid slide`);

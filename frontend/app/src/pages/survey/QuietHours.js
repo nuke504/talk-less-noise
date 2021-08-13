@@ -333,14 +333,7 @@ class Dial extends Component {
       .concat(data.slice(0, this.state.alignHour));
   }
 
-  getDataPlaceholder(chartData) {
-    // return chartData.map((count) => {
-    //   if (count > 0) {
-    //     return 1;
-    //   } else {
-    //     return 0;
-    //   }
-    // });
+  getDataPlaceholder() {
     return new Array(24).fill(1);
   }
 
@@ -351,27 +344,6 @@ class Dial extends Component {
     maxOpacity = this.MAX_OPACITY,
     differentialGradient = this.DIFFERENTIAL_GRADIENT,
   }) {
-    // let backgroundColoursRaw = [
-    //   "#001D62",
-    //   "#2A3A58",
-    //   "#55574E",
-    //   "#807544",
-    //   "#AA923A",
-    //   "#D5AF30",
-    //   "#FFCC26",
-    //   "#FFD64A",
-    //   "#FFE06E",
-    //   "#FEEB92",
-    //   "#FEF5B6",
-    //   "#FEFFDA",
-    // ];
-
-    // backgroundColoursRaw = backgroundColoursRaw.concat(
-    //   backgroundColoursRaw.slice().reverse()
-    // );
-
-    // const result = backgroundColoursRaw.map((color, idx) =>
-
     const maxCount = arrayMax(chartData);
 
     if (!comparisonData)
@@ -561,7 +533,7 @@ class Dial extends Component {
     this.renderChart(userDataset);
   }
 
-  renderChart(chartData, maxOpacity = this.MAX_OPACITY) {
+  renderChart(chartData) {
     const config = {
       type: "doughnut",
       data: chartData,
@@ -571,12 +543,6 @@ class Dial extends Component {
           animateScale: false,
           animateRotate: false,
         },
-        // animations: {
-        //   colors: {
-        //     properties: ["backgroundColor"],
-        //     type: "color",
-        //   },
-        // },
         responsive: true,
         plugins: {
           legend: {

@@ -2,7 +2,12 @@ import React, { Component } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import Modal from "./components/Modal";
-import { APP_NAME, INITIAL_STATE } from "./config";
+import {
+  APP_NAME,
+  INITIAL_STATE,
+  SLIDESHOW_ORDER,
+  SLIDESHOW_INTERVAL,
+} from "./config";
 import {
   getNoiseCollation,
   getQuietHours,
@@ -176,6 +181,8 @@ export default class App extends Component {
           endAttempt={this.endAttempt}
           timeoutAttempt={this.timeoutAttempt}
           errorHandler={this.errorHandler}
+          slideshowOrder={SLIDESHOW_ORDER}
+          slideshowInterval={SLIDESHOW_INTERVAL}
         />
         <Modal
           hidden={!this.state.errorMessage}

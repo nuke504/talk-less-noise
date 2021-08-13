@@ -60,3 +60,6 @@ export const INITIAL_STATE = {
   noisyThreshold: null,
   niceThreshold: null,
 };
+
+export const SLIDESHOW_ORDER = ["noiseCollationResults", "title"];
+export const SLIDESHOW_INTERVAL = 5;
