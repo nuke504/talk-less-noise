@@ -10,15 +10,15 @@ import singaporeMap from "../../img/misc/singapore-map.png";
 function MapLegend(props) {
   return (
     <aside className="legend">
-      <div className="legend-box legend-box--orange"></div>
+      <div className="legend-box legend-box--orange">&nbsp;</div>
       <p>North-East</p>
-      <div className="legend-box legend-box--red"></div>
+      <div className="legend-box legend-box--red">&nbsp;</div>
       <p>North</p>
-      <div className="legend-box legend-box--green"></div>
+      <div className="legend-box legend-box--green">&nbsp;</div>
       <p>Central</p>
-      <div className="legend-box legend-box--blue"></div>
+      <div className="legend-box legend-box--blue">&nbsp;</div>
       <p>West</p>
-      <div className="legend-box legend-box--purple"></div>
+      <div className="legend-box legend-box--purple">&nbsp;</div>
       <p>East</p>
     </aside>
   );

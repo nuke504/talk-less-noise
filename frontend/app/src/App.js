@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { APP_NAME, INITIAL_STATE } from "./config";
+import Modal from "./components/Modal";
+import {
+  APP_NAME,
+  INITIAL_STATE,
+  SLIDESHOW_ORDER,
+  SLIDESHOW_INTERVAL,
+} from "./config";
 import {
   getNoiseCollation,
   getQuietHours,
@@ -33,6 +39,8 @@ export default class App extends Component {
     this.startCheckpoint = this.startCheckpoint.bind(this);
     this.endCheckpoint = this.endCheckpoint.bind(this);
     this.endAttempt = this.endAttempt.bind(this);
+
+    this.errorHandler = this.errorHandler.bind(this);
   }
 
   currentTime() {
@@ -46,8 +54,6 @@ export default class App extends Component {
       transientState[param] = value;
       return transientState;
     });
-    // alert(`Updated ${param} ${value}`);
-    // console.log(this.state);
   }
 
   timeoutAttempt() {
@@ -59,21 +65,31 @@ export default class App extends Component {
   postNoiseCollation(noiseCategory) {
     const documentTime = this.currentTime();
     this.updateParam("noiseCategory", noiseCategory);
-    postNoiseCollation({ ...this.state, documentTime, noiseCategory });
+    postNoiseCollation({
+      ...this.state,
+      documentTime,
+      noiseCategory,
+      errorHandler: this.errorHandler,
+    });
   }
 
   getNoiseCollation(...columns) {
-    return getNoiseCollation(...columns);
+    return getNoiseCollation(this.errorHandler, ...columns);
   }
 
   postQuietHours(hours) {
     const documentTime = this.currentTime();
     this.updateParam("hours", hours);
-    postQuietHours({ ...this.state, documentTime, hours });
+    postQuietHours({
+      ...this.state,
+      documentTime,
+      hours,
+      errorHandler: this.errorHandler,
+    });
   }
 
   getQuietHours(...columns) {
-    return getQuietHours(...columns);
+    return getQuietHours(this.errorHandler, ...columns);
   }
 
   // Usage update methods
@@ -86,7 +102,7 @@ export default class App extends Component {
     this.updateParam("attemptId", attemptId);
     this.updateParam("complete", false);
 
-    postStartAttempt(attemptId, startTime);
+    postStartAttempt(attemptId, startTime, this.errorHandler);
   }
 
   endAttempt(complete = true, failReason = null) {
@@ -94,7 +110,13 @@ export default class App extends Component {
     this.updateParam("complete", complete);
     this.updateParam("endTime", endTime);
 
-    putEndAttempt(this.state.attemptId, endTime, complete, failReason);
+    putEndAttempt(
+      this.state.attemptId,
+      endTime,
+      complete,
+      this.errorHandler,
+      failReason
+    );
   }
 
   // Checkpoint Methods
@@ -105,7 +127,7 @@ export default class App extends Component {
       state.checkpoints.push({ description, start });
     });
 
-    putCheckpoint(this.state.attemptId, description, start);
+    putCheckpoint(this.state.attemptId, description, start, this.errorHandler);
   }
 
   endCheckpoint(description) {
@@ -129,12 +151,22 @@ export default class App extends Component {
       state.checkpoints[checkpointIndex].end = end;
     });
 
-    putCheckpoint(this.state.attemptId, description, end, false);
+    putCheckpoint(
+      this.state.attemptId,
+      description,
+      end,
+      this.errorHandler,
+      false
+    );
+  }
+
+  errorHandler(title, message) {
+    this.setState({ errorTitle: title, errorMessage: message });
   }
 
   render() {
     return (
-      <div className="App">
+      <div className="App" ref={this.app}>
         <SlideController
           newAttempt={this.newAttempt}
           updateParam={this.updateParam}
@@ -146,9 +178,17 @@ export default class App extends Component {
           endCheckpoint={this.endCheckpoint}
           endAttempt={this.endAttempt}
           timeoutAttempt={this.timeoutAttempt}
-          startQuiet={this.state.hours[0]?.start}
-          endQuiet={this.state.hours[0]?.end}
+          errorHandler={this.errorHandler}
+          slideshowOrder={SLIDESHOW_ORDER}
+          slideshowInterval={SLIDESHOW_INTERVAL}
         />
+        <Modal
+          hidden={!this.state.errorMessage}
+          onClose={() => this.errorHandler(null, null)}
+        >
+          <h2>{this.state.errorTitle}</h2>
+          <p>{this.state.errorMessage}</p>
+        </Modal>
       </div>
     );
   }

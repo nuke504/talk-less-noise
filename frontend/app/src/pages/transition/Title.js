@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { transitionOut } from "../../utils/animationUtils";
 import "./Title.css";
+import { KEY_MAPPING } from "../../config";
 
 import pets from "../../img/noise-icons/pets.png";
 import baby from "../../img/noise-icons/baby.png";
@@ -8,18 +9,17 @@ import furniture from "../../img/noise-icons/furniture.png";
 import music from "../../img/noise-icons/music.png";
 import works from "../../img/noise-icons/works.png";
 
-const NOISE_LOGOS = [pets, baby, furniture, music, works];
-const NOISE_DESCRIPTION = [
-  "Pet Logo",
-  "Baby Logo",
-  "Furniture Logo",
-  "Music Logo",
-  "Works Logo",
-];
+const NOISE_LOGOS = new Map([
+  ["pets", [pets, "Pet Logo"]],
+  ["baby", [baby, "Baby Logo"]],
+  ["furniture", [furniture, "Furniture Logo"]],
+  ["music", [music, "Music Logo"]],
+  ["works", [works, "Works Logo"]],
+]);
 
-function LogoGallery() {
-  return NOISE_LOGOS.map((logo, idx) => (
-    <img key={NOISE_DESCRIPTION[idx]} src={logo} alt={NOISE_DESCRIPTION[idx]} />
+function LogoGallery(props) {
+  return [...props.logos].map(([key, [logo, description]]) => (
+    <img key={key} src={logo} alt={description} />
   ));
 }
 
@@ -43,11 +43,16 @@ export default class TitleScreen extends Component {
   }
 
   handleKeyDown(e) {
+    const keyIndex = KEY_MAPPING.indexOf(e.key);
+    // Return if invalid key
+    if (keyIndex === -1) return;
+
     this.exitSlide();
   }
 
   componentDidMount() {
-    // document.addEventListener("keydown", this.handleKeyDown);
+    this.props.startSlideShow();
+    document.addEventListener("keydown", this.handleKeyDown);
   }
 
   componentWillUnmount() {
@@ -79,7 +84,7 @@ export default class TitleScreen extends Component {
           </div>
         </div>
         <div className="title-logo-container">
-          <LogoGallery />
+          <LogoGallery logos={NOISE_LOGOS} />
         </div>
         <button className="title-button-continue" onClick={this.exitSlide}>
           Click to begin!

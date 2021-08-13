@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { gsap, Power3 } from "gsap";
 
-import { KEY_MAPPING, TIMEOUT_SECONDS } from "../../config";
+import { KEY_MAPPING, TIMEOUT_SECONDS, NOISE_CATEGORIES } from "../../config";
 import {
   transitionOut,
   transitionIn,
@@ -27,8 +27,6 @@ const NOISE_LOGOS = new Map([
   ["works", [works, "Works Logo"]],
   ["others", [others, "Others Logo"]],
 ]);
-
-const ICON_NAMES = ["pets", "furniture", "baby", "music", "works", "others"];
 
 function NoiseOption(props) {
   //   const onClickFn = props.onClick.bind(null, props.iconName);
@@ -118,7 +116,7 @@ export default class NoiseCollationScreen extends Component {
     fadeDuration = 1,
     numShadowImg = 3,
     pauseDuration = 2,
-    iconNames = ICON_NAMES
+    iconNames = NOISE_CATEGORIES
   ) {
     return () => {
       const strongClass = `noise-collation-color--${noiseCategory} noise-collation-strong`;
@@ -187,13 +185,13 @@ export default class NoiseCollationScreen extends Component {
     if (keyIndex === -1) return;
 
     // IIFE
-    this.updateCollation(ICON_NAMES[keyIndex])();
+    this.updateCollation(NOISE_CATEGORIES[keyIndex])();
   }
 
   componentDidMount() {
     transitionIn(this.slide.current);
     this.props.startCheckpoint(this.props.checkpointDescription);
-    this.addStaticBrownianListener(ICON_NAMES);
+    this.addStaticBrownianListener(NOISE_CATEGORIES);
     document.addEventListener("keydown", this.handleKeyDown);
     this.timeoutTimer = setTimeout(
       this.props.slideTimeout,

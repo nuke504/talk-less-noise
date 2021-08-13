@@ -36,8 +36,11 @@ if (process.env.REACT_APP_API_ADDRESS) {
 }
 export { API_ADDRESS };
 
-export const TIMEOUT_SECONDS = 90;
+export const TIMEOUT_SECONDS = 9000;
 export const INITIAL_STATE = {
+  errorTitle: null,
+  errorMessage: null,
+
   attemptId: null,
   area: null,
   numFamilyMembers: null,
@@ -57,3 +60,7 @@ export const INITIAL_STATE = {
   noisyThreshold: null,
   niceThreshold: null,
 };
+
+export const SLIDESHOW_ORDER = ["noiseCollationResults", "quietHoursResults"];
+export const SLIDESHOW_INTERVAL = 30;
+export const QUIET_HOURS_CHART_COLOUR = "#001D62";

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import { KEY_MAPPING } from "../config";
+
 import TitleScreen from "./transition/Title";
 import StartScreen from "./transition/Start";
 import UserProfileIntroScreen from "./userprofile/UserProfileIntro";
@@ -19,11 +21,19 @@ export default class SlideController extends Component {
     super(props);
     this.state = {
       activeSlide: "title",
+      slideShowSlideIdx: 0,
     };
+
+    this.slideshowClocks = [];
 
     // Bind all state uplift methods
     this.updateActiveSlide = this.updateActiveSlide.bind(this);
+    this.initSlideshowTimer = this.initSlideshowTimer.bind(this);
     this.slideTimeout = this.slideTimeout.bind(this);
+    this.playSlideshow = this.playSlideshow.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.stopSlideShow = this.stopSlideShow.bind(this);
+    this.startSlideShow = this.startSlideShow.bind(this);
   }
 
   slideTimeout() {
@@ -35,6 +45,50 @@ export default class SlideController extends Component {
     this.setState({ activeSlide });
   }
 
+  // Slideshow functions
+  playSlideshow() {
+    this.setState((state, props) => ({
+      activeSlide: props.slideshowOrder[state.slideShowSlideIdx],
+      slideShowSlideIdx:
+        (state.slideShowSlideIdx + 1) % props.slideshowOrder.length,
+    }));
+  }
+
+  reset() {
+    this.slideshowClocks.forEach((interval) => clearInterval(interval));
+    this.slideshowClocks = [];
+    this.setState({ slideShowSlideIdx: 0 });
+    this.updateActiveSlide("title");
+  }
+
+  initSlideshowTimer() {
+    this.reset();
+    this.slideshowClocks.push(
+      setInterval(this.playSlideshow, this.props.slideshowInterval * 1000)
+    );
+  }
+
+  handleKeyDown(e) {
+    const keyIndex = KEY_MAPPING.indexOf(e.key);
+    // Return if invalid key
+    if (keyIndex === -1) return;
+
+    this.reset();
+  }
+
+  startSlideShow() {
+    this.initSlideshowTimer();
+    document.addEventListener("mousemove", this.initSlideshowTimer);
+    document.addEventListener("keydown", this.handleKeyDown);
+  }
+
+  stopSlideShow() {
+    this.slideshowClocks.forEach((interval) => clearInterval(interval));
+    this.setState({ slideShowSlideIdx: 0 });
+    document.removeEventListener("mousemove", this.initSlideshowTimer);
+    document.removeEventListener("keydown", this.handleKeyDown);
+  }
+
   // Helper Method for render
   renderSlide() {
     switch (this.state.activeSlide) {
@@ -44,6 +98,7 @@ export default class SlideController extends Component {
             newAttempt={this.props.newAttempt}
             nextSlide="start"
             callNextSlide={this.updateActiveSlide}
+            startSlideShow={this.startSlideShow}
           />
         );
       case "start":
@@ -54,6 +109,7 @@ export default class SlideController extends Component {
             checkpointDescription="userProfile"
             startCheckpoint={this.props.startCheckpoint}
             slideTimeout={this.slideTimeout}
+            stopSlideShow={this.stopSlideShow}
           />
         );
 
@@ -135,29 +191,23 @@ export default class SlideController extends Component {
       case "quietHours":
         return (
           <QuietHoursScreen
-            nextSlide="quietHoursResults"
+            nextSlide="title"
             callNextSlide={this.updateActiveSlide}
             updateParam={this.props.updateParam}
+            getQuietHours={this.props.getQuietHours}
             postQuietHours={this.props.postQuietHours}
             checkpointDescription="quietHours"
             startCheckpoint={this.props.startCheckpoint}
+            endCheckpoint={this.props.endCheckpoint}
+            endAttempt={this.props.endAttempt}
+            errorHandler={this.props.errorHandler}
             slideTimeout={this.slideTimeout}
           />
         );
 
       case "quietHoursResults":
         return (
-          <QuietHoursResultsScreen
-            nextSlide="title"
-            callNextSlide={this.updateActiveSlide}
-            updateParam={this.props.updateParam}
-            getQuietHours={this.props.getQuietHours}
-            checkpointDescription="quietHours"
-            endCheckpoint={this.props.endCheckpoint}
-            endAttempt={this.props.endAttempt}
-            startQuiet={this.props.startQuiet}
-            endQuiet={this.props.endQuiet}
-          />
+          <QuietHoursResultsScreen getQuietHours={this.props.getQuietHours} />
         );
 
       default:

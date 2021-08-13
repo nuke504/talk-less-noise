@@ -9,12 +9,13 @@ export const timeout = function (s) {
   });
 };
 
-export const request = async function (
+export const request = async function ({
   method,
   relativeUrl,
   data = null,
-  params = null
-) {
+  params = null,
+  errorHandler = null,
+}) {
   try {
     // console.log("Posting", data);
     // return {};
@@ -56,44 +57,86 @@ export const request = async function (
 
     return response.data;
   } catch (error) {
-    if (error.response) {
-      console.error("Server responded with invalid status");
-      console.error(`You tried to ${method}`, data);
-      console.error("Response data: ", error.response.data);
-      console.error("Response status: ", error.response.status);
-      console.error("Response headers: ", error.response.headers);
-    } else if (error.request) {
-      console.error("Server did not respond");
-      console.error("Response status: ", error.response.status);
+    if (error?.response) {
+      if (errorHandler) {
+        errorHandler(
+          `Server responded with invalid status ${JSON.stringify(
+            error.response.status
+          )}`,
+          `Response data: ${JSON.stringify(
+            error.response.data
+          )}. Response headers: ${JSON.stringify(
+            error.response.headers
+          )}. Error config ${JSON.stringify(error.config)}`
+        );
+      } else {
+        console.error("Server responded with invalid status");
+        console.error(`You tried to ${method}`, data);
+        console.error("Response data: ", error.response.data);
+        console.error("Response status: ", error.response.status);
+        console.error("Response headers: ", error.response.headers);
+      }
+    } else if (error?.request) {
+      if (errorHandler) {
+        errorHandler(
+          `Server did not respond ${JSON.stringify(error.response?.status)}`,
+          `Error config ${JSON.stringify(error?.config)}`
+        );
+      } else {
+        console.error("Server did not respond");
+        console.error("Response status: ", error.response.status);
+      }
     } else {
-      console.error("Other error: ", error.message);
+      if (errorHandler) {
+        errorHandler(
+          `Other error ${JSON.stringify(error?.message)}`,
+          `Error config ${JSON.stringify(error?.config)}`
+        );
+      } else {
+        console.error("Other error: ", error.message);
+      }
     }
-    console.log(error.config);
+    if (!errorHandler) {
+      console.log(error.config);
+    }
   }
 };
 
 // Get methods
-export const getNoiseCollation = function (...columns) {
+export const getNoiseCollation = function (errorHandler, ...columns) {
   const params =
     columns.length > 0
       ? "?" + columns.map((n) => `group_by_columns=${n}`).join("&")
       : "";
-  return request("GET", `/survey/noiseCollation${params}`);
+  return request({
+    method: "GET",
+    relativeUrl: `/survey/noiseCollation${params}`,
+    errorHandler,
+  });
 };
 
-export const getQuietHours = function (...columns) {
+export const getQuietHours = function (errorHandler, ...columns) {
   const params =
     columns.length > 0
       ? "?" + columns.map((n) => `group_by_columns=${n}`).join("&")
       : "";
-  return request("GET", `/survey/quietHours${params}`);
+  return request({
+    method: "GET",
+    relativeUrl: `/survey/quietHours${params}`,
+    errorHandler,
+  });
 };
 
 // Post methods
-export const postStartAttempt = function (attemptId, startTime) {
-  request("POST", "/usage/attempt/start", {
-    attemptId,
-    startTime,
+export const postStartAttempt = function (attemptId, startTime, errorHandler) {
+  request({
+    method: "POST",
+    relativeUrl: "/usage/attempt/start",
+    data: {
+      attemptId,
+      startTime,
+    },
+    errorHandler,
   }).then((response) => console.log("Received response: ", response));
 };
 
@@ -105,15 +148,21 @@ export const postNoiseCollation = function ({
   ageGroup,
   neighbourNoiseIsProblem,
   noiseCategory,
+  errorHandler,
 }) {
-  request("POST", `/survey/noiseCollation`, {
-    attemptId,
-    area,
-    documentTime,
-    numFamilyMembers,
-    ageGroup,
-    neighbourNoiseIsProblem,
-    noiseCategory,
+  request({
+    method: "POST",
+    relativeUrl: `/survey/noiseCollation`,
+    data: {
+      attemptId,
+      area,
+      documentTime,
+      numFamilyMembers,
+      ageGroup,
+      neighbourNoiseIsProblem,
+      noiseCategory,
+    },
+    errorHandler,
   }).then((response) => console.log("Received response: ", response));
 };
 
@@ -125,15 +174,21 @@ export const postQuietHours = function ({
   ageGroup,
   neighbourNoiseIsProblem,
   hours,
+  errorHandler,
 }) {
-  request("POST", `/survey/quietHours`, {
-    attemptId,
-    area,
-    documentTime,
-    numFamilyMembers,
-    ageGroup,
-    neighbourNoiseIsProblem,
-    hours,
+  request({
+    method: "POST",
+    relativeUrl: `/survey/quietHours`,
+    data: {
+      attemptId,
+      area,
+      documentTime,
+      numFamilyMembers,
+      ageGroup,
+      neighbourNoiseIsProblem,
+      hours,
+    },
+    errorHandler,
   }).then((response) => console.log("Received response: ", response));
 };
 
@@ -142,6 +197,7 @@ export const putCheckpoint = function (
   attemptId,
   description,
   time,
+  errorHandler,
   isStart = true
 ) {
   let data = { attemptId, description };
@@ -152,15 +208,19 @@ export const putCheckpoint = function (
     data.end = time;
   }
 
-  request("PUT", `/usage/checkpoint/${isStart ? "start" : "end"}`, data).then(
-    (response) => console.log("Received response: ", response)
-  );
+  request({
+    method: "PUT",
+    relativeUrl: `/usage/checkpoint/${isStart ? "start" : "end"}`,
+    data,
+    errorHandler,
+  }).then((response) => console.log("Received response: ", response));
 };
 
 export const putEndAttempt = function (
   attemptId,
   endTime,
   complete,
+  errorHandler,
   failReason = null
 ) {
   const data = {
@@ -171,7 +231,10 @@ export const putEndAttempt = function (
 
   if (failReason) data.failReason = failReason;
 
-  request("PUT", `/usage/attempt/end`, data).then((response) =>
-    console.log("Received response: ", response)
-  );
+  request({
+    method: "PUT",
+    relativeUrl: `/usage/attempt/end`,
+    data,
+    errorHandler,
+  }).then((response) => console.log("Received response: ", response));
 };

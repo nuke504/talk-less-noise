@@ -31,6 +31,7 @@ export default class StartScreen extends Component {
   }
 
   componentDidMount() {
+    this.props.stopSlideShow();
     transitionIn(this.slide.current);
     this.props.startCheckpoint(this.props.checkpointDescription);
     document.addEventListener("keydown", this.handleKeyDown);
@@ -63,8 +64,9 @@ export default class StartScreen extends Component {
           </div>
         </div>
         <ButtonContainer
-          instructions="PRESS TO START!"
+          instructions="Press to Start!"
           animate={[2]}
+          animateHover={[2]}
           functionMap={new Map([[2, this.exitSlide]])}
         />
       </main>
