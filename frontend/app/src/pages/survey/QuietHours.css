@@ -80,9 +80,11 @@
   border-collapse: collapse;
 }
 
-.btn-control {
-  /* background-color: rgba(0, 0, 0, 0); */
-  /* background-color: brown; */
+.quiet-hours-legend img {
+  display: block;
+  max-width: 40vw;
+  padding: 1.2rem;
+  /* border: 1px solid var(--color-grey-1); */
 }
 
 .btn-dial:nth-child(1) {

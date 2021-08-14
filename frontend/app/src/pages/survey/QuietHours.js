@@ -11,7 +11,7 @@ import {
   arrayLast,
 } from "../../utils/ui";
 
-// import ButtonContainer from "../../components/ButtonContainer";
+import legend from "../../img/misc/quiet-hours-legend.png";
 import ButtonGallery from "../../components/ButtonGallery";
 
 import "./QuietHours.css";
@@ -20,6 +20,10 @@ function DialControl(props) {
   if (props.submitted) {
     return (
       <div className="quiet-hours-control">
+        <div className="quiet-hours-legend">
+          <h2>How to read the chart:</h2>
+          <img src={legend} alt="Chart Legend" />
+        </div>
         <h2>Your quiet hours are:</h2>
         <table>
           <thead>
