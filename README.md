@@ -130,7 +130,7 @@ To run the test successfully, your local IP address has to be **whitelisted**. O
 
 ## React Frontend
 
-THe frontend files can be found in `frontend`. They are organised according to this structure:
+The frontend files can be found in `frontend`. They are organised according to this structure:
 
 _Not all files/folders are shown. Only important ones are shown_
 
