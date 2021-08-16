@@ -38,7 +38,6 @@ FROM base AS production
 COPY poetry_production.lock poetry.lock
 RUN poetry install --no-dev && \
     chown -R backend:backend $APP_HOME
-COPY entrypoint.sh .
 COPY gunicorn.conf.py .
 EXPOSE 8080/tcp
 
