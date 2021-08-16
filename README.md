@@ -42,7 +42,9 @@ _This repository does not include the configuration or shell files required to s
 
 To run the entire app (frontend + backend):
 
-```sh docker compose up --build -d ```
+```sh
+docker compose up --build -d
+```
 
 _You will need to download and run the Docker Daemon before running the above command._
 
