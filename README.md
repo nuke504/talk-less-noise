@@ -183,4 +183,4 @@ This folder contains javascript snippets that are used to setup the MongoDB Data
 
 ## Talk Less Noise
 
-Talk Less Noise is open source software [licensed as MIT](https://github.com/facebook/create-react-app/blob/main/LICENSE).
+Talk Less Noise is open source software licensed as MIT.
