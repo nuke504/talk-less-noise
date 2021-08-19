@@ -115,11 +115,11 @@ class FamilyMembersScreen extends Component {
   render() {
     return (
       <main ref={this.slide}>
-        <div className="family-members-container-top">
-          <h1 className="family-members-primary-top">
+        <div className="family-members-container-top top-container flex flex--column-centre">
+          <h1 className="heading--L">
             How many family <br /> members do you have?
           </h1>
-          <FamilyMemberNumbers className="family-members-number-box" />
+          <FamilyMemberNumbers className="family-members-number-box grid grid--2row--3col grid--align-justify-center" />
         </div>
         <ButtonContainer
           instructions="Press the button corresponding to your choice!"

@@ -1,16 +1,12 @@
 .title-screen {
   position: relative;
-  /* background-color: var(--color-primary); */
   background-image: linear-gradient(#fab005, rgb(250, 176, 5, 0.9));
   color: var(--color-primary-tint-1);
-  /* min-width: 160rem; */
 }
 
 .title-container {
   width: 90vw;
-  /* 100vw; */
   min-height: 100vh;
-  /* max-height: 100vh; */
 
   position: relative;
   background-image: url("../../img/mascot/noisemascot-horn.png");
@@ -21,8 +17,8 @@
 
 .title-speech-bubble {
   display: block;
-  width: 70vw;
-  height: 47vw;
+  width: 112rem;
+  height: 80rem;
 
   stroke-width: 0.4rem;
   fill: var(--color-primary-shade-2);
@@ -34,17 +30,12 @@
 
 .title-speech-container {
   font-family: var(--font-primary), sans-serif;
-  /* background-color: aqua; */
   position: absolute;
 
   top: 5%;
   left: 45%;
 
   max-width: 80rem;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .title-primary-top {
@@ -65,9 +56,6 @@
 
   bottom: 20%;
   right: 5%;
-
-  display: flex;
-  gap: 3rem;
 }
 
 .title-logo-container img {
@@ -100,6 +88,7 @@
   right: 4%;
 }
 
-.title-button-continue:hover {
+.title-button-continue:hover,
+.title-button-continue:active {
   box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.07);
 }

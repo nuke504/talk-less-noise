@@ -161,15 +161,15 @@ export default class QuietHoursResultsScreen extends Component {
   render() {
     return (
       <main ref={this.slide} className="results-bg">
-        <section className="quiet-hours-results-section">
-          <h1 className="quiet-hours-results-title">
+        <section className="quiet-hours-results-section grid grid--content-centre">
+          <h1 className="margin-top-S heading--M grid--span">
             Your Community's Quiet Hours are:
           </h1>
           <div className="quiet-hours-chart-container">
             {this.prepareResults()}
           </div>
           <aside>
-            <h2>
+            <h2 className="text--S">
               The more opaque the section, the more people are asleep at that
               hour.
             </h2>

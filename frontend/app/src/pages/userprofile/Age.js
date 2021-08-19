@@ -11,10 +11,10 @@ import "./Age.css";
 function AgeContainer(props) {
   const position = { left: props.left, top: props.top };
   return (
-    <figure className="age-card" style={position}>
+    <figure className="age-card flex flex--column-centre" style={position}>
       <div className="age-card-circle"></div>
-      <h1 className="age-card-age-group">{props.ageGroup}</h1>
-      <h2 className="age-card-caption">years old</h2>
+      <h1 className="age-card-age-group text--L">{props.ageGroup}</h1>
+      <h2 className="age-card-caption text--S">years old</h2>
     </figure>
   );
 }
@@ -152,8 +152,8 @@ export default class AgeScreen extends Component {
   render() {
     return (
       <main ref={this.slide}>
-        <div className="age-container-top">
-          <h1 className="age-primary-top">
+        <div className="age-container-top top-container">
+          <h1 className="heading--L">
             What is your <strong>Age</strong>?
           </h1>
           <AgeContainer ageGroup="<20" left="6.5%" top="34%" />

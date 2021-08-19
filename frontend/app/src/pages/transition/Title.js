@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { transitionOut } from "../../utils/animationUtils";
 import "./Title.css";
+import "../../App.css";
 import { KEY_MAPPING } from "../../config";
 
 import pets from "../../img/noise-icons/pets.png";
@@ -61,7 +62,7 @@ export default class TitleScreen extends Component {
 
   render() {
     return (
-      <main className="title-screen" ref={this.slide}>
+      <main className="title-screen full-width" ref={this.slide}>
         <div className="title-container">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -75,7 +76,7 @@ export default class TitleScreen extends Component {
               stroke="#fff"
             ></path>
           </svg>
-          <div className="title-speech-container">
+          <div className="title-speech-container flex flex--column-centre">
             <h1 className="title-primary-top">Let's Talk</h1>
             <h1 className="title-primary-bottom">LESS NOISE!</h1>
             <p className="title-secondary">
@@ -83,7 +84,7 @@ export default class TitleScreen extends Component {
             </p>
           </div>
         </div>
-        <div className="title-logo-container">
+        <div className="title-logo-container flex flex--gap-large">
           <LogoGallery logos={NOISE_LOGOS} />
         </div>
         <button className="title-button-continue" onClick={this.exitSlide}>

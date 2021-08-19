@@ -1,60 +1,20 @@
 .noise-collation-top {
-  width: 100vw;
-  height: 100vh;
-
   background-image: linear-gradient(
     var(--color-primary-tint-1),
     var(--color-primary-tint-1-alpha)
   );
   color: var(--color-primary-shade-1);
   font-family: var(--font-primary), sans-serif;
-
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 2fr 2fr;
-  justify-content: center;
-  justify-items: center;
-
-  row-gap: 6.4rem;
-}
-
-.noise-collation-title {
-  align-self: center;
-  grid-column: 1/-1;
-}
-
-.noise-collation-title--original {
-  font-size: 12.8rem;
-  text-align: center;
 }
 
 .noise-collation-title--triggered {
   font-size: 10.8rem;
 }
 
-.noise-collation-strong {
-  font-size: 12.8rem;
-}
-
-.noise-collation-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .noise-collation-img {
   width: 16.8rem;
   height: 16.8rem;
 }
-
-.noise-collation-btn h2 {
-  font-size: 7.2rem;
-  text-align: center;
-}
-
-/* .noise-collation-btn:hover {
-  transform: scale(1.2);
-} */
 
 .noise-collation-color--pets {
   color: var(--color-pets);

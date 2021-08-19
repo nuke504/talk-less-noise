@@ -19,7 +19,7 @@ import "./QuietHours.css";
 function DialControl(props) {
   if (props.submitted) {
     return (
-      <div className="quiet-hours-control">
+      <div className="quiet-hours-control flex flex--column-centre flex--gap-M">
         <div className="quiet-hours-legend">
           <h2>How to read the chart:</h2>
           <img src={legend} alt="Chart Legend" />
@@ -51,8 +51,8 @@ function DialControl(props) {
     const activeQuietHours = arrayLast(props.quietHours);
 
     return (
-      <div className="quiet-hours-control">
-        <h1>
+      <div className="quiet-hours-control flex flex--column-centre flex--gap-M">
+        <h1 className="heading--S">
           You are <strong>selecting</strong>: <br />
           Start: {convertPAM(activeQuietHours.start)} <br />
           End: {convertPAM(activeQuietHours.end)}
@@ -634,13 +634,13 @@ class Dial extends Component {
 
   render() {
     return (
-      <section className="quiet-hours-bg">
-        <h1 className="quiet-hours-title">
+      <section className="quiet-hours-bg flex flex--column">
+        <h1 className="heading--M grid--span margin-top-S">
           {this.state.submitted
             ? "Your Community's Quiet Hours are:"
             : "What are your quiet hours?"}
         </h1>
-        <div className="quiet-hours-dial-container" ref={this.dial}>
+        <div className="flex flex--spaceout-centre" ref={this.dial}>
           <div className="quiet-hours-dial">
             <div className="quiet-hours-dial-size">
               <canvas id="quiet-hours-chart"></canvas>

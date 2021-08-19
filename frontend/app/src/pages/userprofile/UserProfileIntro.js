@@ -5,6 +5,7 @@ import selfIntroImage from "../../img/misc/self_introvert.png";
 import { transitionOut, transitionIn } from "../../utils/animationUtils";
 
 import "./UserProfileIntro.css";
+import "../../App.css";
 
 class UserProfileIntroScreen extends Component {
   constructor(props) {
@@ -46,11 +47,11 @@ class UserProfileIntroScreen extends Component {
   render() {
     return (
       <main className="user-profile-intro-screen" ref={this.slide}>
-        <div className="user-profile-intro-container-top">
-          <h1 className="user-profile-intro-primary-top">
+        <div className="user-profile-intro-container-top top-container">
+          <h1 className="user-profile-intro-primary-top heading--L">
             But before we begin...
           </h1>
-          <h1 className="user-profile-intro-primary-bottom">
+          <h1 className="user-profile-intro-primary-bottom heading--XL">
             Tell us more about you
           </h1>
           <div className="user-profile-intro-image">

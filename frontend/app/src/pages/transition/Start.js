@@ -48,15 +48,15 @@ export default class StartScreen extends Component {
   render() {
     return (
       <main className="start-screen" ref={this.slide}>
-        <div className="start-container-top">
+        <div className="start-container-top top-container grid grid--2row-3col-wide-main">
           <div className="start-conversation-image--left">
             <img src={convoImage} alt="Icon of two people talking" />
           </div>
-          <h1 className="start-primary-top">Let Us</h1>
-          <h1 className="start-primary-bottom">
+          <h1 className="start-primary heading--XL">
+            Let Us <br />
             Talk About <strong>Noise</strong>
           </h1>
-          <p className="start-secondary">
+          <p className="start-secondary heading--M">
             Discuss with your fellow residents about your noise preferences!
           </p>
           <div className="start-conversation-image--right">

@@ -9,7 +9,7 @@ import singaporeMap from "../../img/misc/singapore-map.png";
 
 function MapLegend(props) {
   return (
-    <aside className="legend">
+    <aside className="legend text--L">
       <div className="legend-box legend-box--orange">&nbsp;</div>
       <p>North-East</p>
       <div className="legend-box legend-box--red">&nbsp;</div>
@@ -80,8 +80,8 @@ export default class AreaScreen extends Component {
   render() {
     return (
       <main ref={this.slide}>
-        <div className="area-container-top">
-          <h1 className="area-primary-top">
+        <div className="area-container-top top-container grid grid--2row-2col-wide-main grid--align-justify-center">
+          <h1 className="area-primary-top heading--M margin-top-S">
             Which area of <strong>Singapore</strong> do you live in?
           </h1>
           <img

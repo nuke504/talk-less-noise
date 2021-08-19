@@ -1,20 +1,9 @@
 .area-container-top {
-  width: 100vw;
-  min-height: 70vh;
-
-  background-color: var(--color-primary-tint-1);
   color: var(--color-primary-shade-1);
   font-family: var(--font-primary), sans-serif;
-  display: grid;
-
-  grid-template-columns: 0.67fr 0.33fr;
-  grid-template-rows: repeat(1fr, 2);
-  justify-content: center;
 }
 
 .area-primary-top {
-  font-size: 11.6rem;
-  text-align: center;
   grid-column: 1/-1;
 }
 
@@ -65,8 +54,4 @@
 .legend-box--purple,
 .btn-area:nth-child(6) {
   background-color: rgb(130, 55, 140);
-}
-
-.legend p {
-  font-size: 6.2rem;
 }
