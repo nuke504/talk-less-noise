@@ -16,11 +16,13 @@ import NoiseCollationResultsScreen from "./survey/NoiseCollationResults";
 import QuietHoursScreen from "./survey/QuietHours";
 import QuietHoursResultsScreen from "./survey/QuietHoursResults";
 
+import ThresholdScreen from "./survey/Threshold";
+
 export default class SlideController extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeSlide: "title",
+      activeSlide: "threshold",
       slideShowSlideIdx: 0,
     };
 
@@ -77,16 +79,16 @@ export default class SlideController extends Component {
   }
 
   startSlideShow() {
-    this.initSlideshowTimer();
-    document.addEventListener("mousemove", this.initSlideshowTimer);
-    document.addEventListener("keydown", this.handleKeyDown);
+    // this.initSlideshowTimer();
+    // document.addEventListener("mousemove", this.initSlideshowTimer);
+    // document.addEventListener("keydown", this.handleKeyDown);
   }
 
   stopSlideShow() {
-    this.slideshowClocks.forEach((interval) => clearInterval(interval));
-    this.setState({ slideShowSlideIdx: 0 });
-    document.removeEventListener("mousemove", this.initSlideshowTimer);
-    document.removeEventListener("keydown", this.handleKeyDown);
+    // this.slideshowClocks.forEach((interval) => clearInterval(interval));
+    // this.setState({ slideShowSlideIdx: 0 });
+    // document.removeEventListener("mousemove", this.initSlideshowTimer);
+    // document.removeEventListener("keydown", this.handleKeyDown);
   }
 
   // Helper Method for render
@@ -208,6 +210,15 @@ export default class SlideController extends Component {
       case "quietHoursResults":
         return (
           <QuietHoursResultsScreen getQuietHours={this.props.getQuietHours} />
+        );
+
+      case "threshold":
+        return (
+          <ThresholdScreen
+            getNoiseCollation={this.props.getNoiseCollation}
+            getThreshold={this.props.getThreshold}
+            postThreshold={this.props.postThreshold}
+          />
         );
 
       default:

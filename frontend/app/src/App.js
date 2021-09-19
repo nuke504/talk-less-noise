@@ -16,6 +16,8 @@ import {
   postStartAttempt,
   putCheckpoint,
   putEndAttempt,
+  postThreshold,
+  getThreshold,
 } from "./utils/ajax";
 import SlideController from "./pages/SlideController";
 import "./App.css";
@@ -90,6 +92,23 @@ export default class App extends Component {
 
   getQuietHours(...columns) {
     return getQuietHours(this.errorHandler, ...columns);
+  }
+
+  postThreshold(noisyThreshold, niceThreshold) {
+    const documentTime = this.currentTime();
+    this.updateParam("noisyThreshold", noisyThreshold);
+    this.updateParam("niceThreshold", niceThreshold);
+    postThreshold({
+      ...this.state,
+      documentTime,
+      noisyThreshold,
+      niceThreshold,
+      errorHandler: this.errorHandler,
+    });
+  }
+
+  getThreshold(...columns) {
+    return getThreshold(this.errorHandler, ...columns);
   }
 
   // Usage update methods
@@ -172,8 +191,10 @@ export default class App extends Component {
           updateParam={this.updateParam}
           getNoiseCollation={this.getNoiseCollation}
           getQuietHours={this.getQuietHours}
+          getThreshold={this.getThreshold}
           postNoiseCollation={this.postNoiseCollation}
           postQuietHours={this.postQuietHours}
+          postThreshold={this.postThreshold}
           startCheckpoint={this.startCheckpoint}
           endCheckpoint={this.endCheckpoint}
           endAttempt={this.endAttempt}

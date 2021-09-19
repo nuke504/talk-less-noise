@@ -76,7 +76,7 @@ export default class TitleScreen extends Component {
               stroke="#fff"
             ></path>
           </svg>
-          <div className="title-speech-container flex flex--column-centre">
+          <div className="title-speech-container">
             <h1 className="title-primary-top">Let's Talk</h1>
             <h1 className="title-primary-bottom">LESS NOISE!</h1>
             <p className="title-secondary">

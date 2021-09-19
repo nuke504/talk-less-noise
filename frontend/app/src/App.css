@@ -11,6 +11,16 @@ Medium: 500
 Semi-bold: 600
 Bold: 700
 
+--- 05 Shadows
+
+box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.075);
+
+--- 06 Border Radius
+
+Default: 9px
+Large: 11px
+Extra Large: 21px
+
 */
 
 :root {
@@ -30,9 +40,9 @@ Bold: 700
   --color-tertiary: #f87171;
   --color-tertiary-tint-1: #fecaca;
 
-  --color-grey-1: #343a40;
-  --color-grey-2: #495057;
-  --color-grey-3: #cfcfcf;
+  --color-grey-1: rgb(52, 58, 64);
+  --color-grey-2: rgb(73, 80, 87);
+  --color-grey-3: rgb(207, 207, 207);
 
   --color-pets: rgb(210, 79, 62);
   --color-furniture: rgb(238, 180, 56);
@@ -75,6 +85,7 @@ main {
   background-color: var(--color-primary-tint-1);
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }
 
 /* General Styles */
@@ -182,6 +193,10 @@ main {
 
 .heading--L {
   font-size: 12.8rem;
+}
+
+.heading--LM {
+  font-size: 11rem;
 }
 
 .heading--M {
