@@ -1,0 +1,13 @@
+.end-screen {
+  background-image: linear-gradient(rgb(245, 159, 11), rgb(245, 159, 11, 0.9));
+  color: var(--color-primary-tint-1);
+  font-family: var(--font-primary), sans-serif;
+}
+
+.end-screen-text-container {
+  max-width: 130rem;
+  height: 100vh;
+  margin: 0 auto 0 auto;
+
+  gap: 2.4rem;
+}

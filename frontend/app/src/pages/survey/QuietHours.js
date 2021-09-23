@@ -52,7 +52,7 @@ function DialControl(props) {
 
     return (
       <div className="quiet-hours-control flex flex--column-centre flex--gap-M">
-        <h1 className="heading--S">
+        <h1 className="heading--S align--centre">
           You are <strong>selecting</strong>: <br />
           Start: {convertPAM(activeQuietHours.start)} <br />
           End: {convertPAM(activeQuietHours.end)}
@@ -635,7 +635,7 @@ class Dial extends Component {
   render() {
     return (
       <section className="quiet-hours-bg flex flex--column">
-        <h1 className="heading--M grid--span margin-top-S">
+        <h1 className="heading--M grid--span margin-top-S align--centre">
           {this.state.submitted
             ? "Your Community's Quiet Hours are:"
             : "What are your quiet hours?"}
@@ -668,7 +668,6 @@ export default class QuietHoursScreen extends Component {
 
   exitSlide() {
     this.props.endCheckpoint(this.props.checkpointDescription);
-    this.props.endAttempt();
     transitionOut(
       this.slide.current,
       this.props.callNextSlide,

@@ -91,7 +91,7 @@ export const sideBrownian = function (className, xStart, xEnd, yStart, yEnd) {
     rotation: "random(-20, 20)",
     scale: 0.6,
   });
-  timeline.to(className, { opacity: 30, duration: 0.5 });
+  timeline.to(className, { opacity: 0.3, duration: 0.5 });
   timeline.to(className, {
     x: "random(-10, 10, 5)",
     y: "random(-10, 5, 3)",

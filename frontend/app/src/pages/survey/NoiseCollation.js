@@ -132,7 +132,7 @@ export default class NoiseCollationScreen extends Component {
       gsap.to(
         this.slide.current.querySelectorAll(
           `.noise-collation-img--${noiseCategory}`
-        )[1],
+        )[0],
         { duration: 1, scale: 2 }
       );
 

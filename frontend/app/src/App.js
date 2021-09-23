@@ -37,6 +37,8 @@ export default class App extends Component {
 
     this.postQuietHours = this.postQuietHours.bind(this);
 
+    this.postThreshold = this.postThreshold.bind(this);
+
     this.newAttempt = this.newAttempt.bind(this);
     this.startCheckpoint = this.startCheckpoint.bind(this);
     this.endCheckpoint = this.endCheckpoint.bind(this);

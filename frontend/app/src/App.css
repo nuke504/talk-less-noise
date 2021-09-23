@@ -222,3 +222,8 @@ main {
 .text--S {
   font-size: 4.4rem;
 }
+
+/* Alignment */
+.align--centre {
+  text-align: center;
+}

@@ -119,7 +119,7 @@ class NeighbourNoiseScreen extends Component {
     return (
       <main ref={this.slide}>
         <div className="neighbour-noise-container-top top-container grid grid--2row-2col">
-          <h1 className="heading--L margin-top-S grid--span">
+          <h1 className="heading--L margin-top-S grid--span align--centre">
             Is <strong>Neighbourly Noise</strong> <br /> a big issue for you?
           </h1>
           <div className="flex flex--column-centre flex--gap-M">
