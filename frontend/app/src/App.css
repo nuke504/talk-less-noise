@@ -11,6 +11,16 @@ Medium: 500
 Semi-bold: 600
 Bold: 700
 
+--- 05 Shadows
+
+box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.075);
+
+--- 06 Border Radius
+
+Default: 9px
+Large: 11px
+Extra Large: 21px
+
 */
 
 :root {
@@ -30,9 +40,9 @@ Bold: 700
   --color-tertiary: #f87171;
   --color-tertiary-tint-1: #fecaca;
 
-  --color-grey-1: #343a40;
-  --color-grey-2: #495057;
-  --color-grey-3: #cfcfcf;
+  --color-grey-1: rgb(52, 58, 64);
+  --color-grey-2: rgb(73, 80, 87);
+  --color-grey-3: rgb(207, 207, 207);
 
   --color-pets: rgb(210, 79, 62);
   --color-furniture: rgb(238, 180, 56);
@@ -56,10 +66,164 @@ html {
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-secondary), sans-serif;
   color: var(--color-grey-1);
 }
 
 strong {
   color: var(--color-secondary);
+  font-weight: normal;
+}
+
+h1,
+h2 {
+  font-weight: normal;
+  text-align: center;
+}
+
+main {
+  background-color: var(--color-primary-tint-1);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* General Styles */
+.top-container {
+  height: 70vh;
+}
+
+.bottom-container {
+  min-height: 30vh;
+}
+
+/* Flexbox */
+.flex {
+  display: flex;
+}
+
+.flex--row-centre {
+  align-items: center;
+}
+
+.flex--gap-large {
+  gap: 2.4rem;
+}
+
+.flex--gap-M {
+  gap: 1.2rem;
+}
+
+.flex--column-centre {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex--spaceout-centre {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex--column {
+  flex-direction: column;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+}
+
+.grid--2row-2col {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.grid--2row-3col-wide-main {
+  grid-template-columns: 25rem 1fr 25rem;
+  grid-template-rows: 0.6fr 0.4fr;
+}
+
+.grid--2row-2col-wide-main {
+  grid-template-columns: 0.67fr 0.33fr;
+  grid-template-rows: repeat(1fr, 2);
+}
+
+.grid--2row--3col {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.grid--2row--3col-top-shrink {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 2fr 2fr;
+}
+
+.grid--align-justify-center {
+  align-items: center;
+  justify-items: center;
+}
+
+.grid--content-centre {
+  justify-content: center;
+  align-items: center;
+}
+
+.grid--span {
+  grid-column: 1/-1;
+}
+
+.grid--row-gap-L {
+  row-gap: 6.4rem;
+}
+
+/* Margins */
+.margin-top-S {
+  margin-top: 2.4rem;
+}
+
+.margin-left-S {
+  margin-left: 2.4rem;
+}
+
+/* Headings and Text Size */
+.heading--XL {
+  font-size: 15.6rem;
+}
+
+.heading--L {
+  font-size: 12.8rem;
+}
+
+.heading--LM {
+  font-size: 11rem;
+}
+
+.heading--M {
+  font-size: 9.8rem;
+}
+
+.heading--S {
+  font-size: 7.2rem;
+}
+
+.text--bold {
+  font-weight: 700;
+}
+
+.text--L {
+  font-size: 6.2rem;
+}
+
+.text--M {
+  font-size: 5.2rem;
+}
+
+.text--S {
+  font-size: 4.4rem;
+}
+
+/* Alignment */
+.align--centre {
+  text-align: center;
 }

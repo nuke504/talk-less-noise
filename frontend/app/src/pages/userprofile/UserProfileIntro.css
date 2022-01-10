@@ -1,7 +1,4 @@
 .user-profile-intro-container-top {
-  width: 100vw;
-  min-height: 70vh;
-
   background-image: linear-gradient(
     var(--color-tertiary),
     rgba(248, 113, 113, 0.9)
@@ -23,14 +20,12 @@
 .user-profile-intro-primary-top {
   grid-column: 1;
   grid-row: 1;
-  font-size: 13.8rem;
   align-self: end;
 }
 
 .user-profile-intro-primary-bottom {
   grid-column: 1;
   grid-row: 2;
-  font-size: 15.6rem;
 }
 
 .user-profile-intro-image {

@@ -30,8 +30,8 @@ const NOISE_LOGOS = new Map([
 
 function NoiseOption(props) {
   //   const onClickFn = props.onClick.bind(null, props.iconName);
-  const customSelectClass = `noise-collation-btn noise-collation-btn--${props.iconName}`;
-  const customColourClass = `noise-collation-color--${props.iconName}`;
+  const customSelectClass = `noise-collation-btn flex flex--column-centre noise-collation-btn--${props.iconName}`;
+  const customColourClass = `heading--S noise-collation-color--${props.iconName}`;
   const customImageClass = `noise-collation-img noise-collation-img--${props.iconName}`;
 
   return (
@@ -58,7 +58,7 @@ export default class NoiseCollationScreen extends Component {
 
     this.state = {
       message: (
-        <h1 className="noise-collation-title--original">
+        <h1 className="heading--L">
           Which <strong>noise</strong> affects you most?
         </h1>
       ),
@@ -119,7 +119,7 @@ export default class NoiseCollationScreen extends Component {
     iconNames = NOISE_CATEGORIES
   ) {
     return () => {
-      const strongClass = `noise-collation-color--${noiseCategory} noise-collation-strong`;
+      const strongClass = `noise-collation-color--${noiseCategory} heading--L`;
       this.setState({
         message: (
           <h1 className="noise-collation-title--triggered">
@@ -132,7 +132,7 @@ export default class NoiseCollationScreen extends Component {
       gsap.to(
         this.slide.current.querySelectorAll(
           `.noise-collation-img--${noiseCategory}`
-        )[1],
+        )[0],
         { duration: 1, scale: 2 }
       );
 
@@ -206,8 +206,8 @@ export default class NoiseCollationScreen extends Component {
   render() {
     return (
       <main ref={this.slide}>
-        <div className="noise-collation-top">
-          <div className="noise-collation-title">{this.state.message}</div>
+        <div className="noise-collation-top grid grid--2row--3col-top-shrink grid--row-gap-L grid--align-justify-center ">
+          <div className="grid--span">{this.state.message}</div>
           <NoiseOption iconName="pets" onClick={this.updateCollation("pets")} />
           <NoiseOption
             iconName="furniture"

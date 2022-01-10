@@ -18,6 +18,15 @@ export const NOISE_DESCRIPTION = new Map([
   ["others", "others"],
 ]);
 
+export const NOISE_THRESHOLD_NAME = new Map([
+  ["pets", "Howl of the dogs"],
+  ["furniture", "Scream of the chair"],
+  ["baby", "Cry of the moon"],
+  ["works", "Waltz of the drills"],
+  ["music", "Crescendo of the waves"],
+  ["others", "Dance of random bits"],
+]);
+
 export const KEY_MAPPING = ["1", "2", "3", "4", "5", "6"];
 
 let APP_NAME;

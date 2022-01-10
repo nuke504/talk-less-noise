@@ -1,14 +1,7 @@
 .start-container-top {
-  width: 100vw;
-  min-height: 70vh;
-
   background-image: linear-gradient(#fab005, rgb(250, 176, 5, 0.9));
   color: var(--color-primary-tint-1);
   font-family: var(--font-primary), sans-serif;
-
-  display: grid;
-  grid-template-columns: 25rem 1fr 25rem;
-  grid-template-rows: 0.3fr 0.3fr 0.4fr;
 
   align-content: flex-start;
   justify-items: center;
@@ -18,27 +11,18 @@
 
 .start-conversation-image--left {
   grid-column: 1;
-  grid-row: 3;
+  grid-row: 2;
 }
 
 .start-conversation-image--right {
   grid-column: 3;
-  grid-row: 3;
+  grid-row: 2;
 }
 
-.start-primary-top {
+.start-primary {
   grid-column: 2;
-  font-size: 16.6rem;
-  line-height: 16.6rem;
-}
-
-.start-primary-bottom {
-  grid-column: 2;
-  font-size: 17.8rem;
 }
 
 .start-secondary {
   grid-column: 2;
-  font-size: 9.8rem;
-  text-align: center;
 }

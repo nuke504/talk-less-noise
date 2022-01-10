@@ -16,6 +16,10 @@ import NoiseCollationResultsScreen from "./survey/NoiseCollationResults";
 import QuietHoursScreen from "./survey/QuietHours";
 import QuietHoursResultsScreen from "./survey/QuietHoursResults";
 
+import ThresholdScreen from "./survey/Threshold";
+
+import EndScreen from "./transition/End";
+
 export default class SlideController extends Component {
   constructor(props) {
     super(props);
@@ -191,7 +195,7 @@ export default class SlideController extends Component {
       case "quietHours":
         return (
           <QuietHoursScreen
-            nextSlide="title"
+            nextSlide="threshold"
             callNextSlide={this.updateActiveSlide}
             updateParam={this.props.updateParam}
             getQuietHours={this.props.getQuietHours}
@@ -199,7 +203,6 @@ export default class SlideController extends Component {
             checkpointDescription="quietHours"
             startCheckpoint={this.props.startCheckpoint}
             endCheckpoint={this.props.endCheckpoint}
-            endAttempt={this.props.endAttempt}
             errorHandler={this.props.errorHandler}
             slideTimeout={this.slideTimeout}
           />
@@ -208,6 +211,30 @@ export default class SlideController extends Component {
       case "quietHoursResults":
         return (
           <QuietHoursResultsScreen getQuietHours={this.props.getQuietHours} />
+        );
+
+      case "threshold":
+        return (
+          <ThresholdScreen
+            nextSlide="end"
+            callNextSlide={this.updateActiveSlide}
+            getNoiseCollation={this.props.getNoiseCollation}
+            getThreshold={this.props.getThreshold}
+            postThreshold={this.props.postThreshold}
+            checkpointDescription="threshold"
+            startCheckpoint={this.props.startCheckpoint}
+            endCheckpoint={this.props.endCheckpoint}
+            slideTimeout={this.slideTimeout}
+          />
+        );
+
+      case "end":
+        return (
+          <EndScreen
+            nextSlide="title"
+            callNextSlide={this.updateActiveSlide}
+            endAttempt={this.props.endAttempt}
+          />
         );
 
       default:

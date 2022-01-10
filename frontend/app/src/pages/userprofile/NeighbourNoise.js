@@ -118,17 +118,17 @@ class NeighbourNoiseScreen extends Component {
   render() {
     return (
       <main ref={this.slide}>
-        <div className="neighbour-noise-container-top">
-          <h1 className="neighbour-noise-primary-top">
+        <div className="neighbour-noise-container-top top-container grid grid--2row-2col">
+          <h1 className="heading--L margin-top-S grid--span align--centre">
             Is <strong>Neighbourly Noise</strong> <br /> a big issue for you?
           </h1>
-          <div className="neighbour-noise-image-container">
+          <div className="flex flex--column-centre flex--gap-M">
             <img src={happyface} alt="Happy Face" className="face-happy" />
-            <p>Not a problem</p>
+            <p className="face-caption text--M">Not a problem</p>
           </div>
-          <div className="neighbour-noise-image-container">
+          <div className="flex flex--column-centre flex--gap-M">
             <img src={sadface} alt="Happy Face" className="face-sad" />
-            <p>It is a problem</p>
+            <p className="face-caption text--M">It is a problem</p>
           </div>
         </div>
         <ButtonContainer

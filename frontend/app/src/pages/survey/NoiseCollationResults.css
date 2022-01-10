@@ -1,6 +1,4 @@
 .results-bg {
-  width: 100vw;
-  height: 100vh;
   background-image: linear-gradient(
     var(--color-primary-tint-1),
     var(--color-primary-tint-1-alpha)
@@ -20,8 +18,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
-  font-size: 9.8rem;
 }
 
 .nc-result {
@@ -164,27 +160,3 @@
 .nc-results--6 img {
   width: 3vw;
 }
-
-/* .noise-collation-color--pets {
-  color: var(--color-pets);
-}
-
-.noise-collation-color--furniture {
-  color: var(--color-furniture);
-}
-
-.noise-collation-color--baby {
-  color: var(--color-baby);
-}
-
-.noise-collation-color--works {
-  color: var(--color-works);
-}
-
-.noise-collation-color--music {
-  color: var(--color-music);
-}
-
-.noise-collation-color--others {
-  color: var(--color-others);
-} */

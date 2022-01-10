@@ -161,7 +161,7 @@ export default class NoiseCollationResultsScreen extends Component {
   }
 
   getLoadingScreen() {
-    return <h1 className="loading">Loading survey results!</h1>;
+    return <h1 className="loading heading--M">Loading survey results!</h1>;
   }
 
   getNoiseCategoryRank() {

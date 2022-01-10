@@ -1,0 +1,118 @@
+.threshold-container {
+  grid-template-columns: 1fr 2fr;
+  max-width: 130rem;
+  margin: 0 auto 0 auto;
+}
+
+.threshold-description {
+  flex-direction: column;
+  justify-content: center;
+}
+
+.threshold-description h2,
+.threshold-description h1 {
+  text-align: left;
+}
+
+.placeholder {
+  background-color: brown;
+}
+
+.threshold-container strong {
+  font-weight: 600;
+}
+
+.threshold-soundbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  position: relative;
+
+  width: 130rem;
+  margin: 0 auto 0 auto;
+}
+
+.threshold-gradient {
+  width: 130rem;
+  height: 6rem;
+  margin: 0 auto 0 auto;
+  background-image: linear-gradient(to right, #1f17f2, #f60b59);
+}
+
+.threshold-blank-container {
+  width: 130rem;
+  height: 6rem;
+  margin: 0 auto 0 auto;
+  display: flex;
+  justify-content: space-between;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.threshold-blank {
+  /* Referring to the container itself */
+  flex-grow: 1;
+
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+}
+
+.threshold-blank--thin,
+.threshold-blank--thick {
+  background-color: var(--color-primary-tint-1);
+}
+
+.threshold-label {
+  position: absolute;
+  top: 2.5%;
+  /* background-color: blue; */
+  color: rgba(73, 80, 87, 0);
+  text-align: center;
+  font-size: 3.6rem;
+}
+
+.threshold-label--pos1 {
+  left: 37.92rem;
+  transform: translate(-50%);
+}
+
+.threshold-label--pos2 {
+  left: 69.33rem;
+  transform: translate(-50%);
+}
+
+.threshold-label-container {
+  position: relative;
+}
+
+.threshold-level-label {
+  position: absolute;
+  padding: 0.4rem;
+  border-radius: 0.9rem;
+  background-color: var(--color-primary-tint-1);
+  box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.075);
+
+  font-size: 3.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-50%);
+  width: fit-content;
+}
+
+.threshold-level-label--user {
+  bottom: 10%;
+}
+
+.threshold-icon {
+  width: 3rem;
+}
+
+.threshold-level-label--blk {
+  top: 5%;
+}

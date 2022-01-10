@@ -2,22 +2,6 @@
   display: grid;
   grid-template-rows: 10vh 1fr;
   grid-template-columns: 5fr 4fr;
-  gap: 3.2rem;
-
-  justify-content: center;
-  align-items: center;
-}
-
-.quiet-hours-results-section h2 {
-  font-size: 4.4rem;
-  text-align: center;
-}
-
-.quiet-hours-results-title {
-  margin-top: 1.2rem;
-  font-size: 9.6rem;
-  grid-column: 1/-1;
-  text-align: center;
 }
 
 .quiet-hours-chart-container {

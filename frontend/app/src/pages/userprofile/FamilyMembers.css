@@ -1,15 +1,6 @@
 .family-members-container-top {
-  width: 100vw;
-  min-height: 70vh;
-
-  background-color: var(--color-primary-tint-1);
   color: var(--color-primary-shade-1);
   font-family: var(--font-primary), sans-serif;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .family-members-number-box {
@@ -18,20 +9,6 @@
 
   color: var(--color-secondary-tint-1);
 
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  /* justify-content: center; */
-  /* align-content: center; */
-  align-items: center;
-  justify-items: center;
-
   width: 30rem;
   height: 15rem;
-}
-
-.family-members-primary-top {
-  font-size: 12.8rem;
-  line-height: 15.6rem;
-  text-align: center;
 }

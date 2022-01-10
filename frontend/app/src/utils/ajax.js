@@ -127,6 +127,18 @@ export const getQuietHours = function (errorHandler, ...columns) {
   });
 };
 
+export const getThreshold = function (errorHandler, ...columns) {
+  const params =
+    columns.length > 0
+      ? "?" + columns.map((n) => `group_by_columns=${n}`).join("&")
+      : "";
+  return request({
+    method: "GET",
+    relativeUrl: `/survey/threshold${params}`,
+    errorHandler,
+  });
+};
+
 // Post methods
 export const postStartAttempt = function (attemptId, startTime, errorHandler) {
   request({
@@ -187,6 +199,36 @@ export const postQuietHours = function ({
       ageGroup,
       neighbourNoiseIsProblem,
       hours,
+    },
+    errorHandler,
+  }).then((response) => console.log("Received response: ", response));
+};
+
+export const postThreshold = function ({
+  attemptId,
+  area,
+  documentTime,
+  numFamilyMembers,
+  ageGroup,
+  neighbourNoiseIsProblem,
+  noiseCategory,
+  noisyThreshold,
+  niceThreshold,
+  errorHandler,
+}) {
+  request({
+    method: "POST",
+    relativeUrl: `/survey/threshold`,
+    data: {
+      attemptId,
+      area,
+      documentTime,
+      numFamilyMembers,
+      ageGroup,
+      neighbourNoiseIsProblem,
+      noiseCategory,
+      noisyThreshold,
+      niceThreshold,
     },
     errorHandler,
   }).then((response) => console.log("Received response: ", response));
