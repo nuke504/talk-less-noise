@@ -25,6 +25,15 @@ jobs:
           uses: azure/login@v1
           with:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+        - name: 'Build backend test image'
+          run: |
+            docker build backend/. --target test -t talk-less-noise-backend:test
+
+        - name: 'Run backend tests'
+          run: |
+            echo "${{ secrets.ENV_PROD_CONTENTS }}" > backend/.env.prod
+            docker run --env-file backend/.env.prod talk-less-noise-backend:test
         
         - name: 'Build and push image'
           run: |
