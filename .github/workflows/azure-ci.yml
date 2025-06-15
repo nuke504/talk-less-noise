@@ -13,6 +13,9 @@ on:
 jobs:
     build-and-push:
         runs-on: ubuntu-latest
+        env:
+          # Setting an environment variable with the value of a configuration variable
+          ACR_NAME: ${{ vars.ACR_NAME }}
         steps:
         # checkout the repo
         - name: 'Checkout GitHub Action'
@@ -21,21 +24,16 @@ jobs:
         - name: 'Login via Azure CLI'
           uses: azure/login@v1
           with:
-            creds: ${{ secrets.AZURE_CREDENTIALS }}
+            client-id: ${{ secrets.AZURE_CLIENT_ID }}
+            tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+            client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
         
         - name: 'Build and push image'
-          uses: azure/docker-login@v1
-          with:
-            login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-            username: ${{ secrets.REGISTRY_USERNAME }}
-            password: ${{ secrets.REGISTRY_PASSWORD }}
-        # Build necessary images for the backend
-        - run: |
-            docker build backend/. -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise:api-latest --target production
-            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise:api-latest
-            docker build backend_nginx/. -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise:backend-nginx-bridge-latest --target bridge
-            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise:backend-nginx-bridge-latest
-            docker build backend_nginx/. -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise:backend-nginx-localhost-latest --target localhost
-            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise:backend-nginx-localhost-latest
-            docker build frontend/. -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise:react-latest -f frontend/Dockerfile.remote
-            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/talk-less-noise:react-latest
+          run: |
+            az acr login --name $ACR_NAME
+            docker build backend/. -t $ACR_NAME.azurecr.io/talk-less-noise:api-latest --target production
+            docker push $ACR_NAME.azurecr.io/talk-less-noise:api-latest
+            docker build backend_nginx/. -t $ACR_NAME.azurecr.io/talk-less-noise:backend-nginx-bridge-latest --target bridge
+            docker push $ACR_NAME.azurecr.io/talk-less-noise:backend-nginx-bridge-latest
+            docker build frontend/. -t $ACR_NAME.azurecr.io/talk-less-noise:react-latest -f frontend/Dockerfile.remote
+            docker push $ACR_NAME.azurecr.io/talk-less-noise:react-latest
