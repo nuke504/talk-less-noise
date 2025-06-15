@@ -10,6 +10,8 @@ ENV PATH /app/node_modules/.bin:$PATH
 # install app dependencies
 COPY /app/package.json /app/package.json
 COPY /app/package-lock.json /app/package-lock.json
+RUN npm set timeout=60000
+RUN npm config set registry https://registry.npmjs.org/
 RUN npm install
 RUN npm install react-scripts@4.0.3 -g
 

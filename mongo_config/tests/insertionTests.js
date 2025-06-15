@@ -4,18 +4,18 @@
 let noiseCollationInserts = [
   {
     attemptId: "testApp-1",
-    area: "angMoKio",
+    area: "northeast",
     documentTime: new Date(),
     noiseCategory: "baby",
   },
   {
     attemptId: "testApp-2",
-    area: "angMoKio",
+    area: "northeast",
     documentTime: new Date(),
   },
   {
     attemptId: "testApp-3",
-    area: "bedok",
+    area: "northeast",
     documentTime: new Date(),
     noiseCategory: "fan",
   },

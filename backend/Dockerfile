@@ -15,9 +15,8 @@ RUN apt-get update -y && \
     apt-get install curl -y
 
 # Install Poetry
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | POETRY_HOME=/opt/poetry python && \
-    cd /usr/local/bin && \
-    ln -s /opt/poetry/bin/poetry && \
+RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python && \
+    ln -s /opt/poetry/bin/poetry /usr/local/bin/poetry && \
     poetry config virtualenvs.create false
 
 COPY pyproject.toml .
@@ -27,7 +26,6 @@ COPY /app app/
 
 # Test using pytest
 FROM base AS test
-COPY poetry_test.lock poetry.lock
 RUN poetry install && \
     chown -R backend:backend $APP_HOME
 COPY /test test/
@@ -35,8 +33,7 @@ USER backend
 CMD ["pytest"]
 
 FROM base AS production
-COPY poetry_production.lock poetry.lock
-RUN poetry install --no-dev && \
+RUN poetry install --only main && \
     chown -R backend:backend $APP_HOME
 COPY gunicorn.conf.py .
 EXPOSE 8080/tcp

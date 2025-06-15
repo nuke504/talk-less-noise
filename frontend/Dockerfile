@@ -17,4 +17,4 @@ RUN npm install react-scripts@4.0.3 -g
 COPY /app ./
 ENV REACT_APP_API_ADDRESS="https://talk-less-noise-api.azurewebsites.net/api"
 ENV REACT_APP_NAME="talk-less-noise-dev"
-CMD ["npm", "start"]
+CMD ["NODE_OPTIONS=--openssl-legacy-provider","npm", "start"]
