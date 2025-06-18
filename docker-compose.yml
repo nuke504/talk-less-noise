@@ -1,5 +1,5 @@
 services:
-  python:
+  backend-api:
     build:
       context: ./backend
       target: production
@@ -17,7 +17,7 @@ services:
     ports:
       - 8000:80
     depends_on:
-      - python
+      - backend-api
     networks:
       - backend_network
 
