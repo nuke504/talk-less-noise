@@ -18,6 +18,8 @@ services:
       - 8000:80
     depends_on:
       - backend-api
+    environment:
+      - BACKEND_API_URL=backend-api
     networks:
       - backend_network
 
