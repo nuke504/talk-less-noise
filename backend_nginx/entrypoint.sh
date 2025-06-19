@@ -4,6 +4,5 @@ echo "BACKEND_API_URL=$BACKEND_API_URL"
 # echo "----- /etc/nginx/conf.d/default.conf -----"
 # cat /etc/nginx/conf.d/default.conf
 # echo "------------------------------------------"
-curl -vf http://backend-api.internal.orangesky-fc92084d.southeastasia.azurecontainerapps.io:8080
-echo "curl exit code: $?"
+curl -v http://backend-api.internal.orangesky-fc92084d.southeastasia.azurecontainerapps.io:8080
 exec nginx -g 'daemon off;'
