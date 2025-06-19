@@ -33,6 +33,7 @@ USER backend
 CMD ["pytest"]
 
 FROM base AS production
+RUN apt update && apt install -y iputils-ping curl net-tools dnsutils
 RUN poetry install --only main && \
     chown -R backend:backend $APP_HOME
 COPY gunicorn.conf.py .
