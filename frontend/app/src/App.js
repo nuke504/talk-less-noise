@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import Modal from "./components/Modal";
@@ -24,7 +24,9 @@ export default class App extends Component {
   // Set initial state
   constructor(props) {
     super(props);
-    this.state = INITIAL_STATE;
+    this.state = {
+      ...INITIAL_STATE
+    };
 
     // Bind all state uplift methods
     this.updateParam = this.updateParam.bind(this);
@@ -40,7 +42,16 @@ export default class App extends Component {
     this.endCheckpoint = this.endCheckpoint.bind(this);
     this.endAttempt = this.endAttempt.bind(this);
 
+    this.getQuietHours = this.getQuietHours.bind(this);
+    this.getNoiseCollation = this.getNoiseCollation.bind(this);
+
     this.errorHandler = this.errorHandler.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.token && this.props.token !== prevProps.token) {
+      this.setState({ token: this.props.token });
+    }
   }
 
   currentTime() {
@@ -74,7 +85,7 @@ export default class App extends Component {
   }
 
   getNoiseCollation(...columns) {
-    return getNoiseCollation(this.errorHandler, ...columns);
+    return getNoiseCollation({ errorHandler: this.errorHandler, columns, token: this.props.getToken() });
   }
 
   postQuietHours(hours) {
@@ -85,11 +96,12 @@ export default class App extends Component {
       documentTime,
       hours,
       errorHandler: this.errorHandler,
+      token: this.props.getToken(),
     });
   }
 
   getQuietHours(...columns) {
-    return getQuietHours(this.errorHandler, ...columns);
+    return getQuietHours({ errorHandler: this.errorHandler, columns, token: this.props.getToken() });
   }
 
   // Usage update methods
@@ -102,7 +114,7 @@ export default class App extends Component {
     this.updateParam("attemptId", attemptId);
     this.updateParam("complete", false);
 
-    postStartAttempt(attemptId, startTime, this.errorHandler);
+    postStartAttempt(attemptId, startTime, this.errorHandler, this.props.getToken());
   }
 
   endAttempt(complete = true, failReason = null) {
@@ -115,6 +127,7 @@ export default class App extends Component {
       endTime,
       complete,
       this.errorHandler,
+      this.props.getToken(),
       failReason
     );
   }
@@ -127,7 +140,7 @@ export default class App extends Component {
       state.checkpoints.push({ description, start });
     });
 
-    putCheckpoint(this.state.attemptId, description, start, this.errorHandler);
+    putCheckpoint(this.state.attemptId, description, start, this.errorHandler, this.props.getToken());
   }
 
   endCheckpoint(description) {
@@ -156,7 +169,8 @@ export default class App extends Component {
       description,
       end,
       this.errorHandler,
-      false
+      this.props.getToken(),
+      false,
     );
   }
 

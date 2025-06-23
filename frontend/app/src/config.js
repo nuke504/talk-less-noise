@@ -36,6 +36,11 @@ if (process.env.REACT_APP_API_ADDRESS) {
 }
 export { API_ADDRESS };
 
+export const DEFAULT_HEADERS = {
+  "Content-Type": "application/json",
+  "x-client-name": "talk-less-noise-frontend",
+}
+
 export const TIMEOUT_SECONDS = 9000;
 export const INITIAL_STATE = {
   errorTitle: null,

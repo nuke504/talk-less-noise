@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_ADDRESS } from "../config";
+import { API_ADDRESS, DEFAULT_HEADERS } from "../config";
 
 export const timeout = function (s) {
   return new Promise(function (_, reject) {
@@ -15,20 +15,31 @@ export const request = async function ({
   data = null,
   params = null,
   errorHandler = null,
+  token = null,
 }) {
   try {
     // console.log("Posting", data);
     // return {};
     const apiUrl = `${API_ADDRESS}${relativeUrl}`;
     let response;
+
+    // Merge headers: DEFAULT_HEADERS + x-client-name + Authorization
+    const headers = {
+      ...DEFAULT_HEADERS,
+      "x-client-name": "talk-less-noise-frontend",
+      ...(token && { Authorization: `Bearer ${token}` }),
+    };
+
     switch (method) {
       case "GET":
-        response = await axios.get(apiUrl, { params });
+        response = await axios.get(apiUrl, { params, headers });
         break;
       case "POST":
         if (!data) throw new Error("postData cannot be null for POST request");
 
-        response = await axios.post(apiUrl, data);
+        response = await axios.post(apiUrl, data, {
+          headers,
+        });
         if (!response.data?.acknowledged) {
           throw new Error(
             `POST Successful but server not updated ${response.data}`
@@ -38,7 +49,9 @@ export const request = async function ({
         break;
 
       case "PUT":
-        response = await axios.put(apiUrl, data);
+        response = await axios.put(apiUrl, data, {
+          headers,
+        });
 
         if (!response.data?.acknowledged) {
           throw new Error(
@@ -103,7 +116,7 @@ export const request = async function ({
 };
 
 // Get methods
-export const getNoiseCollation = function (errorHandler, ...columns) {
+export const getNoiseCollation = function ({ errorHandler, columns = [], token }) {
   const params =
     columns.length > 0
       ? "?" + columns.map((n) => `group_by_columns=${n}`).join("&")
@@ -112,10 +125,11 @@ export const getNoiseCollation = function (errorHandler, ...columns) {
     method: "GET",
     relativeUrl: `/survey/noiseCollation${params}`,
     errorHandler,
+    token,
   });
 };
 
-export const getQuietHours = function (errorHandler, ...columns) {
+export const getQuietHours = function ({ errorHandler, columns = [], token }) {
   const params =
     columns.length > 0
       ? "?" + columns.map((n) => `group_by_columns=${n}`).join("&")
@@ -124,11 +138,12 @@ export const getQuietHours = function (errorHandler, ...columns) {
     method: "GET",
     relativeUrl: `/survey/quietHours${params}`,
     errorHandler,
+    token,
   });
 };
 
 // Post methods
-export const postStartAttempt = function (attemptId, startTime, errorHandler) {
+export const postStartAttempt = function (attemptId, startTime, errorHandler, token) {
   request({
     method: "POST",
     relativeUrl: "/usage/attempt/start",
@@ -137,6 +152,7 @@ export const postStartAttempt = function (attemptId, startTime, errorHandler) {
       startTime,
     },
     errorHandler,
+    token,
   }).then((response) => console.log("Received response: ", response));
 };
 
@@ -149,6 +165,7 @@ export const postNoiseCollation = function ({
   neighbourNoiseIsProblem,
   noiseCategory,
   errorHandler,
+  token,
 }) {
   request({
     method: "POST",
@@ -163,6 +180,7 @@ export const postNoiseCollation = function ({
       noiseCategory,
     },
     errorHandler,
+    token,
   }).then((response) => console.log("Received response: ", response));
 };
 
@@ -175,6 +193,7 @@ export const postQuietHours = function ({
   neighbourNoiseIsProblem,
   hours,
   errorHandler,
+  token,
 }) {
   request({
     method: "POST",
@@ -189,6 +208,7 @@ export const postQuietHours = function ({
       hours,
     },
     errorHandler,
+    token,
   }).then((response) => console.log("Received response: ", response));
 };
 
@@ -198,6 +218,7 @@ export const putCheckpoint = function (
   description,
   time,
   errorHandler,
+  token,
   isStart = true
 ) {
   let data = { attemptId, description };
@@ -213,6 +234,7 @@ export const putCheckpoint = function (
     relativeUrl: `/usage/checkpoint/${isStart ? "start" : "end"}`,
     data,
     errorHandler,
+    token,
   }).then((response) => console.log("Received response: ", response));
 };
 
@@ -221,6 +243,7 @@ export const putEndAttempt = function (
   endTime,
   complete,
   errorHandler,
+  token,
   failReason = null
 ) {
   const data = {
@@ -236,5 +259,6 @@ export const putEndAttempt = function (
     relativeUrl: `/usage/attempt/end`,
     data,
     errorHandler,
+    token,
   }).then((response) => console.log("Received response: ", response));
 };

@@ -147,7 +147,7 @@ export default class NoiseCollationResultsScreen extends Component {
 
   componentDidMount() {
     //  Once mounted, call API
-    this.props.getNoiseCollation("noiseCategory").then((results) => {
+    this.props.getNoiseCollation(["noiseCategory"]).then((results) => {
       this.loadArray(results);
     });
 

@@ -17,7 +17,7 @@ RUN npm install react-scripts@4.0.3 -g
 COPY /app ./
 
 FROM base AS buildremote
-ENV REACT_APP_API_ADDRESS="https://talk-less-noise-api.azurewebsites.net/api"
+ENV REACT_APP_API_ADDRESS="https://tln-apim.azure-api.net/api"
 ENV REACT_APP_NAME="talk-less-noise-azure"
 RUN npm run build
 

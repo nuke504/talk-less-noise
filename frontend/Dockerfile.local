@@ -19,7 +19,7 @@ RUN npm install react-scripts@4.0.3 -g
 COPY /app ./
 
 FROM base AS build
-ENV REACT_APP_API_ADDRESS="http://localhost:8000/api"
+ENV REACT_APP_API_ADDRESS="https://tln-apim.azure-api.net/api"
 ENV REACT_APP_NAME="talk-less-noise-docker"
 RUN npm run build
 
