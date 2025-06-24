@@ -1,0 +1,856 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Let's talk less noise",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/api/survey/noiseCollation": {
+            "get": {
+                "tags": [
+                    "survey"
+                ],
+                "summary": "Noise Collation Get",
+                "operationId": "noise_collation_get_api_survey_noiseCollation_get",
+                "parameters": [
+                    {
+                        "description": "Columns to group by when getting percentage and count",
+                        "required": false,
+                        "schema": {
+                            "title": "Group By Columns",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Columns to group by when getting percentage and count"
+                        },
+                        "name": "group_by_columns",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Noise Collation Get Api Survey Noisecollation Get",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "survey"
+                ],
+                "summary": "Noise Collation Post",
+                "operationId": "noise_collation_post_api_survey_noiseCollation_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NoiseCollation"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InsertOneResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/survey/quietHours": {
+            "get": {
+                "tags": [
+                    "survey"
+                ],
+                "summary": "Quiet Hours Get",
+                "operationId": "quiet_hours_get_api_survey_quietHours_get",
+                "parameters": [
+                    {
+                        "description": "Columns to group by when getting quiet hours",
+                        "required": false,
+                        "schema": {
+                            "title": "Group By Columns",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Columns to group by when getting quiet hours"
+                        },
+                        "name": "group_by_columns",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Quiet Hours Get Api Survey Quiethours Get",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "survey"
+                ],
+                "summary": "Quiet Hours Post",
+                "operationId": "quiet_hours_post_api_survey_quietHours_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/QuietHours"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InsertOneResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/survey/threshold": {
+            "get": {
+                "tags": [
+                    "survey"
+                ],
+                "summary": "Threshold Get",
+                "operationId": "threshold_get_api_survey_threshold_get",
+                "parameters": [
+                    {
+                        "description": "Columns to group by when getting thresholds",
+                        "required": false,
+                        "schema": {
+                            "title": "Group By Columns",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Columns to group by when getting thresholds"
+                        },
+                        "name": "group_by_columns",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Threshold Get Api Survey Threshold Get",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "survey"
+                ],
+                "summary": "Threshold Post",
+                "operationId": "threshold_post_api_survey_threshold_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Threshold"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InsertOneResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/usage/attempt/start": {
+            "post": {
+                "tags": [
+                    "usage"
+                ],
+                "summary": "Post Start Attempt",
+                "operationId": "post_start_attempt_api_usage_attempt_start_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AttemptStart"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InsertOneResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/usage/checkpoint/start": {
+            "put": {
+                "tags": [
+                    "usage"
+                ],
+                "summary": "Update Checkpoint",
+                "operationId": "update_checkpoint_api_usage_checkpoint_start_put",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CheckpointStart"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateOneResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/usage/checkpoint/end": {
+            "put": {
+                "tags": [
+                    "usage"
+                ],
+                "summary": "Update Checkpoint",
+                "operationId": "update_checkpoint_api_usage_checkpoint_end_put",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CheckpointEnd"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateOneResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/usage/attempt/end": {
+            "put": {
+                "tags": [
+                    "usage"
+                ],
+                "summary": "Update Checkpoint",
+                "operationId": "update_checkpoint_api_usage_attempt_end_put",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AttemptEnd"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateOneResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AttemptEnd": {
+                "title": "AttemptEnd",
+                "required": [
+                    "attemptId",
+                    "endTime",
+                    "complete"
+                ],
+                "type": "object",
+                "properties": {
+                    "attemptId": {
+                        "title": "Attemptid",
+                        "type": "string"
+                    },
+                    "endTime": {
+                        "title": "Endtime",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "complete": {
+                        "title": "Complete",
+                        "type": "boolean"
+                    },
+                    "failReason": {
+                        "title": "Failreason",
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "attemptId": "\u003Cmachine\u003E-\u003Cuuid\u003E",
+                    "endTime": "2021-07-10T21:28:51.860777",
+                    "complete": false,
+                    "failReason": "Timeout"
+                }
+            },
+            "AttemptStart": {
+                "title": "AttemptStart",
+                "required": [
+                    "attemptId",
+                    "startTime"
+                ],
+                "type": "object",
+                "properties": {
+                    "attemptId": {
+                        "title": "Attemptid",
+                        "type": "string"
+                    },
+                    "startTime": {
+                        "title": "Starttime",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "example": {
+                    "attemptId": "\u003Cmachine\u003E-\u003Cuuid\u003E",
+                    "startTime": "2021-07-10T21:28:51.860777"
+                }
+            },
+            "CheckpointEnd": {
+                "title": "CheckpointEnd",
+                "required": [
+                    "attemptId",
+                    "description",
+                    "end"
+                ],
+                "type": "object",
+                "properties": {
+                    "attemptId": {
+                        "title": "Attemptid",
+                        "type": "string"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "end": {
+                        "title": "End",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "example": {
+                    "attemptId": "\u003Cmachine\u003E-\u003Cuuid\u003E",
+                    "description": "noiseCollation",
+                    "end": "2021-07-10T21:28:51.860777"
+                }
+            },
+            "CheckpointStart": {
+                "title": "CheckpointStart",
+                "required": [
+                    "attemptId",
+                    "description",
+                    "start"
+                ],
+                "type": "object",
+                "properties": {
+                    "attemptId": {
+                        "title": "Attemptid",
+                        "type": "string"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "start": {
+                        "title": "Start",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "example": {
+                    "attemptId": "\u003Cmachine\u003E-\u003Cuuid\u003E",
+                    "description": "noiseCollation",
+                    "start": "2021-07-10T21:28:51.860777"
+                }
+            },
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
+            "Hour": {
+                "title": "Hour",
+                "required": [
+                    "start",
+                    "end"
+                ],
+                "type": "object",
+                "properties": {
+                    "start": {
+                        "title": "Start",
+                        "type": "integer"
+                    },
+                    "end": {
+                        "title": "End",
+                        "type": "integer"
+                    }
+                },
+                "example": {
+                    "start": 23,
+                    "end": 6
+                }
+            },
+            "InsertOneResponse": {
+                "title": "InsertOneResponse",
+                "required": [
+                    "acknowledged",
+                    "insertedId"
+                ],
+                "type": "object",
+                "properties": {
+                    "acknowledged": {
+                        "title": "Acknowledged",
+                        "type": "boolean"
+                    },
+                    "insertedId": {
+                        "title": "Insertedid",
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "acknowledged": true,
+                    "insertedId": "507f1f77bcf86cd799439011"
+                }
+            },
+            "NoiseCollation": {
+                "title": "NoiseCollation",
+                "required": [
+                    "attemptId",
+                    "area",
+                    "documentTime",
+                    "numFamilyMembers",
+                    "ageGroup",
+                    "neighbourNoiseIsProblem",
+                    "noiseCategory"
+                ],
+                "type": "object",
+                "properties": {
+                    "attemptId": {
+                        "title": "Attemptid",
+                        "type": "string"
+                    },
+                    "area": {
+                        "title": "Area",
+                        "type": "string"
+                    },
+                    "documentTime": {
+                        "title": "Documenttime",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "numFamilyMembers": {
+                        "title": "Numfamilymembers",
+                        "type": "integer"
+                    },
+                    "ageGroup": {
+                        "title": "Agegroup",
+                        "type": "string"
+                    },
+                    "neighbourNoiseIsProblem": {
+                        "title": "Neighbournoiseisproblem",
+                        "type": "boolean"
+                    },
+                    "noiseCategory": {
+                        "title": "Noisecategory",
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "attemptId": "\u003Cmachine\u003E-\u003Cuuid\u003E",
+                    "area": "northeast",
+                    "documentTime": "2021-07-10T21:28:51.860777",
+                    "numFamilyMembers": 5,
+                    "ageGroup": "\u003C20",
+                    "neighbourNoiseIsProblem": true,
+                    "noiseCategory": "baby"
+                }
+            },
+            "QuietHours": {
+                "title": "QuietHours",
+                "required": [
+                    "attemptId",
+                    "area",
+                    "documentTime",
+                    "numFamilyMembers",
+                    "ageGroup",
+                    "neighbourNoiseIsProblem",
+                    "hours"
+                ],
+                "type": "object",
+                "properties": {
+                    "attemptId": {
+                        "title": "Attemptid",
+                        "type": "string"
+                    },
+                    "area": {
+                        "title": "Area",
+                        "type": "string"
+                    },
+                    "documentTime": {
+                        "title": "Documenttime",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "numFamilyMembers": {
+                        "title": "Numfamilymembers",
+                        "type": "integer"
+                    },
+                    "ageGroup": {
+                        "title": "Agegroup",
+                        "type": "string"
+                    },
+                    "neighbourNoiseIsProblem": {
+                        "title": "Neighbournoiseisproblem",
+                        "type": "boolean"
+                    },
+                    "hours": {
+                        "title": "Hours",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Hour"
+                        }
+                    }
+                },
+                "example": {
+                    "attemptId": "\u003Cmachine\u003E-\u003Cuuid\u003E",
+                    "area": "northeast",
+                    "documentTime": "2021-07-10T21:28:51.860777",
+                    "numFamilyMembers": 5,
+                    "ageGroup": "\u003C20",
+                    "neighbourNoiseIsProblem": true,
+                    "hours": [
+                        {
+                            "start": 23,
+                            "end": 6
+                        },
+                        {
+                            "start": 15,
+                            "end": 18
+                        }
+                    ]
+                }
+            },
+            "Threshold": {
+                "title": "Threshold",
+                "required": [
+                    "attemptId",
+                    "area",
+                    "documentTime",
+                    "numFamilyMembers",
+                    "ageGroup",
+                    "neighbourNoiseIsProblem",
+                    "noiseCategory",
+                    "noisyThreshold",
+                    "niceThreshold"
+                ],
+                "type": "object",
+                "properties": {
+                    "attemptId": {
+                        "title": "Attemptid",
+                        "type": "string"
+                    },
+                    "area": {
+                        "title": "Area",
+                        "type": "string"
+                    },
+                    "documentTime": {
+                        "title": "Documenttime",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "numFamilyMembers": {
+                        "title": "Numfamilymembers",
+                        "type": "integer"
+                    },
+                    "ageGroup": {
+                        "title": "Agegroup",
+                        "type": "string"
+                    },
+                    "neighbourNoiseIsProblem": {
+                        "title": "Neighbournoiseisproblem",
+                        "type": "boolean"
+                    },
+                    "noiseCategory": {
+                        "title": "Noisecategory",
+                        "type": "string"
+                    },
+                    "noisyThreshold": {
+                        "title": "Noisythreshold",
+                        "type": "number"
+                    },
+                    "niceThreshold": {
+                        "title": "Nicethreshold",
+                        "type": "number"
+                    }
+                },
+                "example": {
+                    "attemptId": "\u003Cmachine\u003E-\u003Cuuid\u003E",
+                    "area": "northeast",
+                    "documentTime": "2021-07-10T21:28:51.860777",
+                    "numFamilyMembers": 5,
+                    "ageGroup": "\u003C20",
+                    "neighbourNoiseIsProblem": true,
+                    "noiseCategory": "baby",
+                    "noisyThreshold": 3,
+                    "niceThreshold": 8
+                }
+            },
+            "UpdateOneResponse": {
+                "title": "UpdateOneResponse",
+                "required": [
+                    "acknowledged",
+                    "matchedCount",
+                    "modifiedCount"
+                ],
+                "type": "object",
+                "properties": {
+                    "acknowledged": {
+                        "title": "Acknowledged",
+                        "type": "boolean"
+                    },
+                    "matchedCount": {
+                        "title": "Matchedcount",
+                        "type": "integer"
+                    },
+                    "modifiedCount": {
+                        "title": "Modifiedcount",
+                        "type": "integer"
+                    }
+                },
+                "example": {
+                    "matchedCount": 1,
+                    "modifiedCount": 1,
+                    "acknowledged": true
+                }
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "msg": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Error Type",
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

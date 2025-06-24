@@ -22,12 +22,13 @@ export const request = async function ({
     // return {};
     const apiUrl = `${API_ADDRESS}${relativeUrl}`;
     let response;
+    const actualToken = await token;
 
     // Merge headers: DEFAULT_HEADERS + x-client-name + Authorization
     const headers = {
       ...DEFAULT_HEADERS,
       "x-client-name": "talk-less-noise-frontend",
-      ...(token && { Authorization: `Bearer ${token}` }),
+      ...(actualToken && { Authorization: `Bearer ${actualToken}` }),
     };
 
     switch (method) {

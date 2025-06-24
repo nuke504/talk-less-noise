@@ -81,6 +81,7 @@ export default class App extends Component {
       documentTime,
       noiseCategory,
       errorHandler: this.errorHandler,
+      token: this.props.getToken(),
     });
   }
 
