@@ -31,9 +31,10 @@ export default class QuietHoursResultsScreen extends Component {
       return row.count;
     });
 
-    this.setState({ chartData, maxCount, loaded: true });
-    this.renderChart();
-    transitionIn(this.slide.current);
+    this.setState({ chartData, maxCount, loaded: true }, () => {
+      this.renderChart();
+      transitionIn(this.slide.current);
+    });
   }
 
   getLoadingScreen() {
@@ -56,6 +57,7 @@ export default class QuietHoursResultsScreen extends Component {
   }
 
   getDataPlaceholder() {
+    console.log(this.state);
     return this.state.chartData.map((count) => {
       if (count > 0) {
         return 1;

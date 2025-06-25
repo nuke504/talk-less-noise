@@ -5,6 +5,8 @@ import { PublicClientApplication } from "@azure/msal-browser";
 import App from "./App";
 import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react";
 import { loginRequest, msalConfig } from "./authConfig";
+import { AppInsightsContext } from "@microsoft/applicationinsights-react-js";
+import { reactPlugin, appInsights } from "./appInsights";
 
 function AuthWrapper({ children }) {
   const { instance, accounts, inProgress } = useMsal();
@@ -18,6 +20,23 @@ function AuthWrapper({ children }) {
         account: accounts[0],
       }).then(response => {
         setToken(response.accessToken);
+        
+        // Track successful authentication
+        appInsights.trackEvent({
+          name: 'UserAuthenticated',
+          properties: {
+            userId: accounts[0].localAccountId,
+            username: accounts[0].username
+          }
+        });
+      }).catch(error => {
+        // Track authentication errors
+        appInsights.trackException({
+          exception: error,
+          properties: {
+            context: 'TokenAcquisition'
+          }
+        });
       });
     }
     // Trigger loginRedirect if not authenticated and not already in progress
@@ -50,18 +69,19 @@ function TokenProvider({ children }) {
   return React.cloneElement(children, { getToken });
 }
 
-
 const msalInstance = new PublicClientApplication(msalConfig);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <MsalProvider instance={msalInstance}>
-    <AuthWrapper>
-      <TokenProvider>
-        <App />
-      </TokenProvider>
-    </AuthWrapper>
-  </MsalProvider>
+  <AppInsightsContext.Provider value={reactPlugin}>
+    <MsalProvider instance={msalInstance}>
+      <AuthWrapper>
+        <TokenProvider>
+          <App />
+        </TokenProvider>
+      </AuthWrapper>
+    </MsalProvider>
+  </AppInsightsContext.Provider>
 );
 
 reportWebVitals();

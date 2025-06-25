@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_ADDRESS, DEFAULT_HEADERS } from "../config";
+import { appInsights } from "../appInsights";
 
 export const timeout = function (s) {
   return new Promise(function (_, reject) {
@@ -17,9 +18,34 @@ export const request = async function ({
   errorHandler = null,
   token = null,
 }) {
+  const startTime = Date.now();
+  const requestId = `${method}_${relativeUrl}_${startTime}`;
+  
   try {
-    // console.log("Posting", data);
-    // return {};
+    // Track dependency call start (use trackDependencyData, not trackDependency)
+    appInsights.trackDependencyData({
+      target: API_ADDRESS,
+      name: `${method} ${relativeUrl}`,
+      data: relativeUrl,
+      duration: 0,
+      success: true,
+      id: requestId,
+      type: "Ajax",
+      dependencyTypeName: "HTTP"
+    });
+
+    // Track custom event for API call initiation
+    appInsights.trackEvent({
+      name: 'APIRequestStarted',
+      properties: {
+        method: method,
+        endpoint: relativeUrl,
+        hasToken: !!token,
+        hasData: !!data,
+        requestId: requestId
+      }
+    });
+
     const apiUrl = `${API_ADDRESS}${relativeUrl}`;
     let response;
     const actualToken = await token;
@@ -46,7 +72,6 @@ export const request = async function ({
             `POST Successful but server not updated ${response.data}`
           );
         }
-
         break;
 
       case "PUT":
@@ -56,10 +81,9 @@ export const request = async function ({
 
         if (!response.data?.acknowledged) {
           throw new Error(
-            `POST Successful but server not updated ${response.data}`
+            `PUT Successful but server not updated ${response.data}`
           );
         }
-
         break;
       default:
         throw new Error(
@@ -67,10 +91,99 @@ export const request = async function ({
         );
     }
 
-    console.log("Valid response: ", response);
+    const duration = Date.now() - startTime;
 
+    // Track successful dependency call
+    appInsights.trackDependencyData({
+      target: API_ADDRESS,
+      name: `${method} ${relativeUrl}`,
+      data: relativeUrl,
+      duration: duration,
+      success: true,
+      id: requestId,
+      type: "Ajax",
+      dependencyTypeName: "HTTP",
+      properties: {
+        statusCode: response.status,
+        responseSize: JSON.stringify(response.data).length
+      }
+    });
+
+    // Track successful API call completion
+    appInsights.trackEvent({
+      name: 'APIRequestCompleted',
+      properties: {
+        method: method,
+        endpoint: relativeUrl,
+        statusCode: response.status,
+        duration: duration,
+        requestId: requestId,
+        success: true
+      },
+      measurements: {
+        responseTime: duration,
+        responseSize: JSON.stringify(response.data).length
+      }
+    });
+
+    console.log("Valid response: ", response);
     return response.data;
+
   } catch (error) {
+    const duration = Date.now() - startTime;
+    
+    // Track failed dependency call
+    appInsights.trackDependencyData({
+      target: API_ADDRESS,
+      name: `${method} ${relativeUrl}`,
+      data: relativeUrl,
+      duration: duration,
+      success: false,
+      id: requestId,
+      type: "Ajax",
+      dependencyTypeName: "HTTP",
+      properties: {
+        errorType: error?.response ? 'ServerError' : error?.request ? 'NetworkError' : 'ClientError',
+        statusCode: error?.response?.status,
+        errorMessage: error.message
+      }
+    });
+
+    // Track exception with detailed context
+    appInsights.trackException({
+      exception: error,
+      properties: {
+        method: method,
+        endpoint: relativeUrl,
+        requestId: requestId,
+        apiUrl: `${API_ADDRESS}${relativeUrl}`,
+        hasToken: !!token,
+        hasData: !!data,
+        errorType: error?.response ? 'ServerError' : error?.request ? 'NetworkError' : 'ClientError',
+        statusCode: error?.response?.status,
+        responseData: error?.response?.data ? JSON.stringify(error.response.data) : null
+      },
+      measurements: {
+        requestDuration: duration
+      }
+    });
+
+    // Track failed API call event
+    appInsights.trackEvent({
+      name: 'APIRequestFailed',
+      properties: {
+        method: method,
+        endpoint: relativeUrl,
+        requestId: requestId,
+        errorType: error?.response ? 'ServerError' : error?.request ? 'NetworkError' : 'ClientError',
+        statusCode: error?.response?.status,
+        errorMessage: error.message
+      },
+      measurements: {
+        failureDuration: duration
+      }
+    });
+
     if (error?.response) {
       if (errorHandler) {
         errorHandler(
@@ -98,7 +211,7 @@ export const request = async function ({
         );
       } else {
         console.error("Server did not respond");
-        console.error("Response status: ", error.response.status);
+        console.error("Response status: ", error.response?.status);
       }
     } else {
       if (errorHandler) {
@@ -117,7 +230,11 @@ export const request = async function ({
 };
 
 // Get methods
-export const getNoiseCollation = function ({ errorHandler, columns = [], token }) {
+export const getNoiseCollation = function ({
+  errorHandler,
+  columns = [],
+  token,
+}) {
   const params =
     columns.length > 0
       ? "?" + columns.map((n) => `group_by_columns=${n}`).join("&")
@@ -144,7 +261,12 @@ export const getQuietHours = function ({ errorHandler, columns = [], token }) {
 };
 
 // Post methods
-export const postStartAttempt = function (attemptId, startTime, errorHandler, token) {
+export const postStartAttempt = function (
+  attemptId,
+  startTime,
+  errorHandler,
+  token
+) {
   request({
     method: "POST",
     relativeUrl: "/usage/attempt/start",

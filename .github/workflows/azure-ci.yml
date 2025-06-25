@@ -42,5 +42,10 @@ jobs:
             docker push $ACR_NAME.azurecr.io/talk-less-noise:api-latest
             docker build backend_nginx/. -t $ACR_NAME.azurecr.io/talk-less-noise:backend-nginx-bridge-latest --target bridge
             docker push $ACR_NAME.azurecr.io/talk-less-noise:backend-nginx-bridge-latest
-            docker build frontend/. -t $ACR_NAME.azurecr.io/talk-less-noise:react-latest -f frontend/Dockerfile.remote
-            docker push $ACR_NAME.azurecr.io/talk-less-noise:react-latest
+            docker build frontend/. \
+              -t $ACR_NAME.azurecr.io/talk-less-noise:react-$REACT_CONTAINER_TAG \
+              -f frontend/Dockerfile.remote \
+              --build-arg REACT_APP_API_ADDRESS=$REACT_APP_API_ADDRESS \
+              --build-arg REACT_APP_NAME=$REACT_APP_NAME \
+              --build-arg REACT_APP_APPINSIGHTS_CONNECTION_STRING="${{ secrets.REACT_APP_APPINSIGHTS_CONNECTION_STRING }}"
+            docker push $ACR_NAME.azurecr.io/talk-less-noise:react-$REACT_CONTAINER_TAG
