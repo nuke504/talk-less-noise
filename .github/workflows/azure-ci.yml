@@ -38,6 +38,8 @@ jobs:
         - name: 'Build and push image'
           run: |
             az acr login --name $ACR_NAME
+            docker build backend_listener/. -t $ACR_NAME.azurecr.io/talk-less-noise:backend-listener-latest
+            docker push $ACR_NAME.azurecr.io/talk-less-noise:backend-listener-latest
             docker build backend/. -t $ACR_NAME.azurecr.io/talk-less-noise:api-latest --target production
             docker push $ACR_NAME.azurecr.io/talk-less-noise:api-latest
             docker build backend_nginx/. -t $ACR_NAME.azurecr.io/talk-less-noise:backend-nginx-bridge-latest --target bridge

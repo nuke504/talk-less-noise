@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "backend-listener"
+version = "0.1.0"
+description = "Cosmos DB MongoDB change stream listener for Event Grid"
+authors = ["Loh Zheng Yi <nuke504@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.12"
+azure-identity = "*"
+azure-keyvault-secrets = "*"
+azure-eventgrid = "*"
+pymongo = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
