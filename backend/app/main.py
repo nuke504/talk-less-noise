@@ -24,7 +24,7 @@ app = FastAPI(
 # Allow CORS bypass
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.FRONTEND_URL,
+    allow_origins=[settings.FRONTEND_URL],
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization"],
     allow_credentials=True,
