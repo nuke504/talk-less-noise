@@ -19,7 +19,7 @@ class EntraJWTConfig:
     def __init__(self):
         self.tenant_id = settings.AZURE_TENANT_ID
         self.aud = settings.ENTRA_AUD
-        self.authority = f"https://sts.windows.net/{self.tenant_id}"
+        self.authority = f"https://sts.windows.net/{self.tenant_id}/"
         self.openid_config_url = (
             f"{self.authority}/v2.0/.well-known/openid-configuration"
         )
