@@ -19,11 +19,8 @@ class EntraJWTConfig:
     def __init__(self):
         self.tenant_id = settings.AZURE_TENANT_ID
         self.aud = settings.ENTRA_AUD
-        self.authority = f"https://sts.windows.net/{self.tenant_id}/"
-        self.openid_config_url = (
-            f"{self.authority}/v2.0/.well-known/openid-configuration"
-        )
-        self.issuer = f"{self.authority}/v2.0"
+        self.openid_config_url = f"https://login.microsoftonline.com/{self.tenant_id}/v2.0/.well-known/openid-configuration"
+        self.issuer = f"https://sts.windows.net/{self.tenant_id}/"
 
         # Environment settings
         self.env = os.environ.get("ENV", "dev")
