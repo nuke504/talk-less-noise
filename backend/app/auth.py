@@ -5,7 +5,6 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
 import httpx
-from functools import lru_cache
 from app.config.settings import settings
 
 logger = logging.getLogger(__name__)
@@ -40,7 +39,6 @@ class EntraJWTConfig:
 jwt_config = EntraJWTConfig()
 
 
-@lru_cache(maxsize=1)
 async def get_jwks() -> Dict[str, Any]:
     """Fetch and cache the JSON Web Key Set from Azure AD"""
     try:
