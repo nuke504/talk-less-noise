@@ -22,8 +22,6 @@ class Settings(BaseSettings):
     TEST_VALUE: int = 101011
 
     # JWT Authentication settings
-    AZURE_TENANT_ID: Optional[str] = os.getenv("AZURE_TENANT_ID")
-    AZURE_CLIENT_ID: Optional[str] = os.getenv("AZURE_CLIENT_ID")
     SKIP_AUTH: bool = os.getenv("SKIP_AUTH", "false").lower() == "true"
 
 

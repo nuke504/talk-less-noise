@@ -1,4 +1,5 @@
 import os
+from typing import Optional
 from . import Settings
 
 
@@ -18,3 +19,6 @@ class DevSettings(Settings):
     SERVER_NAME: str = "dev"
     LOGGING_DIR: str = os.path.join(os.getenv("APP_HOME"), "app", "logs")
     TEST_VALUE: int = 101011
+
+    AZURE_CLIENT_ID: Optional[str] = os.getenv("AZURE_CLIENT_ID")
+    AZURE_TENANT_ID: Optional[str] = os.getenv("AZURE_TENANT_ID")
