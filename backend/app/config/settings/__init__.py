@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     API_PREFIX: str = "/api"
     LOGGING_DIR: str = os.path.join(os.getenv("APP_HOME"), "app", "logs")
     TEST_VALUE: int = 101011
+    FRONTEND_URL: str = os.getenv("FRONTEND_URL", "http://localhost:3000")
 
     # JWT Authentication settings
     SKIP_AUTH: bool = os.getenv("SKIP_AUTH", "false").lower() == "true"
