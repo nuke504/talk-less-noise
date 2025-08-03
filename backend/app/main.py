@@ -13,7 +13,7 @@ init_logging(settings.LOGGING_DIR)
 
 # Apply JWT authentication globally unless in dev/test mode
 dependencies = []
-if not settings.SKIP_AUTH and settings.AZURE_TENANT_ID and settings.AZURE_CLIENT_ID:
+if not settings.SKIP_AUTH and settings.AZURE_TENANT_ID and settings.ENTRA_AUD:
     dependencies = [Depends(get_current_user)]
 
 app = FastAPI(

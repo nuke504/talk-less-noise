@@ -49,5 +49,5 @@ class ProductionSettings(Settings):
     LOGGING_DIR: str = os.path.join(os.getenv("APP_HOME"), "app", "logs")
     TEST_VALUE: int = 101011
 
-    AZURE_CLIENT_ID: str = get_secret_from_keyvault("API-CLIENT-ID", KEYVAULT_URL)
+    ENTRA_AUD: str = get_secret_from_keyvault("API-AUD", KEYVAULT_URL)
     AZURE_TENANT_ID: str = get_secret_from_keyvault("API-TENANT-ID", KEYVAULT_URL)

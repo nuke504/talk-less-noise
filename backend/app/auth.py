@@ -18,7 +18,7 @@ class EntraJWTConfig:
 
     def __init__(self):
         self.tenant_id = settings.AZURE_TENANT_ID
-        self.client_id = settings.AZURE_CLIENT_ID
+        self.aud = settings.ENTRA_AUD
         self.authority = f"https://login.microsoftonline.com/{self.tenant_id}"
         self.openid_config_url = (
             f"{self.authority}/v2.0/.well-known/openid-configuration"
@@ -29,9 +29,9 @@ class EntraJWTConfig:
         self.env = os.environ.get("ENV", "dev")
         self.skip_auth = self.env in ["dev", "test"]
 
-        if not self.skip_auth and (not self.tenant_id or not self.client_id):
+        if not self.skip_auth and (not self.tenant_id or not self.aud):
             raise ValueError(
-                "AZURE_TENANT_ID and AZURE_CLIENT_ID must be set for JWT validation"
+                "AZURE_TENANT_ID and ENTRA_AUD must be set for JWT validation"
             )
 
 
@@ -96,7 +96,7 @@ async def verify_jwt_token(token: str) -> Dict[str, Any]:
             token,
             key,
             algorithms=[unverified_header.get("alg", "RS256")],
-            audience=jwt_config.client_id,
+            audience=jwt_config.aud,
             issuer=jwt_config.issuer,
         )
 
