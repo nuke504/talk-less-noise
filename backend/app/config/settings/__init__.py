@@ -21,6 +21,11 @@ class Settings(BaseSettings):
     LOGGING_DIR: str = os.path.join(os.getenv("APP_HOME"), "app", "logs")
     TEST_VALUE: int = 101011
 
+    # JWT Authentication settings
+    AZURE_TENANT_ID: Optional[str] = os.getenv("AZURE_TENANT_ID")
+    AZURE_CLIENT_ID: Optional[str] = os.getenv("AZURE_CLIENT_ID")
+    SKIP_AUTH: bool = os.getenv("SKIP_AUTH", "false").lower() == "true"
+
 
 class SurveySettings(BaseSettings):
     AREAS: List[str] = ["northeast", "north", "central", "west", "east"]

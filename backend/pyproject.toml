@@ -23,6 +23,8 @@ gunicorn = "^20.1.0"
 azure-identity = "^1.15.0"
 azure-keyvault-secrets = "^4.8.0"
 azure-appconfiguration = "^1.5.0"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+httpx = "^0.24.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^6.2.3"

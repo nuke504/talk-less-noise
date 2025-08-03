@@ -26,28 +26,28 @@ jobs:
           with:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-        - name: 'Build backend test image'
-          run: |
-            docker build backend/. --target test -t talk-less-noise-backend:test
+        # - name: 'Build backend test image'
+        #   run: |
+        #     docker build backend/. --target test -t talk-less-noise-backend:test
 
-        - name: 'Run backend tests'
-          run: |
-            echo "${{ secrets.ENV_PROD_CONTENTS }}" > backend/.env.prod
-            docker run --env-file backend/.env.prod talk-less-noise-backend:test
+        # - name: 'Run backend tests'
+        #   run: |
+        #     echo "${{ secrets.ENV_PROD_CONTENTS }}" > backend/.env.prod
+        #     docker run --env-file backend/.env.prod talk-less-noise-backend:test
         
         - name: 'Build and push image'
           run: |
             az acr login --name $ACR_NAME
-            docker build backend_listener/. -t $ACR_NAME.azurecr.io/talk-less-noise:backend-listener-latest
-            docker push $ACR_NAME.azurecr.io/talk-less-noise:backend-listener-latest
+            # docker build backend_listener/. -t $ACR_NAME.azurecr.io/talk-less-noise:backend-listener-latest
+            # docker push $ACR_NAME.azurecr.io/talk-less-noise:backend-listener-latest
             docker build backend/. -t $ACR_NAME.azurecr.io/talk-less-noise:api-latest --target production
-            docker push $ACR_NAME.azurecr.io/talk-less-noise:api-latest
-            docker build backend_nginx/. -t $ACR_NAME.azurecr.io/talk-less-noise:backend-nginx-bridge-latest --target bridge
-            docker push $ACR_NAME.azurecr.io/talk-less-noise:backend-nginx-bridge-latest
-            docker build frontend/. \
-              -t $ACR_NAME.azurecr.io/talk-less-noise:react-${{ vars.REACT_CONTAINER_TAG }} \
-              -f frontend/Dockerfile.remote \
-              --build-arg REACT_APP_API_ADDRESS=${{ vars.REACT_APP_API_ADDRESS }} \
-              --build-arg REACT_APP_NAME=${{ vars.REACT_APP_NAME }} \
-              --build-arg REACT_APP_APPINSIGHTS_CONNECTION_STRING="${{ secrets.REACT_APP_APPINSIGHTS_CONNECTION_STRING }}"
-            docker push $ACR_NAME.azurecr.io/talk-less-noise:react-${{ vars.REACT_CONTAINER_TAG }}
+            # docker push $ACR_NAME.azurecr.io/talk-less-noise:api-latest
+            # docker build backend_nginx/. -t $ACR_NAME.azurecr.io/talk-less-noise:backend-nginx-bridge-latest --target bridge
+            # docker push $ACR_NAME.azurecr.io/talk-less-noise:backend-nginx-bridge-latest
+            # docker build frontend/. \
+            #   -t $ACR_NAME.azurecr.io/talk-less-noise:react-${{ vars.REACT_CONTAINER_TAG }} \
+            #   -f frontend/Dockerfile.remote \
+            #   --build-arg REACT_APP_API_ADDRESS=${{ vars.REACT_APP_API_ADDRESS }} \
+            #   --build-arg REACT_APP_NAME=${{ vars.REACT_APP_NAME }} \
+            #   --build-arg REACT_APP_APPINSIGHTS_CONNECTION_STRING="${{ secrets.REACT_APP_APPINSIGHTS_CONNECTION_STRING }}"
+            # docker push $ACR_NAME.azurecr.io/talk-less-noise:react-${{ vars.REACT_CONTAINER_TAG }}

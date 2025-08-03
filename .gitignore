@@ -4,7 +4,6 @@
 #azure
 local.settings.json
 host.json
-.vscode
 
 ## React
 # dependencies
