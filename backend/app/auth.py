@@ -6,6 +6,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
 import httpx
 from functools import lru_cache
+from app.config.settings import settings
 
 logger = logging.getLogger(__name__)
 
@@ -17,8 +18,8 @@ class EntraJWTConfig:
     """Configuration for Entra (Azure AD) JWT validation"""
 
     def __init__(self):
-        self.tenant_id = os.environ.get("AZURE_TENANT_ID")
-        self.client_id = os.environ.get("AZURE_CLIENT_ID")
+        self.tenant_id = settings.AZURE_TENANT_ID
+        self.client_id = settings.AZURE_CLIENT_ID
         self.authority = f"https://login.microsoftonline.com/{self.tenant_id}"
         self.openid_config_url = (
             f"{self.authority}/v2.0/.well-known/openid-configuration"
