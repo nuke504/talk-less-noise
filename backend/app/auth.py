@@ -1,6 +1,7 @@
 import os
 import logging
 from typing import Optional, Dict, Any
+from pydantic import BaseModel, root_validator
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
@@ -13,23 +14,47 @@ logger = logging.getLogger(__name__)
 security = HTTPBearer()
 
 
-class EntraJWTConfig:
+class EntraJWTConfig(BaseModel):
     """Configuration for Entra (Azure AD) JWT validation"""
 
-    def __init__(self):
-        self.tenant_id = settings.AZURE_TENANT_ID
-        self.aud = settings.ENTRA_AUD
-        self.openid_config_url = f"https://login.microsoftonline.com/{self.tenant_id}/v2.0/.well-known/openid-configuration"
-        self.issuer = f"https://sts.windows.net/{self.tenant_id}/"
+    tenant_id: Optional[str]
+    aud: Optional[str]
+    openid_config_url: Optional[str]
+    issuer: Optional[str]
 
-        # Environment settings
-        self.env = os.environ.get("ENV", "dev")
-        self.skip_auth = self.env in ["dev", "test"]
+    # Environment settings
+    env: str = os.environ.get("ENV", "dev")
+    skip_auth: bool = False
 
-        if not self.skip_auth and (not self.tenant_id or not self.aud):
+    @root_validator(pre=True)
+    def set_dynamic_fields_and_validate(cls, values):
+        env = values.get("env", os.environ.get("ENV", "dev"))
+        tenant_id = values.get("tenant_id", settings.AZURE_TENANT_ID)
+        aud = values.get("aud", settings.ENTRA_AUD)
+        skip_auth = env in ["dev", "test"]
+        openid_config_url = (
+            f"https://login.microsoftonline.com/{tenant_id}/v2.0/.well-known/openid-configuration"
+            if tenant_id
+            else None
+        )
+        issuer = f"https://sts.windows.net/{tenant_id}/" if tenant_id else None
+
+        if not skip_auth and (not tenant_id or not aud):
             raise ValueError(
                 "AZURE_TENANT_ID and ENTRA_AUD must be set for JWT validation"
             )
+
+        values.update(
+            {
+                "tenant_id": tenant_id,
+                "aud": aud,
+                "openid_config_url": openid_config_url,
+                "issuer": issuer,
+                "skip_auth": skip_auth,
+                "env": env,
+            }
+        )
+        return values
 
 
 # Global config instance
